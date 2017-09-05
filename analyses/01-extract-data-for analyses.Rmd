@@ -48,13 +48,13 @@ The analyses require a NEXUS matrix of characters, a csv file of first and last 
 slug <- "Beck2014"
 
 ## Loading the discrete morphological matrix
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+matrix <- ReadMorphNexus(paste0("data/matrices/", slug, ".nex"))
 
 ## Loading the FADLAD
-FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+FADLAD <- read.csv(paste0("data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
 
 ## Loading the tree
-tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+tree <- read.nexus(paste0("data/trees/", slug, ".tre"))
 
 ## Adding node labels
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
@@ -91,14 +91,14 @@ matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
 
 ## Saving the matrix
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+save(matrix_nodes, file = paste0("data/processed/ancestral_states.", slug ,".Rda"))
 ```
 
 After this we can add the node states to the overall matrix:
 
 ```{r}
 ## Loading the matrix
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+load(paste0("data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Adding the node names as row names
 row.names(matrix_nodes) <- tree$node.label
@@ -117,7 +117,7 @@ Again this takes some time to run (a couple of minutes). Therefore this is set t
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 
 ## Saving the matrix
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+save(matrix_dist, file = paste0("data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
 
@@ -128,7 +128,7 @@ Ordination is a classic NMDS (multidimensional scaling) including only the non-z
 
 ```{r}
 ## Loading the distance matrices
-load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+load(paste0("data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
@@ -148,9 +148,9 @@ slugs <- c("Bapst2016", "Hopkins", "Other")
 for(slug in 1: length(slugs)) {
 
 ## Loading the data
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slugs[slug], ".nex"))
-FADLAD <- read.csv(paste0("../data/FADLAD/", slugs[slug], ".csv"), row.names = 1, header = TRUE)
-tree <- read.nexus(paste0("../data/trees/", slugs[slug], ".tre"))
+matrix <- ReadMorphNexus(paste0("data/matrices/", slugs[slug], ".nex"))
+FADLAD <- read.csv(paste0("data/FADLAD/", slugs[slug], ".csv"), row.names = 1, header = TRUE)
+tree <- read.nexus(paste0("data/trees/", slugs[slug], ".tre"))
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
@@ -162,19 +162,19 @@ tree <- cleaned_data$tree
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slugs[slug] ,".Rda"))
+save(matrix_nodes, file = paste0("data/processed/ancestral_states.", slugs[slug] ,".Rda"))
 
 ## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slugs[slug] ,".Rda"))
+load(paste0("data/processed/ancestral_states.", slugs[slug] ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slugs[slug] ,".Rda"))
+save(matrix_dist, file = paste0("data/processed/distance_matrix.", slugs[slug] ,".Rda"))
 
 ## Ordinating the matrix - no need to run this here, we will do this in the next script
-## load(paste0("../data/processed/distance_matrix.", slugs[slug] ,".Rda"))
+## load(paste0("data/processed/distance_matrix.", slugs[slug] ,".Rda"))
 ## morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
 
 }
