@@ -61,18 +61,67 @@ tree$root.time <- max(tree.age(tree)[, 1])
 
 ## Cleaning the tree to remove things that aren't in the matrix 
 cleaned_data <- clean.data(matrix$matrix, tree)
+matrix$matrix <- cleaned_data$matrix
 tree <- cleaned_data$tree
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-load(paste0("data/processed/distance_matrix.", slug ,".Rda"))
+load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
 
 ```
 
-time slicing
+
+Stratigraphy
 -----------------------------------
 
+How to go about that????
+Need to collate data ourselves or can we use strap?
+
+Time bins (equal sized)
+-----------------------------------
+
+What do we want to vary? Metrics? Number of bins?
+
+Note we might want to exclude node but current won't work due to mismatch - ooh maybe use clean.data to fix??? Yes that works
+
+no.nodes <- clean.data(morphospace, tree)
+m<- no.nodes$data         
+          
+
+```{r, eval = FALSE}
+time.bin.sim <- function(times, metric) {
+
+  sub <- time.subsamples(data = morphospace, tree = tree, method = "discrete",
+                time = times, FADLAD = FADLAD, inc.nodes = TRUE)
+                
+  disparity <- summary(dispRity(sub, metric = metric),
+                      round = 10)
+}
+```                      
+
+
+What outputs do we want?
+
+Time slicing 
+-----------------------------------
+
+What do we want to vary? Metrics? Number of slices? Model of evolution
+
+Note we might want to exclude node but current won't work due to mismatch - ooh maybe use clean.data to fix???
+
+
+```{r, eval = FALSE}
+time.slice.sim <- function(times, metric) {
+
+  sub <- time.subsamples(data = morphospace, tree = tree, 
+    method = "continuous", model = "gradual", time = times,
+    FADLAD = FADLAD, inc.nodes = TRUE)
+                
+  disparity <- summary(dispRity(sub, metric = metric),
+                      round = 10)
+}
+```  
 
