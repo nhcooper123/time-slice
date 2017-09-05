@@ -1,0 +1,143 @@
+---
+title: "quick pipeline for getting data from discrete matrices"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 6
+---
+
+Quick pipeline for getting data from discrete matrices.
+===============
+
+Packages
+-----------------------------------
+
+Make sure you work with `dispRity` 0.4 and my version of `Claddis` (that is much faster than Graeme's).
+
+```{r, eval = TRUE}
+# The latest version of devtools and ape
+if(!require(devtools)) install.packages("devtools")
+if(!require(ape)) install.packages("ape")
+
+## The latest version of Claddis (on development on my own branch)
+install_github("TGuillerme/Claddis")
+
+## The latest version of dispRity 
+install_github("TGuillerme/dispRity", ref = "release")
+```
+
+Loading the data
+-----------------------------------
+
+Loading the packages and setting the seed:
+
+```{r}
+set.seed(123)
+library(ape); library(Claddis) ; library(dispRity) 
+```
+
+Loading the data.
+It's based on a chain name (here "Beck2014") and should work with different chain names if their files are in the exact same format (it's not the case yet!).
+
+```{r}
+## Setting up the chain name
+chain <- "Beck2014"
+
+## Loading the discrete morphological matrix
+matrix <- ReadMorphNexus(paste0("../Data/Matrices/", chain, ".nex"))
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../Data/FADLAD/", chain, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+tree <- read.nexus(paste0("../Data/Trees/", chain, ".tre"))
+
+## Adding node labels
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+
+## Adding a root age (max tree age date)
+tree$root.time <- max(tree.age(tree)[,1])
+```
+
+We'll also clean the data to match the tree and the matrix:
+
+```{r}
+## Cleaning the data 
+cleaned_data <- clean.data(matrix$matrix, tree)
+
+## Cleaned matrix
+matrix$matrix <- cleaned_data$data
+
+## Cleaned tree
+tree <- cleaned_data$tree
+
+## Removed taxa:
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+```
+
+Ordination
+===============
+
+Ancestral states reconstruction
+-----------------------------------
+
+First let's recreate the nodal states but excluding any estimation with less than 0.95 scaled likelihood value.
+This allows us to discard any dodgy/ambiguous reconstruction (note that NAs are not a problem since we use Gower's distances further down the road).
+
+This have some running time!
+
+```{r, eval = TRUE}
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                  uncertainty.threshold = 0.95)
+
+## Saving the matrix
+save(matrix_nodes, file = paste0("../data/backups/ancestral_states.", chain ,".Rda"))
+```
+
+This takes some time (couple of hours) so it can be skipped for the demo.
+
+After that we can add the node states to the overall matrix:
+
+```{r}
+## Loading the matrix
+load(paste0("../data/backups/ancestral_states.", chain ,".Rda"))
+
+## Adding the node names as row names
+row.names(matrix_nodes) <- tree$node.label
+
+## Combining the tips and the nodes in the same matrix
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+```
+
+Distance matrix
+-----------------------------------
+
+Let's then calculate the distance matrix (using Gower's distance).
+Same thing, the step takes some time (couple of minutes) so can be skipped for convenience.
+
+```{r, eval = TRUE}
+## Calculating the Gower distance
+matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+
+## Saving the matrix
+save(matrix_dist, file = paste0("../data/backups/distance_matrix.", chain ,".Rda"))
+```
+
+Ordination
+-----------------------------------
+
+Ordination is a classic NMDS including only the non-zero variance axis.
+
+```{r}
+## Loading the distance matrices
+load(paste0("../data/backups/distance_matrix.", chain ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = T)$points
+```
+
+And that's it... You know have all the arguments for running the `dispRity` package properly: the space (`morphospace`), the tree (`tree`) and the FADLAD (`FADLAD`).
+Remember that for the `time.subsamples` function, you can use the `inc.nodes` logical option to include nodes or not!
