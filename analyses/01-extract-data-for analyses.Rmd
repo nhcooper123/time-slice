@@ -1,0 +1,181 @@
+---
+title: "Extracting data for time slice analyses"
+author: "Natalie Cooper and Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 6
+---
+
+Quick pipeline for getting data from discrete matrices.
+===============
+
+This code loads the data and extracts matrices and other files needed to run the analyses in the paper. Note that these analyses can take time, so we save the outputs to a `data/processed` folder and use these in later analyses so that the analyses can be replicated more quickly. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this.
+
+```{r}
+set.seed(123)
+```
+
+Load packages
+-----------------------------------
+
+Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faster than GL's).
+
+```{r, eval = TRUE}
+# The latest version of devtools and ape
+library(devtools)
+library(ape)
+
+## The latest version of Claddis (on development on my own branch)
+install_github("TGuillerme/Claddis")
+library(Claddis)
+
+## The latest version of dispRity 
+install_github("TGuillerme/dispRity", ref = "release")
+library(dispRity) 
+```
+
+Loading the data
+-----------------------------------
+
+This is based on a slug (here "Beck2014") and should work with different slugs, assuming the files are in the exact same format (by slug here we are referring to the fact that each of our files have the name of the dataset within them, so we can easily identify each one using regular expression matching). 
+
+The analyses require a NEXUS matrix of characters, a csv file of first and last occurrence dates (FADLAD) and a phylogeny.
+
+```{r}
+## Setting up the slug name
+slug <- "Beck2014"
+
+## Loading the discrete morphological matrix
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+
+## Adding node labels
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+
+## Adding a root age (max tree age date)
+tree$root.time <- max(tree.age(tree)[, 1])
+```
+
+We'll also clean the data so that the species match in the tree and the matrix:
+
+```{r}
+## Cleaning the data 
+cleaned_data <- clean.data(matrix$matrix, tree)
+
+## Reassign the cleaned matrix and tree
+matrix$matrix <- cleaned_data$data
+tree <- cleaned_data$tree
+
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+```
+
+
+Ancestral states reconstruction
+-----------------------------------
+
+Next we need to recreate the nodal states but excluding any ancestral state estimation with less than a 0.95 scaled Likelihood value. This allows us to discard any dodgy/ambiguous reconstructions (note that NAs are not a problem since we use Gower's distances later on).
+
+This takes some time to run (could be a few hours)! Therefore this is set to `eval = FALSE`. The results are available in `data/processed`, or you can replace `FALSE` with `TRUE` to run this yourself.
+
+```{r, eval = FALSE}
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                  uncertainty.threshold = 0.95)
+
+## Saving the matrix
+save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+```
+
+After this we can add the node states to the overall matrix:
+
+```{r}
+## Loading the matrix
+load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+
+## Adding the node names as row names
+row.names(matrix_nodes) <- tree$node.label
+
+## Combining the tips and the nodes in the same matrix
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+```
+
+Constructing the distance matrix
+-----------------------------------
+
+Again this takes some time to run (a couple of minutes). Therefore this is set to `eval = FALSE`. The results are available in `data/processed`, or you can replace `FALSE` with `TRUE` to run this yourself.
+
+```{r, eval = FALSE}
+## Calculating the Gower distance
+matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+
+## Saving the matrix
+save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+```
+
+
+Ordinating the matrix
+----------------
+
+Ordination is a classic NMDS (multidimensional scaling) including only the non-zero variance axes.
+
+```{r}
+## Loading the distance matrices
+load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+```
+
+And that's it... we now have all the arguments for running the `dispRity` package properly: the space (`morphospace`), the tree (`tree`) and the FADLAD (`FADLAD`). Remember that for the `time.subsamples` function, you can use the `inc.nodes` logical option to include nodes or not!
+
+
+Running these extractions for other datasets
+===================================================
+
+```{r}
+## Setting up the slug names
+slugs <- c("Bapst2016", "Hopkins", "Other")
+
+# Big old loop (too lazy to make functions sorry!)
+for(slug in 1: length(slugs)) {
+
+## Loading the data
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slugs[slug], ".nex"))
+FADLAD <- read.csv(paste0("../data/FADLAD/", slugs[slug], ".csv"), row.names = 1, header = TRUE)
+tree <- read.nexus(paste0("../data/trees/", slugs[slug], ".tre"))
+
+# Tidy the tree and the data
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+tree$root.time <- max(tree.age(tree)[, 1])
+cleaned_data <- clean.data(matrix$matrix, tree)
+matrix$matrix <- cleaned_data$data
+tree <- cleaned_data$tree
+
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                  uncertainty.threshold = 0.95)
+save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slugs[slug] ,".Rda"))
+
+## Add ancestral states to nodes
+load(paste0("../data/processed/ancestral_states.", slugs[slug] ,".Rda"))
+row.names(matrix_nodes) <- tree$node.label
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+
+## Constructing the distance matrix
+matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slugs[slug] ,".Rda"))
+
+## Ordinating the matrix - no need to run this here, we will do this in the next script
+## load(paste0("../data/processed/distance_matrix.", slugs[slug] ,".Rda"))
+## morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+}
+```
