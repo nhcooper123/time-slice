@@ -1,0 +1,78 @@
+---
+title: "Time slice analyses"
+author: "Natalie Cooper and Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 6
+---
+
+TITLE?
+===============
+
+DETAILS
+This code loads the data and extracts matrices and other files needed to run the analyses in the paper. Note that these analyses can take time, so we save the outputs to a `data/backups` folder and use these in other `.Rmd` files so that the analyses can be replicated more quickly. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this.
+
+```{r}
+set.seed(123)
+```
+
+Load packages
+-----------------------------------
+
+Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faster than GL's).
+
+```{r, eval = TRUE}
+# The latest version of devtools and ape
+library(devtools)
+library(ape)
+
+## The latest version of Claddis (on development on my own branch)
+install_github("TGuillerme/Claddis")
+library(Claddis)
+
+## The latest version of dispRity 
+install_github("TGuillerme/dispRity", ref = "release")
+library(dispRity) 
+```
+
+Loading the data
+-----------------------------------
+
+To run `dispRity` analyses we need the **morphospace**, the **phylogeny** (with a root age and node labels) and the **first and last occurrence dates** (FADLAD). The tree and FADLAD are in the `data/` folder. To construct the morphospace we need to use the `distance_matrix` files we created in `01-extract-data-for analyses.Rmd` and stored in `data/processed`.
+
+```{r}
+## Choose a slug
+slug <- "Beck2014"
+
+## Loading the discrete morphological matrix
+## This is just to match the names with the tree
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+## Adding node labels and a root age (max tree age date)
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+tree$root.time <- max(tree.age(tree)[, 1])
+
+## Cleaning the tree to remove things that aren't in the matrix 
+cleaned_data <- clean.data(matrix$matrix, tree)
+tree <- cleaned_data$tree
+
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+load(paste0("data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+```
+
+time slicing
+-----------------------------------
+
+
