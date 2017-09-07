@@ -32,6 +32,7 @@ time.bin.sims <- function(morphospace, tree, FADLAD, bins, metric,
   # Estimate disparity - observed and bootstrapped
   disparity <- summary(dispRity(bootstrapped_data, metric = metric), round = 10)
   
+  # Rarefaction appears to be broken...
   # Obtain a rarified bootstrap matrix for the subsamples
   rarefied_data <- boot.matrix(subsamples, bootstraps = 1, rarefaction = TRUE)
   
