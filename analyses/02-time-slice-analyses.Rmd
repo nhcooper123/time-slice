@@ -29,13 +29,14 @@ library(devtools)
 library(ape)
 
 ## The latest version of Claddis (on development on my own branch)
-install_github("TGuillerme/Claddis")
+if(!require(Claddis)) install_github("TGuillerme/Claddis")
 library(Claddis)
 
 ## The latest version of dispRity 
-install_github("TGuillerme/dispRity", ref = "release")
+if(!require(dispRity)) install_github("TGuillerme/dispRity", ref = "master")
 library(dispRity) 
 ```
+<!-- TG: I've switched to master branch for the new functions -->
 
 Loading the data
 -----------------------------------
@@ -79,6 +80,71 @@ Stratigraphy
 
 How to go about that????
 Need to collate data ourselves or can we use strap?
+<!-- TG: got all that covered with the new get.bin.ages function! -->
+
+```{r}
+## Get the stratigraphic ages
+time_ages <- get.bin.ages(tree, type = "Age")
+
+## Get the stratigraphic ages
+time_epoch <- get.bin.ages(tree, type = "Epoch")
+
+## Get the median age duration (to create equal time bins)
+age_duration <- median(abs(diff(time_ages)))
+
+## Get the number of ages (to create equal time bins)
+age_length <- length(time_ages)
+
+## Get the median epoch duration (to create equal time bins)
+epoch_duration <- median(abs(diff(time_epoch)))
+
+## Get the number of epochs (to create equal time bins)
+epoch_length <- length(time_epoch)
+```
+
+With this data, I suggest we can explore these different scenarios:
+
+Name | Type | Scenario | Based on
+------------|----------|----------
+un_bin_age  | unequal bins | stratigraphic ages | Ages durations
+un_bin_epo  | unequal bins | stratigraphic epochs | Epoch durations
+eq_bin_age_med  | equal bins   | median age bins | Median age duration
+eq_bin_epo_med  | equal bins   | median epoch bins | Median epoch duration
+eq_bin_age_len  | equal bins   | number of age bins | same number of ages but equal duration
+eq_bin_epo_len  | equal bins   | number epoch bins | same number of epoch but equal duration
+slice_age_med  | time slicing | median age slices | median age duration (+ our 4 "models" of evolution)
+slice_epo_med  | time slicing | median epoch slices| median epoch duration (+ our 4 "models" of evolution)
+slice_age_len  | time slicing | number of age slices | same number of ages but slices (+ our 4 "models" of evolution)
+slice_epo_len  | time slicing | number of epoch slices | same number of epoch but slices (+ our 4 "models" of evolution)
+
+What do you think?
+
+
+```{r, eval = FALSE}
+
+## Run the function for Beck data
+
+slug <- "BeckLee"
+metric <- c(sum, variances)
+metric.name <- "sumvar"
+
+for (bins in seq_along(c(5,10,15,20))){
+ run.all.sims(morphospace, tree, FADLAD, bins, metric, 
+              metric.name, inc.nodes = TRUE, slug)
+}
+
+slug <- "BeckLee"
+metric <- c(median, centroids)
+metric.name <- "medcentroid"
+
+for (bins in seq_along(c(5,10,15,20))){
+ run.all.sims(morphospace, tree, FADLAD, bins, metric, 
+              metric.name, inc.nodes = TRUE, slug)
+}
+
+```
+
+<!-- TG: Suggestion for a "testing the effect of binning/slicing" pipeline -->
 
 
 ```{r, eval = FALSE}
@@ -104,6 +170,7 @@ for (bins in seq_along(c(5,10,15,20))){
 }
 
 ```                      
+
 
 
 
