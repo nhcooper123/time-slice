@@ -8,30 +8,30 @@
 ## Extract all types of subsample for both methods and four continuous models
 get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
 
-  # Subset samples by required number of time bins
+  ## Subset samples by required number of time bins
   subsamples.bins <- time.subsamples(data = morphospace, tree = tree, 
   	                                 method = "discrete", time = bins, 
   	                                 FADLAD = FADLAD, inc.nodes = inc.nodes)
   
-  # Subset samples by required number of time slices with acctran model
+  ## Subset samples by required number of time slices with acctran model
   subsamples.acctran <- time.subsamples(data = morphospace, tree = tree, 
   	                                    method = "continuous", time = bins, 
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
                                         model = "acctran")
 
-  # Subset samples by required number of time slices with deltran model
+  ## Subset samples by required number of time slices with deltran model
   subsamples.deltran <- time.subsamples(data = morphospace, tree = tree, 
   	                                    method = "continuous", time = bins, 
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
                                         model = "deltran")
   
-  # Subset samples by required number of time slices with punctuated model
+  ## Subset samples by required number of time slices with punctuated model
   subsamples.punctuated <- time.subsamples(data = morphospace, tree = tree, 
   	                                       method = "continuous", time = bins, 
   	                                       FADLAD = FADLAD, inc.nodes = inc.nodes,
                                            model = "punctuated")
   
-  # Subset samples by required number of time slices with gradual model
+  ## Subset samples by required number of time slices with gradual model
   subsamples.gradual <- time.subsamples(data = morphospace, tree = tree, 
   	                                    method = "continuous", time = bins, 
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
@@ -63,18 +63,17 @@ boot.rarefy.all <- function(subsamples, bootstraps){
 ## Extract disparity for all subsamples
 ##-------------------------------------------
 
-  # Estimate disparity - observed and bootstrapped
-  disparity <- summary(dispRity(bootstrapped_data, metric = metric), round = 10)
-  
-
-  # Estimate disparity - observed and bootstrapped with rarefaction
-  disparity_rarefied <- summary(dispRity(rarefied_data, metric = metric), round = 10)
-  
-  # Return both as list
-  return(list(disparity, disparity_rarefied))
+## Estimate disparity - observed and bootstrapped
+## subsampled_data is the output of boot.rarefy.all
+get.disparity <- function(subsampled_data, metric){
+  summary(dispRity(subsampled_data, metric = metric), round = 10)
 }
 
-
+## Get disparity for all types of subsamples
+## subsampled_data is the output of boot.rarefy.all as a list
+get.disparity.all <- function(subsampled_data, metric){
+  purrr::map(subsampled_data, get.disparity, metric = metric)
+}
 
 ##------------------------------------------
 ## Output disparity results from simulations
