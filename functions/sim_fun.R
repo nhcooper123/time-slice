@@ -1,7 +1,8 @@
 ## Functions
 
-# Output data
-
+##------------------------------------------
+## Output disparity results from simulations
+##------------------------------------------
 
 ## Extract outputs needed for results
 get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
@@ -19,11 +20,11 @@ save.outputs <- function(output, path.to.folder, slug){
 }
 
 ## Combine output extraction and saving
-output.time.results <- function(disparity.object, bins, metric.name, inc.nodes, 
+output.results <- function(disparity.object, bins, metric.name, inc.nodes, 
 	                            path.to.folder, slug){
   output <- get.outputs(disparity.object, bins, metric.name, inc.nodes)
-  save.outputs(output, )
-
+  save.outputs(output, path.to.folder, slug)
+}
 
 
 
