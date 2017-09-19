@@ -1,30 +1,5 @@
 ## Functions
 
-##------------------------------------------
-## Output disparity results from simulations
-##------------------------------------------
-
-## Extract outputs needed for results
-get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
-  output <- as.data.frame(disparity.object)
-  output$bins <- bins
-  output$metric <- metric.name
-  output$inc.nodes <- inc.nodes
-  return(output)
- }
-
-## Save outputs to correct folder and file
-save.outputs <- function(output, path.to.folder, slug){
-  readr::write_csv(output, path = paste0(path.to.folder, "_", slug, ".csv"), 
-                   append = TRUE)
-}
-
-## Combine output extraction and saving
-output.results <- function(disparity.object, bins, metric.name, inc.nodes, 
-	                            path.to.folder, slug){
-  output <- get.outputs(disparity.object, bins, metric.name, inc.nodes)
-  save.outputs(output, path.to.folder, slug)
-}
 
 ##-------------------------------------------
 ## Creating subsamples for disparity analyses
@@ -68,6 +43,7 @@ get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
 }
 
 ## Bootstrap and rarefy subsamples
+## subsamples is output from get.subsamples as a list
 boot.rarefy <- function(subsamples, bootstraps){
   # Obtain a bootstrap matrix for the subsamples
   bootstrapped_data <- boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = FALSE)
@@ -83,10 +59,11 @@ boot.rarefy.all <- function(subsamples, bootstraps){
   purrr::map(subsamples, boot.rarefy, bootstraps = bootstraps)
 }
 
+##-------------------------------------------
+## Extract disparity for all subsamples
+##-------------------------------------------
 
-## Disparity for all
-
-    # Estimate disparity - observed and bootstrapped
+  # Estimate disparity - observed and bootstrapped
   disparity <- summary(dispRity(bootstrapped_data, metric = metric), round = 10)
   
 
@@ -99,4 +76,28 @@ boot.rarefy.all <- function(subsamples, bootstraps){
 
 
 
+##------------------------------------------
+## Output disparity results from simulations
+##------------------------------------------
 
+## Extract outputs needed for results
+get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
+  output <- as.data.frame(disparity.object)
+  output$bins <- bins
+  output$metric <- metric.name
+  output$inc.nodes <- inc.nodes
+  return(output)
+ }
+
+## Save outputs to correct folder and file
+save.outputs <- function(output, path.to.folder, slug){
+  readr::write_csv(output, path = paste0(path.to.folder, "_", slug, ".csv"), 
+                   append = TRUE)
+}
+
+## Combine output extraction and saving
+output.results <- function(disparity.object, bins, metric.name, inc.nodes, 
+	                            path.to.folder, slug){
+  output <- get.outputs(disparity.object, bins, metric.name, inc.nodes)
+  save.outputs(output, path.to.folder, slug)
+}
