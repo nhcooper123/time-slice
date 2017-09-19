@@ -28,15 +28,14 @@ Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faste
 library(devtools)
 library(ape)
 
-## The latest version of Claddis (on development on my own branch)
-if(!require(Claddis)) install_github("TGuillerme/Claddis")
+## The latest version of Claddis (on development on TG branch)
+## install_github("TGuillerme/Claddis")
 library(Claddis)
 
-## The latest version of dispRity 
-if(!require(dispRity)) install_github("TGuillerme/dispRity", ref = "master")
+## The latest version of dispRity on master branch
+## install_github("TGuillerme/dispRity", ref = "master")
 library(dispRity) 
 ```
-<!-- TG: I've switched to master branch for the new functions -->
 
 Loading the data
 -----------------------------------
