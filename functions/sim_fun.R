@@ -82,7 +82,7 @@ get.disparity.all <- function(subsampled_data, metric){
 ## Extract outputs needed for results
 get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
   output <- as.data.frame(disparity.object)
-  output$bins <- bins
+  output$bins <- paste(as.character(bins), collapse = "")
   output$metric <- metric.name
   output$inc.nodes <- inc.nodes
   return(output)
@@ -99,4 +99,44 @@ output.results <- function(disparity.object, bins, metric.name, inc.nodes,
 	                            path.to.folder, slug){
   output <- get.outputs(disparity.object, bins, metric.name, inc.nodes)
   save.outputs(output, path.to.folder, slug)
+}
+
+## Apply to list
+output.all.results <- function(disparity.object, bins, metric.name, inc.nodes, 
+	                            path.to.folder, slug){
+
+  purrr::map(disparity.object, output.results, bins = bins, metric.name = metric.name, 
+  	         inc.nodes = inc.nodes, path.to.folder = path.to.folder, slug = slug)
+}
+
+##### Still not outputting to file
+#### Also need some way to name lists/extract models to put into the output somehow???
+
+##------------------------------------
+## Putting it all together
+##------------------------------------
+#path.to.folder = ../outputs/timebins_rarefied
+
+run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
+                              bootstraps = 1, metric, metric.name, path.to.folder, slug){
+
+  # Need to remove the nodes if not using them
+  if(inc.nodes == FALSE){
+    remove.nodes <- clean.data(morphospace, tree)
+    morphospace <- remove.nodes$data  
+  }
+
+  ## Extract all types of subsample for both methods and four continuous models
+  subsamples <- get.subsamples(morphospace, tree, bins, FADLAD, inc.nodes)
+
+  ## Bootstrap and rarefy all types of subsamples
+  subsampled_data <- boot.rarefy.all(subsamples, bootstraps)
+
+  ## Get disparity for all types of subsamples
+  disparity.object <- get.disparity.all(subsampled_data, metric)
+
+  ## Outputs
+  output.results(disparity.object, bins, metric.name, inc.nodes, 
+	             path.to.folder, slug)
+
 }
