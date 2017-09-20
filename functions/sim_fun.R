@@ -43,7 +43,6 @@ get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
 
   return(list(subsamples.bins, subsamples.acctran, subsamples.deltran, 
   	          subsamples.punctuated, subsamples.gradual))
-
 }
 
 ##--------------------------------------------------------------------------
@@ -85,7 +84,7 @@ get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.na
  }
 
 ##--------------------------------------------------------------------------
-## Putting it all together
+## Putting it all together for four models plus equal bins
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
 ## bins is a vector of bin times
