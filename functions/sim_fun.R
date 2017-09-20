@@ -4,7 +4,7 @@
 ##---------------------------------------------------------------------------
 ## Define sets of bins based on stratigraphy
 ## tree is the phylogeny
-## type is "Age" or "Epoch"
+## type is "Age" or "Epoch" - see get.bin.ages documentation
 ##---------------------------------------------------------------------------
 
 get.bins <- function(tree, type){
@@ -24,7 +24,7 @@ get.bins <- function(tree, type){
 ## tree is the phylogeny matched to the morphospace
 ## FADLAD is first and last occurrence data
 ## inc.nodes is logical for whether to estimate disparity using nodal values
-## type is "Age" or "Epoch"
+## type is "Age" or "Epoch" - see get.bin.ages documentation
 ##--------------------------------------------------------------------------
 
 get.subsamples.stratigraphy <- function(morphospace, tree, FADLAD, inc.nodes, type){
