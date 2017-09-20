@@ -8,22 +8,18 @@ output:
     fig_height: 6
 ---
 
-TITLE?
-===============
-
-DETAILS
-This code loads the data and extracts matrices and other files needed to run the analyses in the paper. Note that these analyses can take time, so we save the outputs to a `data/backups` folder and use these in other `.Rmd` files so that the analyses can be replicated more quickly. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this.
+This code runs the analyses in the paper. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this. Note that much of this uses functions in the `simulations.R` file.
 
 ```{r}
 set.seed(123)
 ```
 
-Load packages
+Load packages and functions
 -----------------------------------
 
 Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faster than GL's).
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, message = FALSE}
 # The latest version of devtools and ape
 library(devtools)
 library(ape)
@@ -35,6 +31,10 @@ library(Claddis)
 ## The latest version of dispRity on master branch
 ## install_github("TGuillerme/dispRity", ref = "master")
 library(dispRity) 
+
+## Load functions using source
+# Need to fix this!
+# source("../functions/simulations_fun.R")
 ```
 
 Loading the data
@@ -73,103 +73,62 @@ morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$poin
 
 ```
 
+Scenarios
+--------------------------------
 
-Stratigraphy
------------------------------------
+We used the data to explore these different scenarios:
 
-How to go about that????
-Need to collate data ourselves or can we use strap?
-<!-- TG: got all that covered with the new get.bin.ages function! -->
+1. Stratigraphy. This is the traditional method, where all the species within each stratigraphic period are included in the disparity calculation. This often leads to bins of unequal duration.
 
-```{r}
-## Get the stratigraphic ages
-time_ages <- get.bin.ages(tree, type = "Age")
+2. Equally sized time bins. 
+    i. Where the *duration* of the bin is equal to the median duration of the stratigraphic period.
+    ii. Where the *number* of bins is equal to the number of stratigraphic periods.
+    iii. Where the *number* of bins is either 2, 5, 10, 15, or 20.
 
-## Get the stratigraphic ages
-time_epoch <- get.bin.ages(tree, type = "Epoch")
+3. Time slicing. 
+    i. Where the *interval* between slices is equal to the median duration of the stratigraphic period.
+    ii. Where the *number* of slices is equal to the number of stratigraphic periods.
+    iii. Where the *number* of slices is either 2, 5, 10, 15, or 20.
 
-## Get the median age duration (to create equal time bins)
-age_duration <- median(abs(diff(time_ages)))
+Running the analyses and saving the outputs
+--------------------------------------------
 
-## Get the number of ages (to create equal time bins)
-age_length <- length(time_ages)
+These analyses use a series of functions in `functions\`. These essentially wrap the existing `dispRity` functions so that running lots of models and extracting lots of data is not such a big issue.
 
-## Get the median epoch duration (to create equal time bins)
-epoch_duration <- median(abs(diff(time_epoch)))
+```{r, eval = FALSE, warning = FALSE}
+## Run the function for Beck data
+slug <- "BeckLee"
 
-## Get the number of epochs (to create equal time bins)
-epoch_length <- length(time_epoch)
+## Ages
+out1 <- run.all.disparity.strat(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances), metric.name = sum_var)
+readr::write_csv(out1, path = paste0("../outputs/age", "_", slug, ".csv"))
+
+## Epochs
+out2 <- run.all.disparity.strat(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = sum_var)
+readr::write_csv(out2, path = paste0("../outputs/epoch", "_", slug, ".csv"))
 ```
 
-With this data, I suggest we can explore these different scenarios:
-
-Name | Type | Scenario | Based on
-------------|----------|----------
-un_bin_age  | unequal bins | stratigraphic ages | Ages durations
-un_bin_epo  | unequal bins | stratigraphic epochs | Epoch durations
-eq_bin_age_med  | equal bins   | median age bins | Median age duration
-eq_bin_epo_med  | equal bins   | median epoch bins | Median epoch duration
-eq_bin_age_len  | equal bins   | number of age bins | same number of ages but equal duration
-eq_bin_epo_len  | equal bins   | number epoch bins | same number of epoch but equal duration
-slice_age_med  | time slicing | median age slices | median age duration (+ our 4 "models" of evolution)
-slice_epo_med  | time slicing | median epoch slices| median epoch duration (+ our 4 "models" of evolution)
-slice_age_len  | time slicing | number of age slices | same number of ages but slices (+ our 4 "models" of evolution)
-slice_epo_len  | time slicing | number of epoch slices | same number of epoch but slices (+ our 4 "models" of evolution)
-
-What do you think?
-
+We also ran the models using varying numbers of bins as follows.
 
 ```{r, eval = FALSE}
-
 ## Run the function for Beck data
-
 slug <- "BeckLee"
-metric <- c(sum, variances)
-metric.name <- "sumvar"
 
-for (bins in seq_along(c(5,10,15,20))){
- run.all.sims(morphospace, tree, FADLAD, bins, metric, 
-              metric.name, inc.nodes = TRUE, slug)
-}
-
-slug <- "BeckLee"
-metric <- c(median, centroids)
-metric.name <- "medcentroid"
-
-for (bins in seq_along(c(5,10,15,20))){
- run.all.sims(morphospace, tree, FADLAD, bins, metric, 
-              metric.name, inc.nodes = TRUE, slug)
+for (bins in seq_along(c(2, 5, 10, 15, 20))){
+  output <- run.all.disparity(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
+                              bootstraps = 100, = c(sum, variances), metric.name = sum_var){
+  
+  readr::write_csv(output, path = paste0("../outputs/bins", "_", slug, ".csv"), append = TRUE)
 }
 
 ```
 
 <!-- TG: Suggestion for a "testing the effect of binning/slicing" pipeline -->
 
+Examining the output 
+--------------------
 
-```{r, eval = FALSE}
-
-## Run the function for Beck data
-
-slug <- "BeckLee"
-metric <- c(sum, variances)
-metric.name <- "sumvar"
-
-for (bins in seq_along(c(5,10,15,20))){
- run.all.sims(morphospace, tree, FADLAD, bins, metric, 
-              metric.name, inc.nodes = TRUE, slug)
-}
-
-slug <- "BeckLee"
-metric <- c(median, centroids)
-metric.name <- "medcentroid"
-
-for (bins in seq_along(c(5,10,15,20))){
- run.all.sims(morphospace, tree, FADLAD, bins, metric, 
-              metric.name, inc.nodes = TRUE, slug)
-}
-
-```                      
-
-
-
-
+Plots
+Statistics
