@@ -155,7 +155,7 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
   disparity.outputs <- mapply(cbind, disparity.object, "model" = models, SIMPLIFY = FALSE)
   ## Flatten list to a dataframe
   ## This will throw warnings as factor levels of subsamples are converted to characters
-  disparity.outputs <- purrr:map_dfr(disparity.object, cbind)
+  disparity.outputs <- purrr::map_dfr(disparity.object, cbind)
   
   return(disparity.outputs)
 }
