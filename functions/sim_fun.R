@@ -76,14 +76,16 @@ get.disparity <- function(subsampled_data, metric){
 ## inc.nodes is logical for whether diparity was estimated using nodal values
 ##--------------------------------------------------------------------------
 
-get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
+get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.name){
   output <- as.data.frame(disparity.object)
-  output$bins <- paste(as.character(bins), collapse = "")
+  output$n_bins <- length(bins)
   output$metric <- metric.name
   output$inc.nodes <- inc.nodes
   return(output)
  }
 
+
+mapply(cbind, disparity.object, "SampleID"=ID, SIMPLIFY=F)
 #### Also need some way to name lists/extract models to put into the output somehow???
 
 ##--------------------------------------------------------------------------
@@ -114,7 +116,17 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
   disparity.object <- purrr::map(subsampled_data, get.disparity, metric = metric)
 
   ## Outputs
+  ## Extract output information
   disparity.outputs <- purrr::map(disparity.object, get.outputs, bins = bins, 
                                   metric.name = metric.name, inc.nodes = inc.nodes)
-
+  
+  ## Add model designations
+  models <- c("equalbins", "acctran", "deltran", "punctuated", "gradual")
+  disparity.outputs <- mapply(cbind, disparity.object, "model"= models, SIMPLIFY = FALSE)
+  ## Flatten list to a dataframe
+  ## This will throw warnings as factor levels of subsamples are converted to characters
+  disparity.outputs <- purrr:map_dfr(disparity.object, cbind)
+  
+  return(disparity.outputs)
 }
+
