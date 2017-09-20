@@ -6,6 +6,11 @@
 ##-------------------------------------------
 
 ## Extract all types of subsample for both methods and four continuous models
+## morphospace is the cleaned morphospace
+## tree is the phylogeny matched to the morphospace
+## bins is a vector of bin times
+## FADLAD is first and last occurrence data
+## inc.nodes is logical for whether to estimate diparity using nodal values
 get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
 
   ## Subset samples by required number of time bins
@@ -43,34 +48,22 @@ get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
 }
 
 ## Bootstrap and rarefy subsamples
-## subsamples is an individual subsample
+## subsamples is a subsample output from time.subsamples
 ## bootstraps is the number of bootstraps to run
 boot.rarefy <- function(subsamples, bootstraps){
   # Obtain a rarefied bootstrap matrix matrix for the subsamples
-  bootstrapped_data <- boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = TRUE)
-  return(bootstrapped_data)
-}
-
-## Bootstrap and rarefy all types of subsamples
-## subsamples is output from get.subsamples as a list
-boot.rarefy.all <- function(subsamples, bootstraps){
-  purrr::map(subsamples, boot.rarefy, bootstraps = bootstraps)
+  boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = TRUE)
 }
 
 ##-------------------------------------------
 ## Extract disparity for all subsamples
 ##-------------------------------------------
 
-## Estimate disparity - observed and bootstrapped
-## subsampled_data is the output of boot.rarefy.all
+## Estimate disparity - observed and bootstrapped and rarefied
+## subsampled_data is output from boot.matrix
+## metric is the chosen metric - see dispRity documentation for details
 get.disparity <- function(subsampled_data, metric){
   summary(dispRity(subsampled_data, metric = metric), round = 10)
-}
-
-## Get disparity for all types of subsamples
-## subsampled_data is the output of boot.rarefy.all as a list
-get.disparity.all <- function(subsampled_data, metric){
-  purrr::map(subsampled_data, get.disparity, metric = metric)
 }
 
 ##------------------------------------------
@@ -78,6 +71,10 @@ get.disparity.all <- function(subsampled_data, metric){
 ##------------------------------------------
 
 ## Extract outputs needed for results
+## disparity.object is the output of disparity
+## bins is a vector of bin times
+## metricname is a string specifying the name of the metric being used
+## inc.nodes is logical for whether diparity was estimated using nodal values
 get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
   output <- as.data.frame(disparity.object)
   output$bins <- paste(as.character(bins), collapse = "")
@@ -86,34 +83,19 @@ get.outputs <- function(disparity.object, bins, metric.name, inc.nodes){
   return(output)
  }
 
-## Save outputs to correct folder and file
-save.outputs <- function(output, path.to.folder, slug){
-  readr::write_csv(output, path = paste0(path.to.folder, "_", slug, ".csv"), 
-                   append = TRUE)
-}
-
-## Combine output extraction and saving
-output.results <- function(disparity.object, bins, metric.name, inc.nodes, 
-	                            path.to.folder, slug){
-  output <- get.outputs(disparity.object, bins, metric.name, inc.nodes)
-  save.outputs(output, path.to.folder, slug)
-}
-
-## Apply to list
-output.all.results <- function(disparity.object, bins, metric.name, inc.nodes, 
-	                            path.to.folder, slug){
-
-  purrr::map(disparity.object, output.results, bins = bins, metric.name = metric.name, 
-  	         inc.nodes = inc.nodes, path.to.folder = path.to.folder, slug = slug)
-}
-
-##### Still not outputting to file
 #### Also need some way to name lists/extract models to put into the output somehow???
 
 ##------------------------------------
 ## Putting it all together
 ##------------------------------------
 #path.to.folder = ../outputs/timebins_rarefied
+
+## morphospace is the cleaned morphospace
+## tree is the phylogeny matched to the morphospace
+## bins is a vector of bin times
+## FADLAD is first and last occurrence data
+## inc.nodes is logical for whether to estimate diparity using nodal values
+
 
 run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
                               bootstraps = 1, metric, metric.name, path.to.folder, slug){
@@ -128,13 +110,15 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
   subsamples <- get.subsamples(morphospace, tree, bins, FADLAD, inc.nodes)
 
   ## Bootstrap and rarefy all types of subsamples
-  subsampled_data <- boot.rarefy.all(subsamples, bootstraps)
+  subsampled_data <- purrr::map(subsamples, boot.rarefy, bootstraps = bootstraps)
 
   ## Get disparity for all types of subsamples
-  disparity.object <- get.disparity.all(subsampled_data, metric)
+  disparity.object <- purrr::map(subsampled_data, get.disparity, metric = metric)
 
   ## Outputs
-  output.results(disparity.object, bins, metric.name, inc.nodes, 
-	             path.to.folder, slug)
+  disparity.outputs <- purrr::map(disparity.object, output.results, bins = bins, metric.name = metric.name, 
+             inc.nodes = inc.nodes, path.to.folder = path.to.folder, slug = slug)
 
+  
+  output <- get.outputs(disparity.object, bins, metric.name, inc.nodes)
 }
