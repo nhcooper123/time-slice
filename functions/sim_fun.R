@@ -43,14 +43,12 @@ get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
 }
 
 ## Bootstrap and rarefy subsamples
-## subsamples is output from get.subsamples as a list
+## subsamples is an individual subsample
+## bootstraps is the number of bootstraps to run
 boot.rarefy <- function(subsamples, bootstraps){
-  # Obtain a bootstrap matrix for the subsamples
-  bootstrapped_data <- boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = FALSE)
-  # Obtain a rarefied bootstrap matrix for the subsamples
-  rarefied_data <- boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = TRUE)
-}  
-  return(list(bootstrapped_data, rarefied_data))
+  # Obtain a rarefied bootstrap matrix matrix for the subsamples
+  bootstrapped_data <- boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = TRUE)
+  return(bootstrapped_data)
 }
 
 ## Bootstrap and rarefy all types of subsamples
