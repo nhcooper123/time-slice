@@ -4,6 +4,7 @@
 *.doc
 *.docx
 *.pptx
+*.html
 
 # Compiled source #
 *.com
@@ -59,6 +60,7 @@ Thumbs.db
 .Rproj.user
 .RData
 inst/doc
+*.Rproj
 
 # *.\#*
 # \#*\#
