@@ -19,12 +19,27 @@ get.bins <- function(tree, type){
 }
 
 ##---------------------------------------------------------------------------
+## Extract stratigraphy subsamples
+## morphospace is the cleaned morphospace
+## tree is the phylogeny matched to the morphospace
+## FADLAD is first and last occurrence data
+## inc.nodes is logical for whether to estimate disparity using nodal values
+## type is "Age" or "Epoch"
+##--------------------------------------------------------------------------
+
+get.subsamples.stratigraphy <- function(morphospace, tree, FADLAD, inc.nodes, type){
+  time.subsamples(data = morphospace, tree = tree, 
+                  method = "discrete", time = get.bins(tree, type)[[1]], 
+                  FADLAD = FADLAD, inc.nodes = inc.nodes)
+}  
+  
+##---------------------------------------------------------------------------
 ## Extract all types of subsample for both methods and four continuous models
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
 ## bins is a vector of bin times
 ## FADLAD is first and last occurrence data
-## inc.nodes is logical for whether to estimate diparity using nodal values
+## inc.nodes is logical for whether to estimate disparity using nodal values
 ##--------------------------------------------------------------------------
 
 get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
