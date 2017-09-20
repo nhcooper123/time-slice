@@ -84,10 +84,6 @@ get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.na
   return(output)
  }
 
-
-mapply(cbind, disparity.object, "SampleID"=ID, SIMPLIFY=F)
-#### Also need some way to name lists/extract models to put into the output somehow???
-
 ##--------------------------------------------------------------------------
 ## Putting it all together
 ## morphospace is the cleaned morphospace
