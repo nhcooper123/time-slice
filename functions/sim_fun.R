@@ -11,7 +11,7 @@
 ##--------------------------------------------------------------------------
 
 get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
-
+  
   ## Subset samples by required number of time bins
   subsamples.bins <- time.subsamples(data = morphospace, tree = tree, 
   	                                 method = "discrete", time = bins, 
