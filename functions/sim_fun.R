@@ -70,7 +70,7 @@ get.disparity <- function(subsampled_data, metric){
 
 ##--------------------------------------------------------------------------
 ## Extract outputs needed for results
-## disparity.object is the output of disparity
+## disparity.object is the output of get.disparity
 ## bins is a vector of bin times
 ## metricname is a string specifying the name of the metric being used
 ## inc.nodes is logical for whether diparity was estimated using nodal values
