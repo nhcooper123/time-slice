@@ -37,7 +37,7 @@ get.subsamples.stratigraphy <- function(morphospace, tree, FADLAD, inc.nodes, ty
 ## Extract all types of subsample for both methods and four continuous models
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
-## bins is a vector of bin times
+## bins is a vector of bin times or number of bins
 ## FADLAD is first and last occurrence data
 ## inc.nodes is logical for whether to estimate disparity using nodal values
 ##--------------------------------------------------------------------------
@@ -102,7 +102,7 @@ get.disparity <- function(subsampled_data, metric){
 ##--------------------------------------------------------------------------
 ## Extract outputs needed for results
 ## disparity.object is the output of get.disparity
-## bins is a vector of bin times
+## bins is a vector of bin times or number of bins
 ## metricname is a string specifying the name of the metric being used
 ## inc.nodes is logical for whether diparity was estimated using nodal values
 ##--------------------------------------------------------------------------
@@ -120,15 +120,19 @@ get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.na
 ## Putting it all together for four models plus equal bins
 ## This function will run models of various time bin/slice numbers ignoring
 ## stratigraphic information
+
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
-## bins is a vector of bin times
+## bins is a vector of bin times or number of bins
 ## FADLAD is first and last occurrence data
 ## inc.nodes is logical for whether to estimate diparity using nodal values
+## bootstraps is the number of bootstraps
+## metric is the chosen metric - see dispRity documentation for details 
+## metricname is a string specifying the name of the metric being used
 ##--------------------------------------------------------------------------
 
 run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
-                              bootstraps = 1, metric, metric.name){
+                              bootstraps = bootstraps, metric, metric.name){
 
   # Need to remove the nodes if not using them
   if(inc.nodes == FALSE){
@@ -161,16 +165,20 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
 }
 
 ##--------------------------------------------------------------------------
-## Putting it all together for four models plus equal bins
+## Stratigraphy informed binning
+## 
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
-## bins is a vector of bin times
+## type is "Age" or "Epoch" - see get.bin.ages documentation
 ## FADLAD is first and last occurrence data
 ## inc.nodes is logical for whether to estimate diparity using nodal values
+## bootstraps is the number of bootstraps
+## metric is the chosen metric - see dispRity documentation for details 
+## metricname is a string specifying the name of the metric being used
 ##--------------------------------------------------------------------------
 
 run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes = TRUE,
-                              bootstraps = 1, metric, metric.name){
+                              bootstraps = bootstraps, metric, metric.name){
   
   # Need to remove the nodes if not using them
   if(inc.nodes == FALSE){
@@ -179,8 +187,9 @@ run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes =
   }
   
   # Extract bins to go with particular stratigraphy
-  strat.bins <-get.bins(tree, type)
+  strat.bins <- get.bins(tree, type)
   
+  ##--------------------------------------------------------------------------
   ## STRATIGRAPHY
   ## Extract subsamples for stratigraphy
   subsamples <- get.subsamples.stratigraphy(morphospace, tree, FADLAD, inc.nodes, type)
@@ -193,17 +202,20 @@ run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes =
                                         metric.name = metric.name, inc.nodes = inc.nodes)
   disparity.stratigraphy <- cbind(disparity.stratigraphy, "statigraphy" = type, "bin_type" = "unequal")
   
+  ##--------------------------------------------------------------------------
   ## BIN/SLICES of same DURATION as STRATIGRAPHY
   disparity.duration <- run.all.disparity(morphospace, tree, strat.bins[[2]], FADLAD, inc.nodes = inc.nodes,
                                           bootstraps = bootstraps, metric, metric.name)
   disparity.duration <- cbind(disparity.duration, "statigraphy" = type, "bin_type" = "duration")
   
+  ##--------------------------------------------------------------------------
   ## BIN/SLICES of same NUMBER as STRATIGRAPHY
   disparity.number <- run.all.disparity(morphospace, tree, strat.bins[[3]], FADLAD, inc.nodes = inc.nodes,
                                           bootstraps = bootstraps, metric, metric.name)
   disparity.number <- cbind(disparity.number, "statigraphy" = type, "bin_type" = "number")
 
-  ## Outputs
+  ##--------------------------------------------------------------------------
+  ## Combine outputs
   disparity.outputs <- cbind(disparity.stratigraphy, disparity.duration, disparity.number)
   
   return(disparity.outputs)
