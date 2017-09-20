@@ -2,6 +2,23 @@
 ## Natalie Cooper 2017
 
 ##---------------------------------------------------------------------------
+## Define sets of bins based on stratigraphy
+## tree is the phylogeny
+## type is "Age" or "Epoch"
+##---------------------------------------------------------------------------
+
+get.bins <- function(tree, type){
+  ## Get the stratigraphic ages
+  time_strat <- get.bin.ages(tree, type = type)
+  ## Get the median duration of the stratigraphic period (to create equal time bins)
+  strat_duration <- median(abs(diff(time_strat)))
+  ## Get the number of stratigraphic periods (to create equal time bins)
+  strat_number <- length(time_strat)
+  
+  return(list(time_strat, strat_duration, strat_number))
+}
+
+##---------------------------------------------------------------------------
 ## Extract all types of subsample for both methods and four continuous models
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
