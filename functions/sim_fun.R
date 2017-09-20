@@ -187,21 +187,21 @@ run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes =
   ## Bootstrap and rarefy
   subsampled_data <- boot.rarefy(subsamples, bootstraps = bootstraps)
   ## Get disparity 
-  disparity.object <- purrr::map(subsampled_data, get.disparity, metric = metric)
+  disparity.object <- get.disparity(subsampled_data, metric = metric)
   ## Extract output information
-  disparity.stratigraphy <- purrr::map(disparity.object, get.outputs, bins = bins, 
-                                  metric.name = metric.name, inc.nodes = inc.nodes)
-  disparity.stratigraphy <- cbind(disparity.number, statigraphy = type, bin_type = "unequal")
+  disparity.stratigraphy <- get.outputs(disparity.object, bins = strat.bins[[1]], 
+                                        metric.name = metric.name, inc.nodes = inc.nodes)
+  disparity.stratigraphy <- cbind(disparity.stratigraphy, "statigraphy" = type, "bin_type" = "unequal")
   
   ## BIN/SLICES of same DURATION as STRATIGRAPHY
   disparity.duration <- run.all.disparity(morphospace, tree, strat.bins[[2]], FADLAD, inc.nodes = inc.nodes,
                                           bootstraps = bootstraps, metric, metric.name)
-  disparity.duration <- cbind(disparity.duration, statigraphy = type, bin_type = "duration")
+  disparity.duration <- cbind(disparity.duration, "statigraphy" = type, "bin_type" = "duration")
   
   ## BIN/SLICES of same NUMBER as STRATIGRAPHY
   disparity.number <- run.all.disparity(morphospace, tree, strat.bins[[3]], FADLAD, inc.nodes = inc.nodes,
                                           bootstraps = bootstraps, metric, metric.name)
-  disparity.number <- cbind(disparity.number, statigraphy = type, bin_type = "number")
+  disparity.number <- cbind(disparity.number, "statigraphy" = type, "bin_type" = "number")
 
   ## Outputs
   disparity.outputs <- cbind(disparity.stratigraphy, disparity.duration, disparity.number)
