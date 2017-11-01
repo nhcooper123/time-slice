@@ -33,8 +33,8 @@ library(Claddis)
 library(dispRity) 
 
 ## Load functions using source
-# Need to fix this!
-# source("../functions/simulations_fun.R")
+# Doesn't always work... Rmd problem?
+source("../functions/simulations_fun.R")
 ```
 
 Loading the data
@@ -116,7 +116,7 @@ We also ran the models using varying numbers of bins as follows.
 ## Run the function for Beck data
 slug <- "BeckLee"
 
-for (bins in seq_along(c(2, 5, 10, 15, 20))){
+for (bins in c(2, 5, 10, 15, 20)){
   output <- run.all.disparity(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
                               bootstraps = 100, = c(sum, variances), metric.name = sum_var){
   
