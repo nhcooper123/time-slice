@@ -32,7 +32,7 @@ install_github("TGuillerme/Claddis")
 library(Claddis)
 
 ## The latest version of dispRity 
-install_github("TGuillerme/dispRity", ref = "release")
+install_github("TGuillerme/dispRity", ref = "master")
 library(dispRity) 
 ```
 
