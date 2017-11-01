@@ -101,12 +101,12 @@ slug <- "BeckLee"
 
 ## Ages
 out1 <- run.all.disparity.strat(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
-                                bootstraps = 100, metric = c(sum, variances), metric.name = sum_var)
+                                bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
 readr::write_csv(out1, path = paste0("../outputs/age", "_", slug, ".csv"))
 
 ## Epochs
 out2 <- run.all.disparity.strat(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
-                        bootstraps = 100, metric = c(sum, variances), metric.name = sum_var)
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
 readr::write_csv(out2, path = paste0("../outputs/epoch", "_", slug, ".csv"))
 ```
 
@@ -118,7 +118,7 @@ slug <- "BeckLee"
 
 for (bins in c(2, 5, 10, 15, 20)){
   output <- run.all.disparity(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
-                              bootstraps = 100, = c(sum, variances), metric.name = sum_var){
+                              bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
   
   readr::write_csv(output, path = paste0("../outputs/bins", "_", slug, ".csv"), append = TRUE)
 }
