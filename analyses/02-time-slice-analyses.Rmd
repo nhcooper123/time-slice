@@ -110,6 +110,10 @@ out2 <- run.all.disparity.strat(morphospace, tree, type = "Epoch", FADLAD, inc.n
 readr::write_csv(out2, path = paste0("../outputs/epoch", "_", slug, ".csv"))
 ```
 
+<!-- Both the above throw this error:
+
+Error in if (is.na(data$subsamples[subsamples_check[subsample]][[1]]$elements[1, : argument is of length zero -->
+
 We also ran the models using varying numbers of bins as follows.
 
 ```{r, eval = FALSE}
@@ -124,6 +128,9 @@ for (bins in c(2, 5, 10, 15, 20)){
 }
 
 ```
+<!-- Need to think more about the outputs here, currently they don't make much sense as there are no column headers -->
+
+
 
 <!-- TG: Suggestion for a "testing the effect of binning/slicing" pipeline -->
 
