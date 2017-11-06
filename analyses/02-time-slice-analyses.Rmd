@@ -128,6 +128,8 @@ for (bins in c(2, 5, 10, 15, 20)){
 }
 
 ```
+<!-- Also throws Error in if (is.na(data$subsamples[subsamples_check[subsample]][[1]]$elements[1, : argument is of length zero -->
+
 <!-- Need to think more about the outputs here, currently they don't make much sense as there are no column headers -->
 
 
