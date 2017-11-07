@@ -132,7 +132,7 @@ get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.na
 ##--------------------------------------------------------------------------
 
 run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
-                              bootstraps = bootstraps, metric, metric.name){
+                              bootstraps = bootstraps, metric, metric.name, rarefaction){
 
   # Need to remove the nodes if not using them
   if(inc.nodes == FALSE){
@@ -144,7 +144,7 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
   subsamples <- get.subsamples(morphospace, tree, bins, FADLAD, inc.nodes)
 
   ## Bootstrap and rarefy all types of subsamples
-  subsampled_data <- purrr::map(subsamples, boot.rarefy, bootstraps = bootstraps)
+  subsampled_data <- purrr::map(subsamples, boot.matrix, bootstraps = bootstraps, rarefaction = rarefaction)
 
   ## Get disparity for all types of subsamples
   disparity.object <- purrr::map(subsampled_data, get.disparity, metric = metric)
@@ -178,7 +178,7 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
 ##--------------------------------------------------------------------------
 
 run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes = TRUE,
-                              bootstraps = bootstraps, metric, metric.name){
+                              bootstraps = bootstraps, metric, metric.name, rarefaction = FALSE){
   
   # Need to remove the nodes if not using them
   if(inc.nodes == FALSE){
@@ -194,7 +194,8 @@ run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes =
   ## Extract subsamples for stratigraphy
   subsamples <- get.subsamples.stratigraphy(morphospace, tree, FADLAD, inc.nodes, type)
   ## Bootstrap and rarefy
-  subsampled_data <- boot.rarefy(subsamples, bootstraps = bootstraps)
+  subsampled_data <- boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = rarefaction)
+
   ## Get disparity 
   disparity.object <- get.disparity(subsampled_data, metric = metric)
   ## Extract output information
@@ -205,13 +206,13 @@ run.all.disparity.strat <- function(morphospace, tree, type, FADLAD, inc.nodes =
   ##--------------------------------------------------------------------------
   ## BIN/SLICES of same DURATION as STRATIGRAPHY
   disparity.duration <- run.all.disparity(morphospace, tree, strat.bins[[2]], FADLAD, inc.nodes = inc.nodes,
-                                          bootstraps = bootstraps, metric, metric.name)
+                                          bootstraps = bootstraps, metric, metric.name, rarefaction = rarefaction)
   disparity.duration <- cbind(disparity.duration, "statigraphy" = type, "bin_type" = "duration")
   
   ##--------------------------------------------------------------------------
   ## BIN/SLICES of same NUMBER as STRATIGRAPHY
   disparity.number <- run.all.disparity(morphospace, tree, strat.bins[[3]], FADLAD, inc.nodes = inc.nodes,
-                                          bootstraps = bootstraps, metric, metric.name)
+                                          bootstraps = bootstraps, metric, metric.name, rarefaction = rarefaction)
   disparity.number <- cbind(disparity.number, "statigraphy" = type, "bin_type" = "number")
 
   ##--------------------------------------------------------------------------
