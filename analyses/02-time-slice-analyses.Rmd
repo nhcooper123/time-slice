@@ -95,24 +95,42 @@ Running the analyses and saving the outputs
 
 These analyses use a series of functions in `functions\`. These essentially wrap the existing `dispRity` functions so that running lots of models and extracting lots of data is not such a big issue.
 
+> TG: for the following pipeline, I've reduced the number of rarefaction that highly increased the calculation time.
+We now only calculate the disparity for the non-rarefied subsamples and the subsamples rarefied to contain only 3 taxa (the lowest level of rarefaction).
+We can use the full rarefaction if we want to plot rarefaction curves later on.
+
+
+```{r}
+## Testing data: TO REMOVE
+#TG: it's just faster this way
+#TG: also, I've only tested it on "Epoch" since it take ages to run, should be pipelined all right though
+data(BeckLee_mat99)
+data(BeckLee_tree)
+data(BeckLee_ages)
+
+morphospace <- BeckLee_mat99
+tree <- BeckLee_tree
+FADLAD <- BeckLee_ages
+
+```
+
+
 ```{r, eval = FALSE, warning = FALSE}
 ## Run the function for Beck data
 slug <- "BeckLee"
 
-## Ages
-out1 <- run.all.disparity.strat(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
-                                bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
-readr::write_csv(out1, path = paste0("../outputs/age", "_", slug, ".csv"))
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = 3)
+#readr::write_csv(out1, path = paste0("../outputs/age", "_", slug, ".csv"))
 
-## Epochs
-out2 <- run.all.disparity.strat(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
-                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
-readr::write_csv(out2, path = paste0("../outputs/epoch", "_", slug, ".csv"))
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+#readr::write_csv(out2, path = paste0("../outputs/epoch", "_", slug, ".csv"))
 ```
-
-<!-- Both the above throw this error:
-
-Error in if (is.na(data$subsamples[subsamples_check[subsample]][[1]]$elements[1, : argument is of length zero -->
 
 We also ran the models using varying numbers of bins as follows.
 
@@ -128,8 +146,6 @@ for (bins in c(2, 5, 10, 15, 20)){
 }
 
 ```
-<!-- Also throws Error in if (is.na(data$subsamples[subsamples_check[subsample]][[1]]$elements[1, : argument is of length zero -->
-
 <!-- Need to think more about the outputs here, currently they don't make much sense as there are no column headers -->
 
 
@@ -139,5 +155,75 @@ for (bins in c(2, 5, 10, 15, 20)){
 Examining the output 
 --------------------
 
-Plots
-Statistics
+The results as a table
+
+```{r, eval = FALSE}
+knitr::kable(out2$results$stratigraphy, caption = "Disparity per stratigraphic time: unequal time bins and non-equidistant time slices")
+knitr::kable(out2$results$duration, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the median stratigraphic epoch duration")
+knitr::kable(out2$results$number, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the number of stratigraphic epochs")
+```
+
+This is not really digest and we should find a better way to present that.
+Anyway, these boring tables are always good for the supplementaries.
+
+
+Plotting wise, we have to solutions, either using `dispRity`
+
+```{r, eval = FALSE}
+op <- par(bty = "n")
+colors <- palette() #TG: that can be made fancier
+
+## STRATIGRAPHY
+## Plotting the continuous data
+plot(out2$object$stratigraphy[[2]], quantile = 1, col = colors[1], ylim = c(1,4), main = "Equal duration and stratigraphys equal to stratigraphy", xlab = "sum of ranges")
+plot(out2$object$stratigraphy[[3]], quantile = 1, col = colors[2], ylim = c(1,4), add = TRUE)
+plot(out2$object$stratigraphy[[4]], quantile = 1, col = colors[3], ylim = c(1,4), add = TRUE)
+plot(out2$object$stratigraphy[[5]], quantile = 1, col = colors[4], ylim = c(1,4), add = TRUE)
+## Plotting the discrete data
+plot(out2$object$stratigraphy[[1]], quantile = 1, type = "c", col = colors[5], ylim = c(1,4), add = TRUE, density = 0)
+#TG: density = 0 is to not show the huge confidence interval, even for quantile = 1!
+legend(x = "bottomright", legend = c("acctran", "deltran", "punctuated", "gradual", "time bins"), col = colors[1:5], lty = 1)
+```
+
+This on is interesting with no time bins after around 39 Mya and a drastic drop!
+
+
+
+```{r, eval = FALSE}
+op <- par(bty = "n")
+colors <- palette() #TG: that can be made fancier
+## DURATION
+## Plotting the continuous data
+plot(out2$object$duration[[2]], quantile = 1, col = colors[1], ylim = c(1,4), main = "Equal duration and durations equal to stratigraphy", xlab = "sum of ranges")
+plot(out2$object$duration[[3]], quantile = 1, col = colors[2], ylim = c(1,4), add = TRUE)
+plot(out2$object$duration[[4]], quantile = 1, col = colors[3], ylim = c(1,4), add = TRUE)
+plot(out2$object$duration[[5]], quantile = 1, col = colors[4], ylim = c(1,4), add = TRUE)
+## Plotting the discrete data
+plot(out2$object$duration[[1]], quantile = 1, type = "c", col = colors[5], ylim = c(1,4), add = TRUE, density = 0)
+legend(x = "bottomright", legend = c("acctran", "deltran", "punctuated", "gradual", "time bins"), col = colors[1:5], lty = 1)
+```
+
+Same absence of data after 39 but no drop!
+
+
+```{r, eval = FALSE}
+op <- par(bty = "n")
+colors <- palette() #TG: that can be made fancier
+## NUMBERS
+## Plotting the continuous data
+plot(out2$object$number[[2]], quantile = 1, col = colors[1], ylim = c(1,4), main = "Equal duration and numbers equal to stratigraphy", xlab = "sum of ranges")
+plot(out2$object$number[[3]], quantile = 1, col = colors[2], ylim = c(1,4), add = TRUE)
+plot(out2$object$number[[4]], quantile = 1, col = colors[3], ylim = c(1,4), add = TRUE)
+plot(out2$object$number[[5]], quantile = 1, col = colors[4], ylim = c(1,4), add = TRUE)
+## Plotting the discrete data
+plot(out2$object$number[[1]], quantile = 1, type = "c", col = colors[5], ylim = c(1,4), add = TRUE)
+legend(x = "bottomright", legend = c("acctran", "deltran", "punctuated", "gradual", "time bins"), col = colors[1:5], lty = 1)
+
+```
+
+This one is fairly similar but starts earlier in time.
+
+
+Another way would be to do histograms the same way we drew it when we designed the project but I'll work on that tomorrow I guess.
+
+
