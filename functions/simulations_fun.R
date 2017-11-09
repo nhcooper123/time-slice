@@ -253,3 +253,89 @@ run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD, inc.nodes
   
   return(list("results" = disparity.outputs, "objects" = disparity.objects))
 }
+
+
+##--------------------------------------------------------------------------
+## Plotting the results using dispRity objects
+## 
+## slug.object The chain object element (e.g. ou1$object)
+## method Which method: 1 = stratigraphy, 2 = duration, 3 = number
+## colors The central tendency colors
+## colors_CI The central CI colors
+## main The plot title
+## ylim The Y axis limits
+## legend Whether to display the legend or not
+## CI Whether to display the CIs or not
+## time.bins.line Whether to display the time bins as lines or not
+##--------------------------------------------------------------------------
+
+plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main, ylim, legend = FALSE, CI = TRUE, time.bins.line = FALSE) {
+
+    bins_type <- ifelse(time.bins.line, "c", "l")
+
+    ## STRATIGRAPHY
+    if(CI) {
+      ## Plotting the continuous data CIs
+      plot(slug.object[[method]][[2]], density = 70, col = c("white", colors_CI[1]), quantile = c(95), ylim = ylim, ylab = "Sum of variance", main = main)
+      plot(slug.object[[method]][[3]], density = 70, col = c("white", colors_CI[2]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      plot(slug.object[[method]][[4]], density = 70, col = c("white", colors_CI[3]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      plot(slug.object[[method]][[5]], density = 70, col = c("white", colors_CI[4]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+
+      ## Plotting the continuous data median
+      plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+    } else {
+      ## Plotting the continuous data (first plot)
+      plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, ylab = "Sum of variance", main = main)
+    }
+
+
+    ## Plotting the continuous data medians (other plots)
+    plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+    plot(slug.object[[method]][[3]], density = 0, col = colors[2], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+    plot(slug.object[[method]][[4]], density = 0, col = colors[3], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+    plot(slug.object[[method]][[5]], density = 0, col = colors[4], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+
+    if(CI) {
+      ## Plotting the discrete data (CI)
+      plot(slug.object[[method]][[1]], density = 70, col = c(colors[5], colors_CI[5]), quantile = c(95), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
+    } else {
+      plot(slug.object[[method]][[1]], density = 0, col = c(colors[5], "white"), quantile = c(1), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
+    }
+
+    ## Legend
+    if(legend) {
+      legend(x = "bottomright", legend = c("acctran", "deltran", "punctuated", "gradual", "time bins"), col = colors[1:5], lty = 1)
+    }
+}
+
+
+##--------------------------------------------------------------------------
+## Plotting the results using dispRity objects
+## 
+## model Which model: "equalbins", "acctran", "deltran", "punctuated", "gradual"
+## slug.results The chain results element (e.g. ou1$results)
+## method Which method: 1 = stratigraphy, 2 = duration, 3 = number
+##
+## Returns an histogram class object
+##--------------------------------------------------------------------------
+
+make.class.histogram <- function(model, slug.results, method) {
+  ## Getting the rows
+  rows <- which(slug.results[[method]]$model == model)
+  ## Creating the histogram object for the time bins
+  stratigraphy_hist <- list()
+  ## Get the breaks
+  stratigraphy_hist$breaks <- as.numeric(unique(unlist(strsplit(slug.results[[method]]$subsamples[rows], split = " - "))))
+  ## Get the disparity scores
+  stratigraphy_hist$counts <- slug.results[[method]]$bs.median[rows]
+  ## Remove NAs
+  if(any(is.na(stratigraphy_hist$counts))) stratigraphy_hist$counts[is.na(stratigraphy_hist$counts)] <- 0
+  ## Add the midpoints
+  stratigraphy_hist$mids <- sapply(strsplit(slug.results[[method]]$subsamples[rows], split = " - "), function(X) mean(as.numeric(X)))
+  ## Add the name
+  stratigraphy_hist$xname <- names(slug.results)[[method]]
+  ## Graphical parameters
+  stratigraphy_hist$equidist <- TRUE
+  class(stratigraphy_hist) <- "histogram"
+  return(stratigraphy_hist)
+}
