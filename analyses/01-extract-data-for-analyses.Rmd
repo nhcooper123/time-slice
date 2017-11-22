@@ -140,6 +140,56 @@ And that's it... we now have all the arguments for running the `dispRity` packag
 Running these extractions for other datasets
 ===================================================
 
+Wright 2017
+-----------
+
+```{r}
+## Setting up the slug names
+slug <- "Wright2017"
+
+## Loading the data
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+
+# Note from Wright 2017: MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
+
+# Replace zero branches with minimu branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
+
+# Multiply branches by 0.03517385
+tree$edge.length <- tree$edge.length * 0.03517385
+
+# Add root time: 485.4
+tree$root.time <- 485.4
+
+# Tidy the tree and the data
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+cleaned_data <- clean.data(matrix$matrix, tree)
+matrix$matrix <- cleaned_data$data
+tree <- cleaned_data$tree
+
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                  uncertainty.threshold = 0.95)
+save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+
+## Add ancestral states to nodes
+load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+row.names(matrix_nodes) <- tree$node.label
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+
+## Constructing the distance matrix
+matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug,".Rda"))
+
+## Ordinating the matrix - no need to run this here, we will do this in the next script
+## load(paste0("../data/processed/distance_matrix.", slug,".Rda"))
+## morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+```
+
+# Loop
 ```{r}
 ## Setting up the slug names
 slugs <- c("Bapst2016", "Hopkins", "Other")
@@ -151,6 +201,9 @@ for(slug in 1: length(slugs)) {
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slugs[slug], ".nex"))
 FADLAD <- read.csv(paste0("../data/FADLAD/", slugs[slug], ".csv"), row.names = 1, header = TRUE)
 tree <- read.nexus(paste0("../data/trees/", slugs[slug], ".tre"))
+
+[MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
+
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
