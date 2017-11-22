@@ -1,0 +1,341 @@
+---
+title: "Time slice analyses"
+author: "Natalie Cooper and Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 6
+---
+
+This code runs the analyses in the paper. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this. Note that much of this uses functions in the `simulations.R` file.
+
+```{r}
+set.seed(123)
+```
+
+Load packages and functions
+-----------------------------------
+
+Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faster than GL's).
+
+```{r, eval = TRUE, message = FALSE}
+# The latest version of devtools and ape
+library(devtools)
+library(ape)
+
+## The latest version of Claddis (on development on TG branch)
+## install_github("TGuillerme/Claddis")
+library(Claddis)
+
+## The latest version of dispRity on master branch
+## install_github("TGuillerme/dispRity", ref = "master")
+library(dispRity) 
+
+## Load functions using source
+# Doesn't always work... Rmd problem?
+source("../functions/simulations_fun.R")
+```
+
+Loading the data
+-----------------------------------
+
+To run `dispRity` analyses we need the **morphospace**, the **phylogeny** (with a root age and node labels) and the **first and last occurrence dates** (FADLAD). The tree and FADLAD are in the `data/` folder. To construct the morphospace we need to use the `distance_matrix` files we created in `01-extract-data-for analyses.Rmd` and stored in `data/processed`.
+
+```{r}
+## Choose a slug
+slug <- "Wright2017"
+
+## Loading the discrete morphological matrix
+## This is just to match the names with the tree
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+## Adding node labels and a root age (max tree age date)
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+tree$root.time <- 485.4 # specific to Wright 2017 tree
+
+## Cleaning the tree to remove things that aren't in the matrix 
+cleaned_data <- clean.data(matrix$matrix, tree)
+matrix$matrix <- cleaned_data$matrix
+tree <- cleaned_data$tree
+
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+```
+
+Scenarios
+--------------------------------
+
+We used the data to explore these different scenarios:
+
+1. Stratigraphy. This is the traditional method, where all the species within each stratigraphic period are included in the disparity calculation. This often leads to bins of unequal duration.
+
+2. Equally sized time bins. 
+    i. Where the *duration* of the bin is equal to the median duration of the stratigraphic period.
+    ii. Where the *number* of bins is equal to the number of stratigraphic periods.
+    iii. Where the *number* of bins is either 2, 5, 10, 15, or 20.
+
+3. Time slicing. 
+    i. Where the *interval* between slices is equal to the median duration of the stratigraphic period.
+    ii. Where the *number* of slices is equal to the number of stratigraphic periods.
+    iii. Where the *number* of slices is either 2, 5, 10, 15, or 20.
+
+Running the analyses and saving the outputs
+--------------------------------------------
+
+These analyses use a series of functions in `functions\`. These essentially wrap the existing `dispRity` functions so that running lots of models and extracting lots of data is not such a big issue.
+
+> TG: for the following pipeline, I've reduced the number of rarefaction that highly increased the calculation time.
+We now only calculate the disparity for the non-rarefied subsamples and the subsamples rarefied to contain only 3 taxa (the lowest level of rarefaction).
+We can use the full rarefaction if we want to plot rarefaction curves later on.
+
+```{r, eval = TRUE, warning = FALSE}
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = FALSE)
+#readr::write_csv(out1, path = paste0("../outputs/age", "_", slug, ".csv"))
+
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+#readr::write_csv(out2, path = paste0("../outputs/epoch", "_", slug, ".csv"))
+```
+
+Note that you can use the previous output format (the data tables) as before by accessing them through `out$results$stratigraphy/duration/number`.
+Writing them as a csv will require some thinking since they don't have the same number of columns (though it's still doable I guess).
+Also, if you want to plot things through `ggplot`, you can use the values in these data tables!
+
+
+<!-- TG: I've not run this analysis below -->
+<!-- We also ran the models using varying numbers of bins as follows. -->
+
+```{r, eval = FALSE, echo = FALSE}
+## Run the function for Beck data
+slug <- "BeckLee"
+
+for (bins in c(2, 5, 10, 15, 20)){
+  output <- run.all.disparity(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
+                              bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
+  
+  readr::write_csv(output, path = paste0("../outputs/bins", "_", slug, ".csv"), append = TRUE)
+}
+
+```
+
+<!-- NC: Need to think more about the outputs here, currently they don't make much sense as there are no column headers -->
+
+Examining the output 
+--------------------
+
+The results as a table
+
+```{r, eval = TRUE, echo = FALSE}
+knitr::kable(out2$results$stratigraphy, caption = "Disparity per stratigraphic time: unequal time bins and non-equidistant time slices")
+knitr::kable(out2$results$duration, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the median stratigraphic epoch duration")
+knitr::kable(out2$results$number, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the number of stratigraphic epochs")
+```
+
+This is not really digest and we should find a better way to present that.
+Anyway, these boring tables are always good for the supplementaries.
+
+## Plotting the results `dispRity` style
+
+Here is an example of the results using `plot.dispRity`.
+The upper panel is with the CIs and the lower one is the same without the CIs.
+
+### The results for the Age type
+
+```{r, eval = TRUE, fig.width = 12, fig.height = 18, echo = TRUE}
+op <- par(bty = "n", mfrow = c(3,2))
+## Principal colors
+colors <- palette()[1:5][-1] #TG: that can be made fancier
+colors[5] <- "black"
+## Color combination (for the CI)
+colors_CI <- c("pink", "lightgreen", "lightblue", "lightcyan", "lightgray")
+## y limits
+ylim <- range(unlist(lapply(out1$results, function(X) return(c(min(X[,5], na.rm = TRUE), max(X[,5],
+  na.rm = TRUE))))))
+## Zooming
+ylim_zoom <- c(20, 35)
+
+## Plotting the different methods (with/without CIs)
+plot.results.dispRity(out1$object, method = 1, colors = colors, colors_CI = colors_CI,
+  main = "Stratigraphy", ylim = ylim, CI = TRUE, legend = TRUE)
+plot.results.dispRity(out1$object, method = 1, colors = colors, colors_CI = colors_CI,
+  main = "Stratigraphy (no CI)", ylim = ylim_zoom, CI = FALSE, time.bins.line = TRUE)
+
+plot.results.dispRity(out1$object, method = 2, colors = colors, colors_CI = colors_CI,
+  main = "Duration", ylim = ylim, CI = TRUE)
+plot.results.dispRity(out1$object, method = 2, colors = colors, colors_CI = colors_CI,
+  main = "Duration (no CI)", ylim = ylim_zoom, CI = FALSE, time.bins.line = TRUE)
+
+plot.results.dispRity(out1$object, method = 3, colors = colors, colors_CI = colors_CI,
+  main = "Number", ylim = ylim, CI = TRUE)
+plot.results.dispRity(out1$object, method = 3, colors = colors, colors_CI = colors_CI,
+  main = "Number (no CI)", ylim = ylim_zoom, CI = FALSE, time.bins.line = TRUE)
+```
+
+### The results for the Epoch type
+
+
+```{r, eval = TRUE, fig.width = 12, fig.height = 18, echo = TRUE}
+op <- par(bty = "n", mfrow = c(3,2))
+## Principal colors
+colors <- palette()[1:5][-1] #TG: that can be made fancier
+colors[5] <- "black"
+## Color combination (for the CI)
+colors_CI <- c("pink", "lightgreen", "lightblue", "lightcyan", "lightgray")
+## y limits
+ylim <- range(unlist(lapply(out2$results, function(X) return(c(min(X[,5], na.rm = TRUE),
+  max(X[,5], na.rm = TRUE))))))
+
+## Zooming
+ylim_zoom <- c(20, 35)
+
+## Plotting the different methods (with/without CIS)
+plot.results.dispRity(out2$object, method = 1, colors = colors, colors_CI = colors_CI,
+  main = "Stratigraphy", ylim = ylim, CI = TRUE, legend = TRUE)
+plot.results.dispRity(out2$object, method = 1, colors = colors, colors_CI = colors_CI,
+  main = "Stratigraphy (no CI)", ylim = ylim_zoom, CI = FALSE, time.bins.line = TRUE)
+
+plot.results.dispRity(out2$object, method = 2, colors = colors, colors_CI = colors_CI,
+  main = "Duration", ylim = ylim, CI = TRUE)
+plot.results.dispRity(out2$object, method = 2, colors = colors, colors_CI = colors_CI,
+  main = "Duration (no CI)", ylim = ylim_zoom, CI = FALSE, time.bins.line = TRUE)
+
+plot.results.dispRity(out2$object, method = 3, colors = colors, colors_CI = colors_CI,
+  main = "Number", ylim = ylim, CI = TRUE)
+plot.results.dispRity(out2$object, method = 3, colors = colors, colors_CI = colors_CI,
+  main = "Number(no CI)", ylim = ylim_zoom, CI = FALSE, time.bins.line = TRUE)
+
+```
+
+## Plotting the results histogram style
+
+Another way for the plots would be kind of our histogram representation (you can certainly use `ggplot` here, below is just an example):
+
+
+### The results per method
+
+```{r, fig.width = 12, fig.height = 18}
+## Set the list of available models
+models <- list("equalbins", "acctran", "deltran", "punctuated", "gradual")
+
+## Get the stratigraphic, duration and number data for the ages
+strat_data_ages <- lapply(models, make.class.histogram, out1$results, method = 1)
+durat_data_ages <- lapply(models, make.class.histogram, out1$results, method = 2)
+numbe_data_ages <- lapply(models, make.class.histogram, out1$results, method = 3)
+
+## Get the stratigraphic, duration and number data for the epochs
+strat_data_epoc <- lapply(models, make.class.histogram, out2$results, method = 1)
+durat_data_epoc <- lapply(models, make.class.histogram, out2$results, method = 2)
+numbe_data_epoc <- lapply(models, make.class.histogram, out2$results, method = 3)
+
+## The lower age and the lower disparity limit are arbitrarily fixed to 0 and 15 respectively.
+lower_age <- 0; lower_lim <- 15
+#TG: might want to change that for other datasets!
+
+## limits functions
+get.break <- function(x) return(x$breaks)
+get.count <- function(x) return(x$counts)
+## Ages limits
+xlim_ages <- c(max(unlist(c(sapply(strat_data_ages, get.break), sapply(durat_data_ages, get.break),
+  sapply(numbe_data_ages, get.break)))), lower_age)
+ylim_ages <- c(lower_lim, max(unlist(c(sapply(strat_data_ages, get.count),
+  sapply(durat_data_ages, get.count), sapply(numbe_data_ages, get.count)))))
+## Epoch limits
+xlim_epoc <- c(max(unlist(c(sapply(strat_data_epoc, get.break), sapply(durat_data_epoc, get.break),
+  sapply(numbe_data_epoc, get.break)))), lower_age)
+ylim_epoc <- c(lower_lim, max(unlist(c(sapply(strat_data_epoc, get.count),
+  sapply(durat_data_epoc, get.count), sapply(numbe_data_epoc, get.count)))))
+
+## Colors
+colors <- palette()[1:5]
+colors[1] <- "grey"
+
+## Graphics
+op <- par(bty = "n", mfrow = c(3,2))
+
+## Plot the stratigraphy - ages
+plot(strat_data_ages[[1]], xlim = xlim_ages, ylim = ylim_ages , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Stratigraphy - ages")
+## Plot the slicing
+for(slice in 2:5) {
+  lines(strat_data_ages[[slice]]$breaks, strat_data_ages[[slice]]$counts, col = colors[slice])
+}
+
+## Adding the legend
+legend(x = "bottomleft", legend = c("time bins", "acctran", "deltran", "punctuated", "gradual"),
+  col = colors[1:5], lty = 1, bg = "white")
+
+## Plot the stratigraphy - epoch
+plot(strat_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Stratigraphy - Epoch")
+## Plot the slicing
+for(slice in 2:5) {
+  lines(strat_data_epoc[[slice]]$breaks, strat_data_epoc[[slice]]$counts, col = colors[slice])
+}
+
+
+## Plot the duration - ages
+plot(durat_data_ages[[1]], xlim = xlim_ages, ylim = ylim_ages , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Duration - ages")
+## Plot the slicing
+for(slice in 2:5) {
+  lines(durat_data_ages[[slice]]$breaks, durat_data_ages[[slice]]$counts, col = colors[slice])
+}
+
+## Plot the duration - epoch
+plot(durat_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Duration - Epoch")
+## Plot the slicing
+for(slice in 2:5) {
+  lines(durat_data_epoc[[slice]]$breaks, durat_data_epoc[[slice]]$counts, col = colors[slice])
+}
+
+
+## Plot the number - ages
+plot(numbe_data_ages[[1]], xlim = xlim_ages, ylim = ylim_ages , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Number - ages")
+## Plot the slicing
+for(slice in 2:5) {
+  lines(numbe_data_ages[[slice]]$breaks, numbe_data_ages[[slice]]$counts, col = colors[slice])
+}
+
+## Plot the number - epoch
+plot(numbe_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Number - Epoch")
+## Plot the slicing
+for(slice in 2:5) {
+  lines(numbe_data_epoc[[slice]]$breaks, numbe_data_epoc[[slice]]$counts, col = colors[slice])
+}
+```
+
+Some of the plots are a bit off set and everything but it gives us an idea
+
+### The results per model
+
+Something like that but with transparency:
+
+```{r, fig.width = 6, fig.height = 6}
+plot(strat_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[1], main = "Epoch")
+plot(durat_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[2], main = "", add = TRUE)
+plot(numbe_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (Mya)",
+  ylab = "Sum of variance", col = colors[3], main = "", add = TRUE)
+```
+
+
