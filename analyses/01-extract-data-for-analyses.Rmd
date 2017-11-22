@@ -201,9 +201,6 @@ matrix <- ReadMorphNexus(paste0("../data/matrices/", slugs[slug], ".nex"))
 FADLAD <- read.csv(paste0("../data/FADLAD/", slugs[slug], ".csv"), row.names = 1, header = TRUE)
 tree <- read.nexus(paste0("../data/trees/", slugs[slug], ".tre"))
 
-[MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
-
-
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
 tree$root.time <- max(tree.age(tree)[, 1])
