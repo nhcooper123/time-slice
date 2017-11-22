@@ -144,7 +144,6 @@ Wright 2017
 -----------
 
 ```{r}
-## Setting up the slug names
 slug <- "Wright2017"
 
 ## Loading the data
