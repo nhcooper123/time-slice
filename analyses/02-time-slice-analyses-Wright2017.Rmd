@@ -28,8 +28,8 @@ library(ape)
 ## install_github("TGuillerme/Claddis")
 library(Claddis)
 
-## The latest version of dispRity on master branch
-## install_github("TGuillerme/dispRity", ref = "master")
+## The latest version of dispRity on release branch
+## install_github("TGuillerme/dispRity", ref = "release")
 library(dispRity) 
 
 ## Load functions using source
