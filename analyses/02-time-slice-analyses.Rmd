@@ -28,8 +28,8 @@ library(ape)
 ## install_github("TGuillerme/Claddis")
 library(Claddis)
 
-## The latest version of dispRity on master branch
-## install_github("TGuillerme/dispRity", ref = "master")
+## The latest version of dispRity on release branch #TG: master is under many changes!
+## install_github("TGuillerme/dispRity", ref = "release")
 library(dispRity) 
 
 ## Load functions using source
@@ -99,22 +99,6 @@ These analyses use a series of functions in `functions\`. These essentially wrap
 We now only calculate the disparity for the non-rarefied subsamples and the subsamples rarefied to contain only 3 taxa (the lowest level of rarefaction).
 We can use the full rarefaction if we want to plot rarefaction curves later on.
 
-
-```{r, eval = FALSE, echo = FALSE}
-## Testing data: TO REMOVE
-#TG: it's just faster this way
-#TG: also, I've only tested it on "Epoch" since it take ages to run, should be pipelined all right though
-data(BeckLee_mat99)
-data(BeckLee_tree)
-data(BeckLee_ages)
-
-morphospace <- BeckLee_mat99
-tree <- BeckLee_tree
-FADLAD <- BeckLee_ages
-
-```
-
-
 ```{r, eval = TRUE, warning = FALSE}
 ## Run the function for Beck data
 slug <- "BeckLee"
@@ -136,24 +120,6 @@ Note that you can use the previous output format (the data tables) as before by 
 Writing them as a csv will require some thinking since they don't have the same number of columns (though it's still doable I guess).
 Also, if you want to plot things through `ggplot`, you can use the values in these data tables!
 
-
-<!-- TG: I've not run this analysis below -->
-<!-- We also ran the models using varying numbers of bins as follows. -->
-
-```{r, eval = FALSE, echo = FALSE}
-## Run the function for Beck data
-slug <- "BeckLee"
-
-for (bins in c(2, 5, 10, 15, 20)){
-  output <- run.all.disparity(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
-                              bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var")
-  
-  readr::write_csv(output, path = paste0("../outputs/bins", "_", slug, ".csv"), append = TRUE)
-}
-
-```
-
-<!-- NC: Need to think more about the outputs here, currently they don't make much sense as there are no column headers -->
 
 Examining the output 
 --------------------
@@ -358,3 +324,16 @@ plot(numbe_data_epoc[[1]], xlim = xlim_epoc, ylim = ylim_epoc , xlab = "Time (My
 ```
 
 
+## Comparing the disparity through time curves
+
+```{r}
+curve1 <- out2$object[[1]][[1]]
+curve2 <- out2$object[[1]][[2]]
+curve3 <- out2$object[[1]][[3]]
+curve4 <- out2$object[[1]][[4]]
+curve5 <- out2$object[[1]][[5]]
+
+
+
+
+```
