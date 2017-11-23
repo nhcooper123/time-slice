@@ -60,7 +60,6 @@ Thumbs.db
 .Rproj.user
 .RData
 inst/doc
-*.Rproj
 
 # *.\#*
 # \#*\#
