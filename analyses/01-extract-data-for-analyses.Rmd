@@ -228,16 +228,16 @@ save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rd
 ```
 
 
-Bapst et al 2016 Biol Letters
+Heath et al bears
 -----------
 
 ```{r}
-slug <- "Bapst2016"
+slug <- "bears"
 
 ## Loading the data
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
 FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
-tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
@@ -265,84 +265,11 @@ save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rd
 ## morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
 ```
 
-Bapst et al 2016 Biol Letters
+Brusatte et al 2014 Current Biol
 -----------
 
 ```{r}
-slug <- "Bapst2016"
-
-## Loading the data
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
-tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
-
-# Tidy the tree and the data
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- max(tree.age(tree)[, 1])
-cleaned_data <- clean.data(matrix$matrix, tree)
-matrix$matrix <- cleaned_data$data
-tree <- cleaned_data$tree
-
-## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-
-## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-row.names(matrix_nodes) <- tree$node.label
-matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
-
-## Constructing the distance matrix
-matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-
-## Ordinating the matrix - no need to run this here, we will do this in the next script
-## load(paste0("../data/processed/distance_matrix.", slugs[slug] ,".Rda"))
-## morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
-```
-
-Bapst et al 2016 Biol Letters
------------
-
-```{r}
-slug <- "Bapst2016"
-
-## Loading the data
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
-tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
-
-# Tidy the tree and the data
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- max(tree.age(tree)[, 1])
-cleaned_data <- clean.data(matrix$matrix, tree)
-matrix$matrix <- cleaned_data$data
-tree <- cleaned_data$tree
-
-## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-
-## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-row.names(matrix_nodes) <- tree$node.label
-matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
-
-## Constructing the distance matrix
-matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-
-## Ordinating the matrix - no need to run this here, we will do this in the next script
-## load(paste0("../data/processed/distance_matrix.", slugs[slug] ,".Rda"))
-## morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
-```
-Bapst et al 2016 Biol Letters
------------
-
-```{r}
-slug <- "Bapst2016"
+slug <- "Brusatte2014"
 
 ## Loading the data
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
