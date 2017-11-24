@@ -35,6 +35,7 @@ library(dispRity)
 ## Load functions using source
 # Doesn't always work... Rmd problem?
 source("../functions/simulations_fun.R")
+source("../functions/tree.age.fossil.R")
 ```
 
 Loading the data
@@ -51,13 +52,36 @@ slug <- "Wright2017"
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
 
 ## Loading the FADLAD
-FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+# FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+```
 
-## Loading the tree
-tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
-## Adding node labels and a root age (max tree age date)
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- 485.4 # specific to Wright 2017 tree
+TG: There's a problem with the FADLAD (too recent! - see 01-extract-data-for-analysis.Rmd lines ~150).
+Also, I jus realised that the operations here are done twice, once in the extract-data file and once here.
+The clever way would be to do everything in the extract-data (e.g. the root time, rescaling etc...) so that only the time slice analysis is done here.
+We could export the data bundle (i.e. the `morphospace`, `tree` and `FADLAD`) in a `.Rda` format and simply load it here (so we're sure we have the correct root time etc.).
+
+```{r}
+#TG: Tree tinkering from 01-extract-data-for-analysis.Rmd
+
+# Replace zero branches with minimu branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
+
+# Multiply branches by 0.03517385
+tree$edge.length <- tree$edge.length / 0.03517385 #TG: following the note above, it's divide not multiply (i.e. increase branch length because rate < 0)
+
+# Add root time: 485.4
+tree$root.time <- 485.4
+
+# Dummy FADLAD
+tree_ages <- tree.age.fossil(tree)[1:Ntip(tree),]
+FADLAD <- as.data.frame(matrix(c(tree_ages$ages, tree_ages$ages), ncol = 2, byrow = FALSE, dimnames = list(as.character(tree_ages$elements), c("FAD", "LAD"))))
+
+# ## Loading the tree
+# tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+# ## Adding node labels and a root age (max tree age date)
+# tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+# tree$root.time <- 485.4 # specific to Wright 2017 tree
 
 ## Cleaning the tree to remove things that aren't in the matrix 
 cleaned_data <- clean.data(matrix$matrix, tree)

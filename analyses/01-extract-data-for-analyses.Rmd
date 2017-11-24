@@ -145,11 +145,15 @@ Wright 2017
 -----------
 
 ```{r}
+source("../functions/tree.age.fossil.R")
+
 slug <- "Wright2017"
 
 ## Loading the data
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+# FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+#TG: The FADLAD ages seems pretty weird, the data should be Ordovician/Devonian (-485/-360) and the range in these FADLADs is (-113/-10)!
+#TG: I've thus replaced it by a dummy FADLAD for now (just the taxa age) (see line ~169 after root.time)
 tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
 
 # Note from Wright 2017: MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
@@ -159,10 +163,14 @@ tree$edge.length[which(tree$edge.length == 0)] <-
   min(tree$edge.length[-which(tree$edge.length == 0)])
 
 # Multiply branches by 0.03517385
-tree$edge.length <- tree$edge.length * 0.03517385
+tree$edge.length <- tree$edge.length / 0.03517385 #TG: following the note above, it's divide not multiply (i.e. increase branch length because rate < 0)
 
 # Add root time: 485.4
 tree$root.time <- 485.4
+
+# Dummy FADLAD
+tree_ages <- tree.age.fossil(tree)[1:Ntip(tree),]
+FADLAD <- as.data.frame(matrix(c(tree_ages$ages, tree_ages$ages), ncol = 2, byrow = FALSE, dimnames = list(as.character(tree_ages$elements), c("FAD", "LAD"))))
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
