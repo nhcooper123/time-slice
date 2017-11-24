@@ -22,23 +22,49 @@
 tree.age.fossil <- function(tree, age, order = 'past'){
 
 #SANITYZING
+#FUNCTIONS FOR tree.age
 
-    #tree
-    check.class(tree, 'phylo', ' must be a phylo object.')
+#Extract the ages table from a tree
+#Calculating the tips and the elements age
+tree.age_table<-function(tree){
+    tree_length <- Ntip(tree)
+    
+    ages <- dist.nodes(tree)[tree_length + 1,]
+    tip.names <- tree$tip.label
+    if(is.null(tree$node.label)) {
+        nod.names <- c((tree_length + 1):length(dist.nodes(tree)[, 1]))
+    } else {
+        nod.names <- tree$node.label
+    }
+    elements <- c(tip.names, nod.names)
+    ages.table <- data.frame(ages = ages,elements = elements)
+    return(ages.table)
+}
 
-    #age
+
+#Scaling the ages from tree.age_table if scale != 1
+tree.age_scale <- function(ages.table, scale){
+    ages.table$ages <- ages.table$ages/max(ages.table$ages)
+    ages.table$ages <- ages.table$ages*scale
+    return(ages.table)
+}
+
+    # #tree
+    # check.class(tree, 'phylo', ' must be a phylo object.')
+
+    # #age
     if(missing(age)) {
         #Using the tree height as age if age is missing
         age <- max(dist.nodes(tree)[, Ntip(tree)+1])
     }
-    check.class(age, 'numeric', ' must be a numerical value.')
-    check.length(age, '1', ' must a a single value.')
+    # check.class(age, 'numeric', ' must be a numerical value.')
+    # check.length(age, '1', ' must a a single value.')
 
-    #order
-    check.method(order, c("past", "present"), "order argument")
+    # #order
+    # check.method(order, c("past", "present"), "order argument")
 
-    ## Fossils only
-    check.class(fossil.only, "logical")
+    # ## Fossils only
+    # check.class(fossil.only, "logical")
 
     #CALCULATE THE EDGES AGE
 
