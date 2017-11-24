@@ -134,7 +134,7 @@ load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
 ```
 
-And that's it... we now have all the arguments for running the `dispRity` package properly: the space (`morphospace`), the tree (`tree`) and the FADLAD (`FADLAD`). Remember that for the `time.subsamples` function, you can use the `inc.nodes` logical option to include nodes or not!
+And that's it... we now have all the arguments for running the `dispRity` package properly: the space (`morphospace`), the tree (`tree`) and the FADLAD (`FADLAD`). Remember that for the `time.subsets` function, you can use the `inc.nodes` logical option to include nodes or not!
 
 
 Running these extractions for other datasets

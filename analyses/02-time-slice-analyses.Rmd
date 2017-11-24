@@ -96,7 +96,7 @@ Running the analyses and saving the outputs
 These analyses use a series of functions in `functions\`. These essentially wrap the existing `dispRity` functions so that running lots of models and extracting lots of data is not such a big issue.
 
 > TG: for the following pipeline, I've reduced the number of rarefaction that highly increased the calculation time.
-We now only calculate the disparity for the non-rarefied subsamples and the subsamples rarefied to contain only 3 taxa (the lowest level of rarefaction).
+We now only calculate the disparity for the non-rarefied subsets and the subsets rarefied to contain only 3 taxa (the lowest level of rarefaction).
 We can use the full rarefaction if we want to plot rarefaction curves later on.
 
 ```{r, eval = TRUE, warning = FALSE}
@@ -216,7 +216,7 @@ Another way for the plots would be kind of our histogram representation (you can
 
 ```{r, fig.width = 12, fig.height = 18}
 ## Set the list of available models
-models <- list("equalbins", "acctran", "deltran", "punctuated", "gradual")
+models <- list("equalbins", "acctran", "deltran", "random", "proximity")
 
 ## Get the stratigraphic, duration and number data for the ages
 strat_data_ages <- lapply(models, make.class.histogram, out1$results, method = 1)
@@ -262,7 +262,7 @@ for(slice in 2:5) {
 }
 
 ## Adding the legend
-legend(x = "bottomleft", legend = c("time bins", "acctran", "deltran", "punctuated", "gradual"),
+legend(x = "bottomleft", legend = c("time bins", "acctran", "deltran", "random", "proximity"),
   col = colors[1:5], lty = 1, bg = "white")
 
 ## Plot the stratigraphy - epoch
