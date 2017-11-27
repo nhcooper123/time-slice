@@ -8,7 +8,7 @@ output:
     fig_height: 6
 ---
 
-Quick pipeline for getting data from discrete matrices.
+Pipeline for getting data from discrete matrices.
 ===============
 
 This code loads the data and extracts matrices and other files needed to run the analyses in the paper. Note that these analyses can take time, so we save the outputs to a `data/processed` folder and use these in later analyses so that the analyses can be replicated more quickly. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this.
@@ -49,9 +49,6 @@ slug <- "Beck2014"
 
 ## Loading the discrete morphological matrix
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-
-## Loading the FADLAD
-FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
 
 ## Loading the tree
 tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
