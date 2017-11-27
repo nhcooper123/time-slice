@@ -132,22 +132,18 @@ Wright 2017
 -----------
 
 ```{r}
-source("../functions/tree.age.fossil.R")
-
 slug <- "Wright2017"
 
-## Loading the data
+## Loading the data and tree
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-
 tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
 
-# Note from Wright 2017: MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
-
-# Replace zero branches with minimu branch length
+# Replace zero branches with minimum branch length
 tree$edge.length[which(tree$edge.length == 0)] <- 
   min(tree$edge.length[-which(tree$edge.length == 0)])
 
-# Multiply branches by 0.03517385
+# Note from Wright 2017: MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
+# Divide branches by 0.03517385
 tree$edge.length <- tree$edge.length / 0.03517385
 
 # Add root time: 485.4
@@ -187,10 +183,13 @@ Bapst et al 2016 Biol Letters
 ```{r}
 slug <- "Bapst2016"
 
-## Loading the data
+## Loading the data and tree
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-
 tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
+
+# Replace zero branches with minimum branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
@@ -227,10 +226,13 @@ Heath et al bears
 ```{r}
 slug <- "bears"
 
-## Loading the data
+## Loading the data and tree
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-
 tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
+
+# Replace zero branches with minimum branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
@@ -266,10 +268,13 @@ Brusatte et al 2014 Current Biol
 ```{r}
 slug <- "Brusatte2014"
 
-## Loading the data
+## Loading the data and tree
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-
 tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+
+# Replace zero branches with minimum branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
