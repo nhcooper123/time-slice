@@ -63,7 +63,7 @@ Ordination is a classic NMDS (multidimensional scaling) including only the non-z
 ```{r}
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
@@ -131,7 +131,7 @@ tree$root.time <- 484.4
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
@@ -171,7 +171,7 @@ tree$root.time <- max(tree.age(tree)[, 1])
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
@@ -211,7 +211,7 @@ tree$root.time <- max(tree.age(tree)[, 1])
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
@@ -251,7 +251,7 @@ tree$root.time <- max(tree.age(tree)[, 1])
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
