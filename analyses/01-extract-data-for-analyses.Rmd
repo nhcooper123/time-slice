@@ -89,6 +89,7 @@ This takes some time to run (could be a few hours)! Therefore this is set to `ev
 
 ```{r, eval = FALSE}
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+## This is slow, so on future runs we recommend using the saved data
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
 
@@ -100,7 +101,8 @@ After this we can add the node states to the overall matrix:
 
 ```{r}
 ## Loading the matrix
-readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+## Not needed if running all the code at once
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Adding the node names as row names
 row.names(matrix_nodes) <- tree$node.label
@@ -167,7 +169,7 @@ matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
 saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
@@ -210,7 +212,7 @@ matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
 saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
@@ -253,7 +255,7 @@ matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
 saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
@@ -295,7 +297,7 @@ matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
 saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
