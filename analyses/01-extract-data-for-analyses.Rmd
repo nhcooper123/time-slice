@@ -41,7 +41,7 @@ Loading the data
 
 This is based on a slug (here "Beck2014") and should work with different slugs, assuming the files are in the exact same format (by slug here we are referring to the fact that each of our files have the name of the dataset within them, so we can easily identify each one using regular expression matching). 
 
-The analyses require a NEXUS matrix of characters, a csv file of first and last occurrence dates (FADLAD) and a phylogeny.
+The analyses require a NEXUS matrix of characters, a csv file of first and last occurrence dates (FADLAD) and a phylogeny. The matrix and phylogeny need to be cleaned and manipulated - we do this below. The FADLAD can be read in as is so doesn't get read in until we need it for analyses in later scripts.
 
 ```{r}
 ## Setting up the slug name
@@ -57,6 +57,8 @@ tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
 
 ## Adding a root age (max tree age date)
+## Note that we need to redo this in the `02-time-slice-analyses` scripts
+## as write.nexus/tree won't save root times
 tree$root.time <- max(tree.age(tree)[, 1])
 ```
 
@@ -72,6 +74,9 @@ tree <- cleaned_data$tree
 
 ## Removed taxa, i.e. those in the tree but not the matrix and vice versa
 as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 ```
 
 
@@ -117,22 +122,7 @@ matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
-
-Ordinating the matrix
-----------------
-
-Ordination is a classic NMDS (multidimensional scaling) including only the non-zero variance axes.
-
-```{r}
-## Loading the distance matrices
-load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-
-## Ordinating the matrix
-morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
-```
-
-And that's it... we now have all the arguments for running the `dispRity` package properly: the space (`morphospace`), the tree (`tree`) and the FADLAD (`FADLAD`). Remember that for the `time.subsamples` function, you can use the `inc.nodes` logical option to include nodes or not!
-
+And that's it... we now have all the processed data for running the `dispRity` package properly: the distance matrices(that we will use to build the `morphospace`), and the cleaned tree (`tree`). Remember that for the `time.subsamples` function, you can use the `inc.nodes` logical option to include nodes or not!
 
 Running these extractions for other datasets
 ===================================================
@@ -169,6 +159,12 @@ cleaned_data <- clean.data(matrix$matrix, tree)
 matrix$matrix <- cleaned_data$data
 tree <- cleaned_data$tree
 
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
+
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
@@ -203,6 +199,12 @@ cleaned_data <- clean.data(matrix$matrix, tree)
 matrix$matrix <- cleaned_data$data
 tree <- cleaned_data$tree
 
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
+
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
@@ -216,7 +218,6 @@ matrix$matrix <- rbind(matrix$matrix, matrix_nodes)
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-
 ```
 
 
@@ -238,6 +239,12 @@ cleaned_data <- clean.data(matrix$matrix, tree)
 matrix$matrix <- cleaned_data$data
 tree <- cleaned_data$tree
 
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
+
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
@@ -251,7 +258,6 @@ matrix$matrix <- rbind(matrix$matrix, matrix_nodes)
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-
 ```
 
 Brusatte et al 2014 Current Biol
@@ -272,6 +278,12 @@ cleaned_data <- clean.data(matrix$matrix, tree)
 matrix$matrix <- cleaned_data$data
 tree <- cleaned_data$tree
 
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
+
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
@@ -285,5 +297,4 @@ matrix$matrix <- rbind(matrix$matrix, matrix_nodes)
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-
 ```
