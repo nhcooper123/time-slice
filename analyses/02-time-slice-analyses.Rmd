@@ -63,7 +63,7 @@ Ordination is a classic NMDS (multidimensional scaling) including only the non-z
 ```{r}
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
-load(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 
 ## Ordinating the matrix
 morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
@@ -101,7 +101,7 @@ out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.n
                                 metric.name = "sum_var", rarefaction = FALSE)
 
 ## Save results to output folder
-save(out1, file = paste0("../outputs/age.", "Beck2014" ,".Rda"))
+saveRDS(out1, file = paste0("../outputs/age.", "Beck2014" ,".Rda"))
 
 ## Epochs (rarefied to 3 taxa only)
 out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
@@ -109,5 +109,5 @@ out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc
                         rarefaction = FALSE)
 
 ## Save results to output folder
-save(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
+saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
 ```

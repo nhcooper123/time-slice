@@ -93,14 +93,14 @@ matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
 
 ## Saving the matrix
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 ```
 
 After this we can add the node states to the overall matrix:
 
 ```{r}
 ## Loading the matrix
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Adding the node names as row names
 row.names(matrix_nodes) <- tree$node.label
@@ -119,7 +119,7 @@ Again this takes some time to run (a couple of minutes). Therefore this is set t
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 
 ## Saving the matrix
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
 And that's it... we now have all the processed data for running the `dispRity` package properly: the distance matrices(that we will use to build the `morphospace`), and the cleaned tree (`tree`). Remember that for the `time.subsamples` function, you can use the `inc.nodes` logical option to include nodes or not!
@@ -168,16 +168,16 @@ write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug,".Rda"))
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug,".Rda"))
 
 ```
 
@@ -208,16 +208,16 @@ write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
 
@@ -248,16 +248,16 @@ write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
 Brusatte et al 2014 Current Biol
@@ -287,14 +287,14 @@ write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
 matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
                                   uncertainty.threshold = 0.95)
-save(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-load(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-save(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
