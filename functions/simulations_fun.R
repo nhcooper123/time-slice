@@ -23,7 +23,7 @@ get.bins <- function(tree, type){
 }
 
 ##---------------------------------------------------------------------------
-## Extract stratigraphy subsamples
+## Extract stratigraphy subsets
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
 ## FADLAD is first and last occurrence data
@@ -31,14 +31,14 @@ get.bins <- function(tree, type){
 ## type is "Age" or "Epoch" - see get.bin.ages documentation
 ##--------------------------------------------------------------------------
 
-get.subsamples.stratigraphy <- function(morphospace, tree, FADLAD, inc.nodes, type){
-  time.subsamples(data = morphospace, tree = tree, 
+get.subsets.stratigraphy <- function(morphospace, tree, FADLAD, inc.nodes, type){
+  time.subsets(data = morphospace, tree = tree, 
                   method = "discrete", time = get.bins(tree, type)[[1]], 
                   FADLAD = FADLAD, inc.nodes = inc.nodes)
 }  
   
 ##---------------------------------------------------------------------------
-## Extract all types of subsample for both methods and four continuous models
+## Extract all types of subset for both methods and four continuous models
 ## morphospace is the cleaned morphospace
 ## tree is the phylogeny matched to the morphospace
 ## bins is a vector of bin times or number of bins
@@ -46,10 +46,10 @@ get.subsamples.stratigraphy <- function(morphospace, tree, FADLAD, inc.nodes, ty
 ## inc.nodes is logical for whether to estimate disparity using nodal values
 ##--------------------------------------------------------------------------
 
-get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
+get.subsets <- function(morphospace, tree, bins, FADLAD, inc.nodes){
   
   ## Subset samples by required number of time bins
-  subsamples.bins <- time.subsamples(data = morphospace, tree = tree, 
+  subsets.bins <- time.subsets(data = morphospace, tree = tree, 
   	                                 method = "discrete", time = bins, 
   	                                 FADLAD = FADLAD, inc.nodes = inc.nodes)
   
@@ -63,59 +63,71 @@ get.subsamples <- function(morphospace, tree, bins, FADLAD, inc.nodes){
     ## Removing the last bin (that would be a negative slice)
     slices <- bins[-length(bins)]
     ## Getting the centre of the bins as slicing values
-    slices <- slices - (diff(bins)/2)
+    slices <- slices + (diff(bins)/2)
   } else {
     slices <- bins
   }
 
   ## Subset samples by required number of time slices with acctran model
-  subsamples.acctran <- time.subsamples(data = morphospace, tree = tree, 
+  subsets.acctran <- time.subsets(data = morphospace, tree = tree, 
   	                                    method = "continuous", time = slices, 
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
                                         model = "acctran")
 
   ## Subset samples by required number of time slices with deltran model
-  subsamples.deltran <- time.subsamples(data = morphospace, tree = tree, 
+  subsets.deltran <- time.subsets(data = morphospace, tree = tree, 
   	                                    method = "continuous", time = slices, 
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
                                         model = "deltran")
   
-  ## Subset samples by required number of time slices with punctuated model
-  subsamples.punctuated <- time.subsamples(data = morphospace, tree = tree, 
-  	                                       method = "continuous", time = slices, 
-  	                                       FADLAD = FADLAD, inc.nodes = inc.nodes,
-                                           model = "punctuated")
+  ## Subset samples by required number of time slices with random model
+  subsets.random <- time.subsets(data = morphospace, tree = tree, 
+  	                                     method = "continuous", time = slices, 
+  	                                     FADLAD = FADLAD, inc.nodes = inc.nodes,
+                                         model = "random")
   
-  ## Subset samples by required number of time slices with gradual model
-  subsamples.gradual <- time.subsamples(data = morphospace, tree = tree, 
+  ## Subset samples by required number of time slices with proximity model
+  subsets.proximity <- time.subsets(data = morphospace, tree = tree, 
   	                                    method = "continuous", time = slices, 
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
-  	                                    model = "gradual")
+  	                                    model = "proximity")
 
-  return(list(subsamples.bins, subsamples.acctran, subsamples.deltran, 
-  	          subsamples.punctuated, subsamples.gradual))
+  ## Subset samples by required number of time slices with proximity model
+  subsets.punctuated <- time.subsets(data = morphospace, tree = tree, 
+                                        method = "continuous", time = slices, 
+                                        FADLAD = FADLAD, inc.nodes = inc.nodes,
+                                        model = "punctuated")
+
+  ## Subset samples by required number of time slices with proximity model
+  subsets.gradual <- time.subsets(data = morphospace, tree = tree, 
+                                        method = "continuous", time = slices, 
+                                        FADLAD = FADLAD, inc.nodes = inc.nodes,
+                                        model = "gradual")
+
+  return(list(subsets.bins, subsets.acctran, subsets.deltran, subsets.random,
+              subsets.proximity, subsets.punctuated, subsets.gradual))
 }
 
 ##--------------------------------------------------------------------------
-## Bootstrap and rarefy subsamples
-## subsamples is a subsample output from time.subsamples
+## Bootstrap and rarefy subsets
+## subsets is a subset output from time.subsets
 ## bootstraps is the number of bootstraps to run
 ##--------------------------------------------------------------------------
 
-boot.rarefy <- function(subsamples, bootstraps){
-  # Obtain a rarefied bootstrap matrix matrix for the subsamples
-  boot.matrix(subsamples, bootstraps = bootstraps, rarefaction = TRUE)
+boot.rarefy <- function(subsets, bootstraps){
+  # Obtain a rarefied bootstrap matrix matrix for the subsets
+  boot.matrix(subsets, bootstraps = bootstraps, rarefaction = TRUE)
 }
 
 ##--------------------------------------------------------------------------
-## Extract disparity for all subsamples
+## Extract disparity for all subsets
 ## Estimate disparity - observed and bootstrapped and rarefied
-## subsampled_data is output from boot.matrix
+## subsetd_data is output from boot.matrix
 ## metric is the chosen metric - see dispRity documentation for details
 ##--------------------------------------------------------------------------
 
-get.disparity <- function(subsampled_data, metric){
-  summary(dispRity(subsampled_data, metric = metric), round = 10)
+get.disparity <- function(subsetd_data, metric){
+  summary(dispRity(subsetd_data, metric = metric), round = 10)
 }
 
 ##--------------------------------------------------------------------------
@@ -126,7 +138,8 @@ get.disparity <- function(subsampled_data, metric){
 ## inc.nodes is logical for whether diparity was estimated using nodal values
 ##--------------------------------------------------------------------------
 
-get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.name){
+get.outputs <- function(disparity.object, bins, metric.name, inc.nodes,
+                        model.name){
   output <- as.data.frame(disparity.object)
   output$metric <- metric.name
   output$inc.nodes <- inc.nodes
@@ -151,36 +164,42 @@ get.outputs <- function(disparity.object, bins, metric.name, inc.nodes, model.na
 ##--------------------------------------------------------------------------
 
 run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
-                              bootstraps = bootstraps, metric, metric.name, rarefaction){
+                              bootstraps = bootstraps, metric, metric.name,
+                              rarefaction){
 
-  # Need to remove the nodes if not using them
-  if(inc.nodes == FALSE){
-    remove.nodes <- clean.data(morphospace, tree)
-    morphospace <- remove.nodes$data  
-  }
+  # # Need to remove the nodes if not using them
+  # if(inc.nodes == FALSE){
+  #   remove.nodes <- clean.data(morphospace, tree)
+  #   morphospace <- remove.nodes$data  
+  # }
 
-  ## Extract all types of subsample for both methods and four continuous models
-  subsamples <- get.subsamples(morphospace, tree, bins, FADLAD, inc.nodes)
+  ## Extract all types of subset for both methods and four continuous models
+  subsets <- get.subsets(morphospace, tree, bins, FADLAD, inc.nodes)
 
-  ## Bootstrap and rarefy all types of subsamples
-  subsampled_data <- purrr::map(subsamples, boot.matrix, bootstraps = bootstraps, rarefaction = rarefaction)
+  ## Bootstrap and rarefy all types of subsets
+  subsetd_data <- purrr::map(subsets, boot.matrix, bootstraps = bootstraps,
+                             rarefaction = rarefaction)
 
-  ## Get disparity for all types of subsamples
-  disparity.object.out <- purrr::map(subsampled_data, dispRity, metric = metric)
+  ## Get disparity for all types of subsets
+  disparity.object.out <- purrr::map(subsetd_data, dispRity, metric = metric)
 
   ## Summarise the disparity for output
-  disparity.object <- purrr::map(disparity.object.out, summary.dispRity, round = 10)
+  disparity.object <- purrr::map(disparity.object.out, summary.dispRity,
+                                 round = 10)
 
   ## Outputs
   ## Extract output information
-  disparity.outputs <- purrr::map(disparity.object, get.outputs, bins = bins, 
-                                  metric.name = metric.name, inc.nodes = inc.nodes)
+  disparity.outputs <- purrr::map(disparity.object, get.outputs, bins = bins[-1], 
+                                  metric.name = metric.name,
+                                  inc.nodes = inc.nodes)
   
   ## Add model designations
-  models <- c("equalbins", "acctran", "deltran", "punctuated", "gradual")
-  disparity.outputs <- mapply(cbind, disparity.object, "model" = models, SIMPLIFY = FALSE)
+  models <- c("equalbins", "acctran", "deltran", "random", "proximity",
+              "punctuated", "gradual")
+  disparity.outputs <- mapply(cbind, disparity.object, "model" = models,
+                              SIMPLIFY = FALSE)
   ## Flatten list to a dataframe
-  ## This will throw warnings as factor levels of subsamples are converted to characters
+  ## This will throw warnings as factor levels of subsets are converted to characters
   disparity.outputs <- purrr::map_dfr(disparity.outputs, cbind)
   
   return(list("results" = disparity.outputs, "dispRity" = disparity.object.out))
@@ -201,15 +220,17 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
 
 ## Argument list for debugging
 # warning("DEBUG MODE FOR run.all.disparity.wrapper")
-# type = "Epoch"
+# type = "Age"
 # inc.nodes = TRUE
-# bootstraps = 100
+# bootstraps = 3
 # metric = c(sum, variances)
 # metric.name = "sum_var"
 # rarefaction = FALSE
 
-run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD, inc.nodes = TRUE,
-                              bootstraps = bootstraps, metric, metric.name, rarefaction = FALSE){
+
+run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD,
+                                      inc.nodes = TRUE, bootstraps = bootstraps,
+                                      metric, metric.name, rarefaction = FALSE){
   
   # Need to remove the nodes if not using them
   if(inc.nodes == FALSE){
@@ -223,33 +244,60 @@ run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD, inc.nodes
   
   ##--------------------------------------------------------------------------
   ## BIN/SLICES of based ONLY on STRATIGRAPHY #TG: the stratigraphy slices are the centre of the stratigraphic zone
-  disparity.stratigraphy <- run.all.disparity(morphospace, tree, strat.bins[[1]], FADLAD, inc.nodes = inc.nodes,
-                                          bootstraps = bootstraps, metric, metric.name, rarefaction = rarefaction)
-  disparity.stratigraphy.results <- cbind(disparity.stratigraphy$results, "stratigraphy" = type, "bin_type" = "stratigraphy")
+  disparity.stratigraphy <- run.all.disparity(morphospace, tree,
+                                              strat.bins[[1]], FADLAD,
+                                              inc.nodes = inc.nodes,
+                                              bootstraps = bootstraps, metric,
+                                              metric.name,
+                                              rarefaction = rarefaction)
+  disparity.stratigraphy.results <- cbind(disparity.stratigraphy$results,
+                                          "stratigraphy" = type,
+                                          "bin_type" = "stratigraphy")
 
 
   ##--------------------------------------------------------------------------
   ## BIN/SLICES of same DURATION as STRATIGRAPHY
-  disparity.duration <- run.all.disparity(morphospace, tree, strat.bins[[2]], FADLAD, inc.nodes = inc.nodes,
-                                          bootstraps = bootstraps, metric, metric.name, rarefaction = rarefaction)
-  disparity.duration.results <- cbind(disparity.duration$results, "stratigraphy" = type, "bin_type" = "duration")
+  disparity.duration <- run.all.disparity(morphospace, tree, strat.bins[[2]],
+                                          FADLAD, inc.nodes = inc.nodes,
+                                          bootstraps = bootstraps, metric,
+                                          metric.name,
+                                          rarefaction = rarefaction)
+  disparity.duration.results <- cbind(disparity.duration$results,
+                                      "stratigraphy" = type,
+                                      "bin_type" = "duration")
   
 
   ##--------------------------------------------------------------------------
   ## BIN/SLICES of same NUMBER as STRATIGRAPHY
-  disparity.number <- run.all.disparity(morphospace, tree, strat.bins[[3]], FADLAD, inc.nodes = inc.nodes,
-                                          bootstraps = bootstraps, metric, metric.name, rarefaction = rarefaction)
-  disparity.number.results <- cbind(disparity.number$results, "stratigraphy" = type, "bin_type" = "number")
+  disparity.number <- run.all.disparity(morphospace, tree, strat.bins[[3]],
+                                        FADLAD, inc.nodes = inc.nodes,
+                                        bootstraps = bootstraps, metric,
+                                        metric.name, rarefaction = rarefaction)
+  disparity.number.results <- cbind(disparity.number$results,
+                                    "stratigraphy" = type,
+                                    "bin_type" = "number")
+
+
+
+
+  ## ERROR WITH NUMBER
+
+
+
 
 
   ##--------------------------------------------------------------------------
   ## Combine results
   #disparity.outputs <- cbind(disparity.stratigraphy.results, disparity.duration.results, disparity.number.results)
   #TG: this won't work since the amount of bins/rows may vary per dataset
-  disparity.outputs <- list("stratigraphy" = disparity.stratigraphy.results, "duration" = disparity.duration.results, "number" = disparity.number.results)
+  disparity.outputs <- list("stratigraphy" = disparity.stratigraphy.results,
+                            "duration" = disparity.duration.results,
+                            "number" = disparity.number.results)
 
   ## Combining the objects
-  disparity.objects <- list("stratigraphy" = disparity.stratigraphy$dispRity, "duration" = disparity.duration$dispRity, "number" = disparity.number$dispRity)
+  disparity.objects <- list("stratigraphy" = disparity.stratigraphy$dispRity,
+                            "duration" = disparity.duration$dispRity,
+                            "number" = disparity.number$dispRity)
   
   return(list("results" = disparity.outputs, "objects" = disparity.objects))
 }
@@ -269,7 +317,9 @@ run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD, inc.nodes
 ## time.bins.line Whether to display the time bins as lines or not
 ##--------------------------------------------------------------------------
 
-plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main, ylim, legend = FALSE, CI = TRUE, time.bins.line = FALSE) {
+plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main,
+                                  ylim, legend = FALSE, CI = TRUE,
+                                  time.bins.line = FALSE) {
 
     bins_type <- ifelse(time.bins.line, "c", "l")
 
@@ -280,9 +330,11 @@ plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main, 
       plot(slug.object[[method]][[3]], density = 70, col = c("white", colors_CI[2]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
       plot(slug.object[[method]][[4]], density = 70, col = c("white", colors_CI[3]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
       plot(slug.object[[method]][[5]], density = 70, col = c("white", colors_CI[4]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
-
-      ## Plotting the continuous data median
-      plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      ## Adding the probabilistic models
+      if(length(slug.object[[1]]) == 7) {
+        plot(slug.object[[method]][[6]], density = 70, col = c("white", colors_CI[5]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+        plot(slug.object[[method]][[7]], density = 70, col = c("white", colors_CI[6]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      }
     } else {
       ## Plotting the continuous data (first plot)
       plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, ylab = "Sum of variance", main = main)
@@ -295,16 +347,29 @@ plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main, 
     plot(slug.object[[method]][[4]], density = 0, col = colors[3], ylim = ylim, add = TRUE, xlab = "", ylab = "")
     plot(slug.object[[method]][[5]], density = 0, col = colors[4], ylim = ylim, add = TRUE, xlab = "", ylab = "")
 
+    if(length(slug.object[[1]]) == 7) {
+      plot(slug.object[[method]][[6]], density = 0, col = colors[5], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      plot(slug.object[[method]][[7]], density = 0, col = colors[6], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+    }
+
+
+
+    col_num <- ifelse(length(slug.object[[1]]) == 7, 7, 5)
+    
     if(CI) {
       ## Plotting the discrete data (CI)
-      plot(slug.object[[method]][[1]], density = 70, col = c(colors[5], colors_CI[5]), quantile = c(95), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
+      plot(slug.object[[method]][[1]], density = 70, col = c(colors[col_num], colors_CI[col_num]), quantile = c(95), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
     } else {
-      plot(slug.object[[method]][[1]], density = 0, col = c(colors[5], "white"), quantile = c(1), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
+      plot(slug.object[[method]][[1]], density = 0, col = c(colors[col_num], "white"), quantile = c(1), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
     }
 
     ## Legend
     if(legend) {
-      legend(x = "bottomright", legend = c("acctran", "deltran", "punctuated", "gradual", "time bins"), col = colors[1:5], lty = 1)
+      if(length(slug.object[[1]]) == 7) {
+        legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "punctuated", "gradual", "time bins"), col = colors[1:7], lty = 1)
+      } else {
+        legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "time bins"), col = colors[1:5], lty = 1)
+      }
     }
 }
 
@@ -312,7 +377,7 @@ plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main, 
 ##--------------------------------------------------------------------------
 ## Plotting the results using dispRity objects
 ## 
-## model Which model: "equalbins", "acctran", "deltran", "punctuated", "gradual"
+## model Which model: "equalbins", "acctran", "deltran", "random", "proximity"
 ## slug.results The chain results element (e.g. ou1$results)
 ## method Which method: 1 = stratigraphy, 2 = duration, 3 = number
 ##
@@ -325,13 +390,13 @@ make.class.histogram <- function(model, slug.results, method) {
   ## Creating the histogram object for the time bins
   stratigraphy_hist <- list()
   ## Get the breaks
-  stratigraphy_hist$breaks <- as.numeric(unique(unlist(strsplit(slug.results[[method]]$subsamples[rows], split = " - "))))
+  stratigraphy_hist$breaks <- as.numeric(unique(unlist(strsplit(slug.results[[method]]$subsets[rows], split = " - "))))
   ## Get the disparity scores
   stratigraphy_hist$counts <- slug.results[[method]]$bs.median[rows]
   ## Remove NAs
   if(any(is.na(stratigraphy_hist$counts))) stratigraphy_hist$counts[is.na(stratigraphy_hist$counts)] <- 0
   ## Add the midpoints
-  stratigraphy_hist$mids <- sapply(strsplit(slug.results[[method]]$subsamples[rows], split = " - "), function(X) mean(as.numeric(X)))
+  stratigraphy_hist$mids <- sapply(strsplit(slug.results[[method]]$subsets[rows], split = " - "), function(X) mean(as.numeric(X)))
   ## Add the name
   stratigraphy_hist$xname <- names(slug.results)[[method]]
   ## Graphical parameters
