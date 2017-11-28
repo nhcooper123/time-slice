@@ -92,20 +92,20 @@ get.subsets <- function(morphospace, tree, bins, FADLAD, inc.nodes){
   	                                    FADLAD = FADLAD, inc.nodes = inc.nodes,
   	                                    model = "proximity")
 
-  # ## Subset samples by required number of time slices with proximity model
-  # subsets.punctuated <- time.subsets(data = morphospace, tree = tree, 
-  #                                       method = "continuous", time = slices, 
-  #                                       FADLAD = FADLAD, inc.nodes = inc.nodes,
-  #                                       model = "punctuated")
+  ## Subset samples by required number of time slices with proximity model
+  subsets.punctuated <- time.subsets(data = morphospace, tree = tree, 
+                                        method = "continuous", time = slices, 
+                                        FADLAD = FADLAD, inc.nodes = inc.nodes,
+                                        model = "punctuated")
 
-  # ## Subset samples by required number of time slices with proximity model
-  # subsets.gradual <- time.subsets(data = morphospace, tree = tree, 
-  #                                       method = "continuous", time = slices, 
-  #                                       FADLAD = FADLAD, inc.nodes = inc.nodes,
-  #                                       model = "gradual")
+  ## Subset samples by required number of time slices with proximity model
+  subsets.gradual <- time.subsets(data = morphospace, tree = tree, 
+                                        method = "continuous", time = slices, 
+                                        FADLAD = FADLAD, inc.nodes = inc.nodes,
+                                        model = "gradual")
 
   return(list(subsets.bins, subsets.acctran, subsets.deltran, subsets.random,
-              subsets.proximity))#, subsets.punctuated, subsets.gradual))
+              subsets.proximity, subsets.punctuated, subsets.gradual))
 }
 
 ##--------------------------------------------------------------------------
@@ -167,11 +167,11 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
                               bootstraps = bootstraps, metric, metric.name,
                               rarefaction){
 
-  # Need to remove the nodes if not using them
-  if(inc.nodes == FALSE){
-    remove.nodes <- clean.data(morphospace, tree)
-    morphospace <- remove.nodes$data  
-  }
+  # # Need to remove the nodes if not using them
+  # if(inc.nodes == FALSE){
+  #   remove.nodes <- clean.data(morphospace, tree)
+  #   morphospace <- remove.nodes$data  
+  # }
 
   ## Extract all types of subset for both methods and four continuous models
   subsets <- get.subsets(morphospace, tree, bins, FADLAD, inc.nodes)
@@ -189,7 +189,7 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
 
   ## Outputs
   ## Extract output information
-  disparity.outputs <- purrr::map(disparity.object, get.outputs, bins = bins, 
+  disparity.outputs <- purrr::map(disparity.object, get.outputs, bins = bins[-1], 
                                   metric.name = metric.name,
                                   inc.nodes = inc.nodes)
   
@@ -220,12 +220,13 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
 
 ## Argument list for debugging
 # warning("DEBUG MODE FOR run.all.disparity.wrapper")
-# type = "Epoch"
+# type = "Age"
 # inc.nodes = TRUE
-# bootstraps = 100
+# bootstraps = 3
 # metric = c(sum, variances)
 # metric.name = "sum_var"
 # rarefaction = FALSE
+
 
 run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD,
                                       inc.nodes = TRUE, bootstraps = bootstraps,
@@ -277,6 +278,14 @@ run.all.disparity.wrapper <- function(morphospace, tree, type, FADLAD,
                                     "bin_type" = "number")
 
 
+
+
+  ## ERROR WITH NUMBER
+
+
+
+
+
   ##--------------------------------------------------------------------------
   ## Combine results
   #disparity.outputs <- cbind(disparity.stratigraphy.results, disparity.duration.results, disparity.number.results)
@@ -321,9 +330,11 @@ plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main,
       plot(slug.object[[method]][[3]], density = 70, col = c("white", colors_CI[2]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
       plot(slug.object[[method]][[4]], density = 70, col = c("white", colors_CI[3]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
       plot(slug.object[[method]][[5]], density = 70, col = c("white", colors_CI[4]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
-
-      ## Plotting the continuous data median
-      plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      ## Adding the probabilistic models
+      if(length(slug.object[[1]]) == 7) {
+        plot(slug.object[[method]][[6]], density = 70, col = c("white", colors_CI[5]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+        plot(slug.object[[method]][[7]], density = 70, col = c("white", colors_CI[6]), quantile = c(95), ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      }
     } else {
       ## Plotting the continuous data (first plot)
       plot(slug.object[[method]][[2]], density = 0, col = colors[1], ylim = ylim, ylab = "Sum of variance", main = main)
@@ -336,16 +347,29 @@ plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main,
     plot(slug.object[[method]][[4]], density = 0, col = colors[3], ylim = ylim, add = TRUE, xlab = "", ylab = "")
     plot(slug.object[[method]][[5]], density = 0, col = colors[4], ylim = ylim, add = TRUE, xlab = "", ylab = "")
 
+    if(length(slug.object[[1]]) == 7) {
+      plot(slug.object[[method]][[6]], density = 0, col = colors[5], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+      plot(slug.object[[method]][[7]], density = 0, col = colors[6], ylim = ylim, add = TRUE, xlab = "", ylab = "")
+    }
+
+
+
+    col_num <- ifelse(length(slug.object[[1]]) == 7, 7, 5)
+    
     if(CI) {
       ## Plotting the discrete data (CI)
-      plot(slug.object[[method]][[1]], density = 70, col = c(colors[5], colors_CI[5]), quantile = c(95), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
+      plot(slug.object[[method]][[1]], density = 70, col = c(colors[col_num], colors_CI[col_num]), quantile = c(95), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
     } else {
-      plot(slug.object[[method]][[1]], density = 0, col = c(colors[5], "white"), quantile = c(1), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
+      plot(slug.object[[method]][[1]], density = 0, col = c(colors[col_num], "white"), quantile = c(1), ylim = ylim, add = TRUE, type = bins_type, xlab = "", ylab = "")
     }
 
     ## Legend
     if(legend) {
-      legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "time bins"), col = colors[1:5], lty = 1)
+      if(length(slug.object[[1]]) == 7) {
+        legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "punctuated", "gradual", "time bins"), col = colors[1:7], lty = 1)
+      } else {
+        legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "time bins"), col = colors[1:5], lty = 1)
+      }
     }
 }
 
