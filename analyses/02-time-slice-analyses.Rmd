@@ -1,0 +1,275 @@
+---
+title: "Time slice analyses"
+author: "Natalie Cooper and Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 6
+---
+
+This code runs the analyses in the paper. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this. Note that much of this uses functions in the `simulations.R` file.
+
+```{r}
+set.seed(123)
+```
+
+Load packages and functions
+-----------------------------------
+
+Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faster than GL's).
+
+```{r, eval = TRUE, message = FALSE}
+# The latest version of devtools and ape
+library(devtools)
+library(ape)
+
+## The latest version of Claddis (on development on TG branch)
+## install_github("TGuillerme/Claddis")
+library(Claddis)
+
+## The latest version of dispRity on release branch #TG: master is under many changes!
+## install_github("TGuillerme/dispRity", ref = "release")
+library(dispRity) 
+
+## Load functions using source
+source("../functions/simulations_fun.R")
+```
+
+Loading the data
+-----------------------------------
+
+To run `dispRity` analyses we need the **morphospace**, the **phylogeny** (with a root age and node labels) and the **first and last occurrence dates** (FADLAD). The FADLAD is in the `data/` folder, the tree with node labels and cleaned of taxa not in the morphospace is in the `data/processed` folder. To construct the morphospace we need to use the `distance_matrix` files we created in `01-extract-data-for analyses.Rmd` and stored in `data/processed`.
+
+```{r}
+## Choose a slug
+slug <- "Beck2014"
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+## See "01-extract-data-for analyses.Rmd" for how we cleaned these
+tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
+## Add root age (max tree age date)
+tree$root.time <- max(tree.age(tree)[, 1])
+```
+
+Ordinating the matrix
+----------------
+
+Ordination is a classic NMDS (multidimensional scaling) including only the non-zero variance axes.
+
+```{r}
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+```
+
+Scenarios
+--------------------------------
+
+We used the data to explore these different scenarios:
+
+1. Stratigraphy. This is the traditional method, where all the species within each stratigraphic period are included in the disparity calculation. This often leads to bins of unequal duration.
+
+2. Equally sized time bins. 
+    i. Where the *duration* of the bin is equal to the median duration of the stratigraphic period.
+    ii. Where the *number* of bins is equal to the number of stratigraphic periods.
+    iii. Where the *number* of bins is either 2, 5, 10, 15, or 20.
+
+3. Time slicing. 
+    i. Where the *interval* between slices is equal to the median duration of the stratigraphic period.
+    ii. Where the *number* of slices is equal to the number of stratigraphic periods.
+    iii. Where the *number* of slices is either 2, 5, 10, 15, or 20.
+
+Running the analyses and saving the outputs
+--------------------------------------------
+
+These analyses use a series of functions in `functions\`. These essentially wrap the existing `dispRity` functions so that running lots of models and extracting lots of data is not such a big issue. The function `run.all.disparity.wrapper` will run all the scenarios above. 
+
+```{r, eval = TRUE, warning = FALSE}
+
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out1, file = paste0("../outputs/age.", slug ,".Rda"))
+
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
+```
+
+Running the analyses for other datasets
+===================================================
+Ideally we'd have written functions to do this, and/or a big old loop. But each dataset was slightly different so we've dealt with each individually.
+
+Wright 2017
+-----------
+```{r}
+## Choose a slug
+slug <- "Wright2017"
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+## See "01-extract-data-for analyses.Rmd" for how we cleaned these
+tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
+## Add root age as defined in Wright 2017
+tree$root.time <- 484.4
+
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+## Run the disparity analyses
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out1, file = paste0("../outputs/age.", slug ,".Rda"))
+
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
+```
+
+Bapst et al 2016 Biol Letters
+-----------
+
+```{r}
+slug <- "Bapst2016"
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+## See "01-extract-data-for analyses.Rmd" for how we cleaned these
+tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
+## Add root age (max tree age date)
+tree$root.time <- max(tree.age(tree)[, 1])
+
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+## Run the disparity analyses
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out1, file = paste0("../outputs/age.", slug ,".Rda"))
+
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
+```
+
+Heath et al bears
+-----------
+
+```{r}
+slug <- "bears"
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+## See "01-extract-data-for analyses.Rmd" for how we cleaned these
+tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
+## Add root age (max tree age date)
+tree$root.time <- max(tree.age(tree)[, 1])
+
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+## Run the disparity analyses
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out1, file = paste0("../outputs/age.", slug ,".Rda"))
+
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
+```
+
+Brusatte et al 2014 Current Biol
+-----------
+
+```{r}
+slug <- "Brusatte2014"
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Loading the tree
+## See "01-extract-data-for analyses.Rmd" for how we cleaned these
+tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
+## Add root age (max tree age date)
+tree$root.time <- max(tree.age(tree)[, 1])
+
+## Loading the distance matrices
+## See "01-extract-data-for analyses.Rmd" for how we made these
+matrix_dist <- readRDS(paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+
+## Ordinating the matrix
+morphospace <- cmdscale(matrix_dist, k = nrow(matrix_dist) - 2, add = TRUE)$points
+
+## Run the disparity analyses
+## Ages (rarefied to 3 taxa only)
+out1 <- run.all.disparity.wrapper(morphospace, tree, type = "Age", FADLAD, inc.nodes = TRUE,
+                                bootstraps = 100, metric = c(sum, variances),
+                                metric.name = "sum_var", rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out1, file = paste0("../outputs/age.", slug ,".Rda"))
+
+## Epochs (rarefied to 3 taxa only)
+out2 <- run.all.disparity.wrapper(morphospace, tree, type = "Epoch", FADLAD, inc.nodes = TRUE,
+                        bootstraps = 100, metric = c(sum, variances), metric.name = "sum_var",
+                        rarefaction = FALSE)
+
+## Save results to output folder
+saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
+```
