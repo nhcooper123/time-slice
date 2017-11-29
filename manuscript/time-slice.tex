@@ -93,39 +93,19 @@ To address these issues, we used a ``time-slicing'' approach that considers subs
 This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (punctuated or gradual).  
 In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
 
-We present this using data from Beck \& Lee and Halliday???  
-	
-	
+We present this using five datasets collated from the literature.
+
 \section{Materials and Methods}
 \subsection{Overview}
 \label{overview-section}
+% I'm unsure if this section is needed or not. The methods are long so it might help?
 To test the different time subsampling methods, we followed the protocol below. 
-Note that all the code to reproduce these analyses (along with detailed instructions) is provided HERE.
+Note that all the code needed to reproduce these analyses (along with detailed instructions) is provided HERE.
 
 \begin{enumerate}
-  \item Collate data. Disparity-through-time analysis requires a matrix containing morphological characters for each taxon, and information on the first and last occurrence dates of each taxon. Time slicing methods also require a phylogeny.
-  \item Estimate ancestral character states at the nodes of the phylogeny. This step is required for the time slicing methods.
-  \item Build cladisto-spaces.  
-    \begin{enumerate}
-      \item Construct distance matrices.
-      \item ordiantion
-    \end{enumerate}
+  \item Collating example datasets. Disparity-through-time analysis requires a matrix containing morphological characters for each taxon, and information on the first and last occurrence dates of each taxon. Time slicing methods also require a phylogeny.
+  \item Processing example datasets. Various transformations of the datasets are required before the analyses can take place. We need to estimate ancestral character states at the nodes of the phylogeny for the time slicing methods, build cladisto-spaces via distance matrices and ordination, and remove taxa from the phylogeny that are missing from the matrix and vice versa.   
   \item Time subsampling
-    \begin{enumerate}
-      \item stratigraphy
-      \item time bins
-        \begin{enumerate}
-          \item 5 million years
-          \item 10 million years
-          \item 15 million years
-        \end{enumerate}  
-      \item time slicing
-        \begin{enumerate}
-          \item punctuated
-          \item gradual
-          \item random
-        \end{enumerate}  
-    \end{enumerate}
   \item Estimate disparity for each time subsample
   \item Compare different methods
 \end{enumerate}
@@ -136,7 +116,7 @@ Note that all the code to reproduce these analyses (along with detailed instruct
 To test the different time binning/slicing methods we selected five datasets (see Table \ref{datasets}). 
 Note that although disparity-through-time analyses are possible without a phylogeny, we only use examples with phylogenies here so that we can compare results of time slicing methods, which do require a phylogeny. 
 Each dataset consists of a set of first and last occurrence dates for all taxa, a matrix of morphological characters in NEXUS format, and a time-scaled phylogeny. 
-More details on these datasets can be found in the appendix. All data are available HERE. And the processing code too.
+More details on these datasets can be found in the appendix. All data are available HERE. And the processing code too. Probably also want to link to Dryad etc. HERE
 
   \begin{table}[!htbp]      
     \caption[Datasets.]
@@ -186,36 +166,57 @@ Disparity can be estimated in many different ways \citep[e.g.][]{Wills1994,Ciamp
 However, these metrics have limitations. 
 First, the range metrics are affected by the uneven sampling of the fossil record \citep{Butler2012}.
 Second, because we include all $n$ dimensions in the analysis (see above), the products of ranges and variances will tend towards zero since the scores of the last dimension are usually really close to zero themselves. 
-We therefore use the sum of variances metric to estimate disparity here.
+We therefore use the sum of variances metric to estimate disparity.
 
-\subsection{Estimating disparity through time} 
+\subsection{Estimating disparity-through-time} 
 \label{time_slicing}
 
-% Might make a table with all the subsets???
+To estimate disparity-through-time we first need to split the data into time subsamples.
+Here we explore the following scenarios.
 
+\begin{enumerate}
+  \item Stratigraphic time bins. This is the traditional method, where all the taxa within each stratigraphic period are included in the disparity calculation. This often leads to bins of unequal duration. Here we use stratigraphic ages and epochs.
+  \item Equally sized time bins. This is another commonly used method, where the time frame of interest is split into equally sized time bins, then all the taxa within each time bin are included in the disparity calculation. Here we use three different methods to determine the size of the time bins. 
+    \begin{enumerate}
+      \item The *duration* of the bin is equal to the median duration of the stratigraphic period (age or epoch).
+      \item The *number* of bins is equal to the number of stratigraphic periods (ages or epochs).
+      \item The *number* of bins is either 2, 5, 10, 15, or 20.
+    \end{enumerate}
+  \item Time slicing. This method uses a phylogeny, and rather than binning the data, it takes slices through a phylogeny and includes all the taxa and nodes in that slice within the disparity calculation. Here we use three different methods to determine the intervals between the time slices.
+    \begin{enumerate}
+      \item The *interval* between slices is equal to the median duration of the stratigraphic period (age or epoch).
+      \item The *number* of slices is equal to the number of stratigraphic periods (ages or epochs).
+      \item The *number* of slices is either 2, 5, 10, 15, or 20.
+    \end{enumerate}  
+\end{enumerate}
+
+% Might make a table with all the subsets???
+% Had a play - it's COMPLICATED!!!
+
+  \begin{table}[!htbp]      
+    \caption[Subsamples.]
+    {captions}
+    \input{tables/timesamples.tex} 
+    \label{tab:subsamples}  
+  \end{table}
 
 % Just tips or tips and nodes????
 \paragraph{Stratigraphic time bins.}
-We extracted the taxa found in each geological stage from each cladisto-space.
-These consisted of the Middle Jurassic to the present (XX subsamples) for dataset 1, the Middle Jurassic to the present (XX subsamples) for dataset 2 and the Middle Jurassic to the present (XX subsamples) X for dataset 3.
+We extracted the taxa found in each geological age or epoch from each cladisto-space.
 For each subsample, we estimated its disparity.
 To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly resampling with replacement a new subsample of taxa from the observed taxa in the subsample 1000 times.
 We then calculated the median disparity value for each subsample along with the 50\% and 95\% confidence intervals.
-We also recorded the number of taxa in each subsample as a proxy for taxonomic diversity.
-
+We also recorded the number of taxa in each subsample as a proxy for taxonomic diversity (Table \ref{tab:subsamples}).
 
 \paragraph{Equally sized time bins.}
 We extracted the taxa found in each time bin for each cladisto-space.
-We varied the size of the time bins from 5 million year, 10 million years and 20 million years, to determine if the length of the time bin affected our results.
-There were XX subsamples for dataset 1, XX subsamples for dataset 2 and XX subsamples for dataset 3.
-For each subsample, we estimated its disparity.
-To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly resampling with replacement a new subsample of taxa from the observed taxa in the subsample 1000 times.
-We then calculated the median disparity value for each subsample along with the 50\% and 95\% confidence intervals.
-We also recorded the number of taxa in each subsample as a proxy for taxonomic diversity.
+We varied the size of the time bins so that either (i) the *duration* of the bin is equal to the median duration of the stratigraphic age or epoch, (ii) the *number* of bins is equal to the number of stratigraphic ages or epochs, (iii) or by using 2, 5, 10, 15, or 20 bins.
+For each subsample, we estimated its disparity and bootstrapped each disparity measurement as described above for stratigraphic time bins.
+We also recorded the number of taxa in each subsample as a proxy for taxonomic diversity (Table \ref{tab:subsamples}).
 
-\paragraph{Time slicing.}
+\paragraph{Time slicing.} % THOMAS TO UPDATE THIS BIT!!!
 The ``time-slicing'' approach considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
-This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (punctuated or gradual).  
+This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (punctuated or gradual % and others ADD).  
 In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
 When the phylogenetic elements are nodes or tips, the eigenvector scores for the nodes (estimated using ancestral state reconstruction as described in section \ref{ace}) or tips are directly used for estimating disparity.
 When the phylogenetic elements are branches we chose the eigenvector score for the branch using one of two evolutionary models:
@@ -239,23 +240,14 @@ When the phylogenetic elements are branches we chose the eigenvector score for t
     We therefore considered that changes from a character state A to B were only dependent on the branch length.
 \end{enumerate}
 
-We applied our time-slicing approach separately to each cladisto-space, time-slicing the phylogeny every five million years.
-% Do we want to vary the time slice timings too?
-This resulted in XX subsamples for dataset 1, XX for dataset 2 and XX for dataset 3.
-For each subsample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above.
-To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement by randomly resampling with replacement a new subsample of taxa from the observed taxa in the subsample 1000 times.
-We then calculated the median disparity value for each subsample along with the 50\% and 95\% confidence intervals.
-We also recorded the number of phylogenetic elements (nodes and tips) in each subsample as a proxy for taxonomic diversity.
+We applied our time-slicing approach separately to each cladisto-space.
+We varied the intervals between time slices so that either (i) the *interval* between slices is equal to the median duration of the stratigraphic age or epoch; (ii) the *number* of slices is equal to the number of stratigraphic ages or epochs, or (iii) by setting the *number* of slices to 2, 5, 10, 15, or 20.
+For each subsample, we estimated its disparity assuming punctuated (ACCTRAN, DELTRAN and random) and gradual evolution as described above. % NEED TO ADD THE NEW MODELS.
+To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement as described above for the stratigraphic time bins. 
+We also recorded the number of phylogenetic elements (nodes and tips) in each subsample as a proxy for taxonomic diversity (Table \ref{tab:subsamples}).
 
 \subsection{Comparing the results}
 %Testing the difference section
-
-
-\subsection{Rarefaction} 
-
-Finally, disparity may be higher in subsamples with more phylogenetic elements simply because there are more taxa represented.
-To test whether this influenced our results, we repeated the analyses using rarefied disparities.
-In dataset 1, the minimum number of taxa in each stratigraphy subsample was eight, time bin XX and time slice was XX.
 
 
 	
@@ -296,7 +288,7 @@ In dataset 1, the minimum number of taxa in each stratigraphy subsample was eigh
 \section{Acknowledgments}
 	We thank all the PalAss folk
 	
-%\bibliographystyle{sysbio} 
-%\bibliography{time-refs} 
+\bibliographystyle{sysbio} 
+\bibliography{time-refs} 
 
 \end{document}
