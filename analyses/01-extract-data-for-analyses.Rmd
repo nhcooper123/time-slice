@@ -124,6 +124,20 @@ matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
+One final issue is that to commute Gower distances we need all taxa to have some overlapping data. If not Gower distances will be NA (Gower distance does not impute missing data like some other methods). To avoid this problem we can remove the taxa with no overlaps as follows. This is commented out below because there are no non overlapping taxa in the Beck and Lee 2014 dataset. 
+
+```{r}
+## Trimming the distance matrix
+## trim <- TrimMorphDistMatrix(matrix_dist)
+## matrix_dist <- trim$dist.matrix
+
+## Which taxa were removed?
+## as.vector(trim$removed.taxa)
+
+## Rewrite this to file for later use
+## saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+```
+
 And that's it... we now have all the processed data for running the `dispRity` package properly: the distance matrices(that we will use to build the `morphospace`), and the cleaned tree (`tree`). Remember that for the `time.subsets` function, you can use the `inc.nodes` logical option to include nodes or not!
 
 Running these extractions for other datasets
@@ -218,6 +232,15 @@ matrix$matrix <- rbind(matrix$matrix, matrix_nodes)
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+
+## Trim taxa with non overlapping data
+trim <- TrimMorphDistMatrix(matrix_dist)
+matrix_dist <- trim$dist.matrix
+
+## Which taxa were removed?
+as.vector(trim$removed.taxa)
+
+## Save
 saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
@@ -303,5 +326,14 @@ matrix$matrix <- rbind(matrix$matrix, matrix_nodes)
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+
+## Trim taxa with non overlapping data
+trim <- TrimMorphDistMatrix(matrix_dist)
+matrix_dist <- trim$dist.matrix
+
+## Which taxa were removed?
+as.vector(trim$removed.taxa)
+
+## Save
 saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
