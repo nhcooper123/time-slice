@@ -1,0 +1,50 @@
+Strap plots of each phylogeny???
+
+
+BeckLee
+removed
+"Montanalestes"    "Lainodon"         "Kharmerungulatum" "Alymlestes"   
+
+Heath
+removed
+ [1] "Canis_lupus"             "Phoca_largha"            "Agriarctos_spp"         
+ [4] "Ailurarctos_lufengensis" "Ballusia_elmensis"       "Indarctos_arctoides"    
+ [7] "Indarctos_punjabiensis"  "Indarctos_vireti"        "Kretzoiarctos_beatrix"  
+[10] "Ursavus_brevirhinus"     "Ursavus_primaevus"       "Zaragocyon_daamsi"   
+
+Wright
+removed
+None
+
+
+Bapst
+
+removed
+[1] "Mei_long" "Mei_lon" 
+
+trim
+[1] "Hagryphus_giganteus"            "Atrociraptor_marshalli"        
+[3] "IGM100_1015_UndesDromaeosaurid" "Dromaeosaurus_albertensis"     
+[5] "Incisivosaurus_gauthieri"       "Deinocheirus_mirificus"        
+[7] "Therizinosaurus_cheloniformis"  "Anserimimus_planinychus"       
+[9] "Elmisaurus_rarus"   
+
+
+Brusatte
+removed
+[1] "Sinraptor_dongi"           "Hesperonychus_elizabethae" "Pyroraptor_olympius"      
+ [4] "Limenavis_patagonica"      "Lithornis"                 "Crypturellus_undulatus"   
+ [7] "Gallus_gallus"             "Crax_pauxi"                "Anas_platyrhynchus"       
+[10] "Chauna_torquata"           "Epidendrosaurus"           "Kinnareemimus" 
+
+trimmed
+[1] "Shanag_ashile"                "Atrociraptor_marshalli"      
+ [3] "Proceratosaurus_bradleyi"     "Incisivosaurus_gauthieri"    
+ [5] "Enigmosaurus"                 "Nanshiungosaurus_brevispinus"
+ [7] "Xixiasaurus"                  "Tsaagan_mangas"              
+ [9] "Mirischia"                    "Pedopenna"                   
+[11] "Suzhousaurus"                 "Juratyrant"                  
+[13] "Vorona"                       "Bonapartenykus"              
+[15] "Teratophoneus"                "Gobipteryx"                  
+[17] "Songlingornis"                "Liaoningornis_longidigitu"   
+[19] "Achillesaurus"    
