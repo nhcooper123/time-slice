@@ -39,13 +39,13 @@
 \title{Time for a rethink: disparity-through-time}
 
 \author{
-	Thomas Guillerme$^{1,2*}$ and Natalie Cooper$^{2}$
+	Thomas Guillerme$^{1*}$ and Natalie Cooper$^{2}$
 }
 
 \date{}
 
 \affiliation{\noindent{\footnotesize
-	$^1$ Imperial\\ 
+	$^1$Thomas address\\ 
 	$^2$Department of Life Sciences, Natural History Museum, Cromwell Road, London, SW7 5BD, UK. natalie.cooper@nhm.ac.uk}\\
 	$^*$Corresponding author\\}
 
@@ -99,17 +99,18 @@ We present this using data from Beck \& Lee and Halliday???
 \section{Materials and Methods}
 \subsection{Overview}
 \label{overview-section}
-To test the different time subsampling methods, we first need to prepare the data for the disparity 
+To test the different time subsampling methods, we followed the protocol below. 
+Note that all the code to reproduce these analyses (along with detailed instructions) is provided HERE.
 
 \begin{enumerate}
-  \item Collate data. Disparity-through-time analysis requires a matrix containing morphological characters for each taxon, and information on the time range over which each taxon existed. Time slicing methods also require a phylogeny.
+  \item Collate data. Disparity-through-time analysis requires a matrix containing morphological characters for each taxon, and information on the first and last occurrence dates of each taxon. Time slicing methods also require a phylogeny.
   \item Estimate ancestral character states at the nodes of the phylogeny. This step is required for the time slicing methods.
   \item Build cladisto-spaces.  
     \begin{enumerate}
       \item Construct distance matrices.
       \item ordiantion
     \end{enumerate}
-  \item time subsample
+  \item Time subsampling
     \begin{enumerate}
       \item stratigraphy
       \item time bins
@@ -132,20 +133,17 @@ To test the different time subsampling methods, we first need to prepare the dat
 
 \subsection{Example datasets}
 \label{datasets}
-To test the different time slicing methods we selected X datasets. 
+To test the different time binning/slicing methods we selected five datasets (see Table \ref{datasets}). 
 Note that although disparity-through-time analyses are possible without a phylogeny, we only use examples with phylogenies here so that we can compare results of time slicing methods, which do require a phylogeny. 
+Each dataset consists of a set of first and last occurrence dates for all taxa, a matrix of morphological characters in NEXUS format, and a time-scaled phylogeny. 
+More details on these datasets can be found in the appendix. All data are available HERE. And the processing code too.
 
-\paragraph{\textit{Mammal data - Halliday.}}
-We used the cladistic morphological matrices and the Total Evidence tip-dated trees from \citet[][103 taxa with 446 morphological characters;]{Slater2012MEE} and \citet[][102 taxa with 421 morphological characters]{beckancient2014}.
-%We chose these two datasets because they have a similar number of taxa and morphological characters.
-%\cite{Slater2012MEE} ranges from 310 million years ago (Ma; Late Carboniferous) to the present and focuses on the clade Mammaliaformes at the family-level and is called hereafter the Mammaliaformes dataset.
-%\cite{beckancient2014} ranges from 170 Ma (Middle Jurassic) to the present and focuses on Eutheria at the genus-level and is called hereafter the Eutheria dataset.
-%We used the first and last occurrences reported in \cite{Slater2012MEE} and \cite{beckancient2014} as the temporal range of each taxon in our analysis.
-%Both phylogenies are illustrated in figures \ref{fig:SlaterTree} and \ref{fig:BeckTree}.
-%Both trees contain few taxa compared to the overall species richness of living and fossil mammals \citep{bininda-emondsthe2007,archibald2011extinction}.
-%This is because Total Evidence trees need a lot of data, particularly morphological data for living taxa that can be hard to locate \citep[Chapter \ref{chap:TEM_paper} and \ref{chap:missing_mammals};][]{GuillermeCooperMissing,GuillermeCooper}.
-%Therefore, most Total Evidence studies to date contain one or two orders of magnitude fewer taxa than phylogenies based solely on molecular data (e.g. thousands of taxa in \citealt{bininda-emondsthe2007,meredithimpacts2011} \textit{vs.} hundreds in \citealt{ronquista2012,Slater2012MEE,beckancient2014}).
-
+  \begin{table}[!htbp]      
+    \caption[Datasets.]
+    {Dataset captions}
+    \input{tables/datasets.tex} 
+    \label{tab:data}  
+  \end{table}
 
 \subsection{Estimating ancestral character states}
 \label{ace}
@@ -156,23 +154,20 @@ This allows the ancestral node of a taxon with missing data to be estimated with
 To prevent poor ancestral state reconstructions from biasing our results, especially when a lot of error is associated with the reconstruction, we only included ancestral state reconstructions with a scaled Likelihood $\geq$ $0.95$.
 Ancestral state reconstructions with scaled Likelihoods below this threshold were recoded as missing data (``?'').
 
-\subsection{Building cladisto-spaces} % Maybe reduce detail here!
+\subsection{Building cladisto-spaces} 
 To explore disparity-through-time in our datasets we used a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
 This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010}, except a cladisto-space is an approximation of the morphospace based on cladistic data (i.e. the discrete morphological characters used to build a phylogenetic tree).
-Mathematically, a cladisto-space is an $n$ dimensional object that summarises the cladistic distances between the taxa present in a cladistic matrix (see details below).
-Although empirically inter-taxon distances are the same in a morphospace or a cladisto-space \citep{foth2012different,hetherington2015cladistic}, we prefer the term cladisto-space to make it clear that this space is estimated using cladistic data and not morphometric data. %and because both objects have slightly different properties.
-%For example, because of its inherent combinatory properties, a cladisto-space is a finite theoretical object limited by the product of the number of character states, whereas a morphospace is an infinite theoretical object.
-%Thus a cladisto-space will be overloaded if the number of taxa is higher than the product of the number of character states, although this is rarely an issue with empirical data (our cladisto-spaces have maximal capacities of $1.9$$\times$$10^{181}$ taxa for the Mammaliaformes dataset, i.e. 101 orders of magnitude more taxa than the number of particles in the universe; and $4.5$$\times$$10^{159}$ taxa for the Eutheria dataset).
+Mathematically, a cladisto-space is an $n$ dimensional object that summarises the cladistic distances between the taxa present in a cladistic matrix.
+Although empirically inter-taxon distances are the same in a morphospace or a cladisto-space \citep{foth2012different,hetherington2015cladistic}, we prefer the term cladisto-space to make it clear that this space is estimated using cladistic data and not morphometric data.
 
 \paragraph{Constructing distance matrices.}
 To estimate the cladisto-spaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of tips and nodes in the dataset.
-For each dataset separately, we calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
+We calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
 This allows us to correct for distances between two taxa that share many characters and could be closer to each other than to taxa with fewer characters in common (i.e. because some pairs of taxa share more characters in common than others, they are more likely to be similar).
 For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
 Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} \texttt{R} package \citep{Claddis} to remove pairs of taxa with no cladistic characters in common.
-%This led to us removing 11 taxa from the Mammaliaformes dataset but none from the Eutheria dataset.
-% NC: Add info on species we have to remove.
+This led to us removing nine taxa from the BAPST dataset, and 19 from the Brusatte dataset, but none from the other three datasets (see code for details of which species). % add citations
 
 \paragraph{Ordination.}
 After constructing our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
@@ -180,7 +175,7 @@ This method (also referred to as PCO; e.g. \citealt{Brusatte2015}; or PCoA; e.g.
 Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
 To avoid this problem, we first transformed the distance matrices by applying the Cailliez correction \citep{cailliez1983analytical} which adds a constant $c^*$ to the values in a distance matrix (apart from the diagonal) so that all the Gower distances become Euclidean ($d_{Gower}+c^*=d_{Euclidean}$; \citealt{cailliez1983analytical}). 
 We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the cladisto-space) where $n$ is equal to $k-2$, i.e. the number of taxa in the matrix ($k$) minus the last two eigenvectors that are always null after applying the Cailliez correction.
-Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a subsample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}). % NC: Hmmm should we do this the usual way???
+Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our cladisto-spaces and not a subsample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
 
 Note that our cladisto-spaces represent an ordination of all possible morphologies coded in each study through time.
 It is unlikely that all morphologies will co-occur at each time point, therefore, the disparity of the whole cladisto-space is expected to be greater than the disparity at any specific point in time.
@@ -191,7 +186,7 @@ Disparity can be estimated in many different ways \citep[e.g.][]{Wills1994,Ciamp
 However, these metrics have limitations. 
 First, the range metrics are affected by the uneven sampling of the fossil record \citep{Butler2012}.
 Second, because we include all $n$ dimensions in the analysis (see above), the products of ranges and variances will tend towards zero since the scores of the last dimension are usually really close to zero themselves. 
-We therefore only use the sum of variances metric.
+We therefore use the sum of variances metric to estimate disparity here.
 
 \subsection{Estimating disparity through time} 
 \label{time_slicing}
