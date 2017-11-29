@@ -1,8 +1,8 @@
 #NEXUS
-[R-package APE, Mon Nov 27 19:04:53 2017]
+[R-package APE, Wed Nov 29 13:14:49 2017]
 
 BEGIN TAXA;
-	DIMENSIONS NTAX = 88;
+	DIMENSIONS NTAX = 79;
 	TAXLABELS
 		Allosaurus_fragilis
 		Sinraptor
@@ -15,13 +15,11 @@ BEGIN TAXA;
 		Ornitholestes_hermanni
 		Huaxiagnathus_orientalis
 		Sinosauropteryx_prima
-		Deinocheirus_mirificus
 		Harpymimus_okladnikovi
 		Pelecanimimus_polyodon
 		Shenzhousaurus_orientalis
 		Archaeornithomimus_asiaticus
 		Garudimimus_brevipes
-		Anserimimus_planinychus
 		Ornithomimus_edmontonicus
 		Struthiomimus_altus
 		Gallimimus_bullatus
@@ -35,9 +33,7 @@ BEGIN TAXA;
 		Segnosaurus_galbiensis
 		Erlikosaurus_andrewsi
 		Compsognathus_longipes
-		Therizinosaurus_cheloniformis
 		Protarchaeopteryx_robusta
-		Elmisaurus_rarus
 		Rinchenia_mongoliensis
 		Citipati_osmolskae
 		Ingenia_yanshini
@@ -56,15 +52,12 @@ BEGIN TAXA;
 		Sinornithosaurus_millenii
 		Microraptor_zhaoianus
 		NGMC91_UnnamedDromaeosaurid
-		IGM100_1015_UndesDromaeosaurid
 		Adasaurus_mongoliensis
 		Velociraptor_mongoliensis
 		Saurornitholestes_langstoni
 		Deinonychus_antirrhopus
 		Achillobator_giganticus
-		Dromaeosaurus_albertensis
 		Utahraptor_ostrommaysi
-		Atrociraptor_marshalli
 		Epidendrosaurus_ningchengensis
 		Epidexipteryx_ningchengensis
 		Archaeopteryx_lithographica
@@ -74,13 +67,11 @@ BEGIN TAXA;
 		Confuciusornis_sanctus
 		Protopteryx_fengningensis
 		Yanornis_martini
-		Hagryphus_giganteus
 		Microvenator_celer
 		Avimimus_portentosus
 		Oviraptor_philoceratops
 		Conchoraptor_gracilis
 		Chirostenotes_pergracilis
-		Incisivosaurus_gauthieri
 		IGM100_42_UnnamedOviraptorid
 		Anchiornis_huxleyi
 		Xiaotingia_zhengi
@@ -107,83 +98,74 @@ BEGIN TREES;
 		9	Ornitholestes_hermanni,
 		10	Huaxiagnathus_orientalis,
 		11	Sinosauropteryx_prima,
-		12	Deinocheirus_mirificus,
-		13	Harpymimus_okladnikovi,
-		14	Pelecanimimus_polyodon,
-		15	Shenzhousaurus_orientalis,
-		16	Archaeornithomimus_asiaticus,
-		17	Garudimimus_brevipes,
-		18	Anserimimus_planinychus,
-		19	Ornithomimus_edmontonicus,
-		20	Struthiomimus_altus,
-		21	Gallimimus_bullatus,
-		22	Falcarius_utahensis,
-		23	Beipiaosaurus_inexpectus,
-		24	Alxasaurus_elesitaiensis,
-		25	Nothronychus_mckinleyi,
-		26	Erliansaurus_bellamanus,
-		27	Nanshiungosaurus_brevispinus,
-		28	Neimongosaurus_yangi,
-		29	Segnosaurus_galbiensis,
-		30	Erlikosaurus_andrewsi,
-		31	Compsognathus_longipes,
-		32	Therizinosaurus_cheloniformis,
-		33	Protarchaeopteryx_robusta,
-		34	Elmisaurus_rarus,
-		35	Rinchenia_mongoliensis,
-		36	Citipati_osmolskae,
-		37	Ingenia_yanshini,
-		38	Khaan_mckennai,
-		39	Heyuannia_huangi,
-		40	Byronosaurus_jaffei,
-		41	Sinornithoides_youngi,
-		42	IGM100_44_unnamedtroodontid,
-		43	Troodon_formosus,
-		44	Saurornithoides_mongoliensis,
-		45	Zanabazar_junior,
-		46	Unenlagia,
-		47	Buitreraptor_gonzalezorum,
-		48	Rahonavis_ostromi,
-		49	Bambiraptor_feinbergi,
-		50	Sinornithosaurus_millenii,
-		51	Microraptor_zhaoianus,
-		52	NGMC91_UnnamedDromaeosaurid,
-		53	IGM100_1015_UndesDromaeosaurid,
-		54	Adasaurus_mongoliensis,
-		55	Velociraptor_mongoliensis,
-		56	Saurornitholestes_langstoni,
-		57	Deinonychus_antirrhopus,
-		58	Achillobator_giganticus,
-		59	Dromaeosaurus_albertensis,
-		60	Utahraptor_ostrommaysi,
-		61	Atrociraptor_marshalli,
-		62	Epidendrosaurus_ningchengensis,
-		63	Epidexipteryx_ningchengensis,
-		64	Archaeopteryx_lithographica,
-		65	Wellnhoferia_grandis,
-		66	Jeholornis_prima,
-		67	Sapeornis_chaoyangensis,
-		68	Confuciusornis_sanctus,
-		69	Protopteryx_fengningensis,
-		70	Yanornis_martini,
-		71	Hagryphus_giganteus,
-		72	Microvenator_celer,
-		73	Avimimus_portentosus,
-		74	Oviraptor_philoceratops,
-		75	Conchoraptor_gracilis,
-		76	Chirostenotes_pergracilis,
-		77	Incisivosaurus_gauthieri,
-		78	IGM100_42_UnnamedOviraptorid,
-		79	Anchiornis_huxleyi,
-		80	Xiaotingia_zhengi,
-		81	Sinovenator_changii,
-		82	Similicaudipteryx,
-		83	Caudipteryx,
-		84	Haplocherius,
-		85	Patagonykus_puertai,
-		86	Mononykus_olecranus,
-		87	Shuvuuia_deserti,
-		88	Alvarezsaurus_calvoi
+		12	Harpymimus_okladnikovi,
+		13	Pelecanimimus_polyodon,
+		14	Shenzhousaurus_orientalis,
+		15	Archaeornithomimus_asiaticus,
+		16	Garudimimus_brevipes,
+		17	Ornithomimus_edmontonicus,
+		18	Struthiomimus_altus,
+		19	Gallimimus_bullatus,
+		20	Falcarius_utahensis,
+		21	Beipiaosaurus_inexpectus,
+		22	Alxasaurus_elesitaiensis,
+		23	Nothronychus_mckinleyi,
+		24	Erliansaurus_bellamanus,
+		25	Nanshiungosaurus_brevispinus,
+		26	Neimongosaurus_yangi,
+		27	Segnosaurus_galbiensis,
+		28	Erlikosaurus_andrewsi,
+		29	Compsognathus_longipes,
+		30	Protarchaeopteryx_robusta,
+		31	Rinchenia_mongoliensis,
+		32	Citipati_osmolskae,
+		33	Ingenia_yanshini,
+		34	Khaan_mckennai,
+		35	Heyuannia_huangi,
+		36	Byronosaurus_jaffei,
+		37	Sinornithoides_youngi,
+		38	IGM100_44_unnamedtroodontid,
+		39	Troodon_formosus,
+		40	Saurornithoides_mongoliensis,
+		41	Zanabazar_junior,
+		42	Unenlagia,
+		43	Buitreraptor_gonzalezorum,
+		44	Rahonavis_ostromi,
+		45	Bambiraptor_feinbergi,
+		46	Sinornithosaurus_millenii,
+		47	Microraptor_zhaoianus,
+		48	NGMC91_UnnamedDromaeosaurid,
+		49	Adasaurus_mongoliensis,
+		50	Velociraptor_mongoliensis,
+		51	Saurornitholestes_langstoni,
+		52	Deinonychus_antirrhopus,
+		53	Achillobator_giganticus,
+		54	Utahraptor_ostrommaysi,
+		55	Epidendrosaurus_ningchengensis,
+		56	Epidexipteryx_ningchengensis,
+		57	Archaeopteryx_lithographica,
+		58	Wellnhoferia_grandis,
+		59	Jeholornis_prima,
+		60	Sapeornis_chaoyangensis,
+		61	Confuciusornis_sanctus,
+		62	Protopteryx_fengningensis,
+		63	Yanornis_martini,
+		64	Microvenator_celer,
+		65	Avimimus_portentosus,
+		66	Oviraptor_philoceratops,
+		67	Conchoraptor_gracilis,
+		68	Chirostenotes_pergracilis,
+		69	IGM100_42_UnnamedOviraptorid,
+		70	Anchiornis_huxleyi,
+		71	Xiaotingia_zhengi,
+		72	Sinovenator_changii,
+		73	Similicaudipteryx,
+		74	Caudipteryx,
+		75	Haplocherius,
+		76	Patagonykus_puertai,
+		77	Mononykus_olecranus,
+		78	Shuvuuia_deserti,
+		79	Alvarezsaurus_calvoi
 	;
-	TREE * UNTITLED = [&R] (1:52.46225321,(2:42.62149468,(((3:16.61615583,(4:6.632089823,(5:5.622650146,6:6.738256097)n7:51.18752512)n6:9.389925599)n5:24.54382285,(7:4.84152028,8:4.82365641)n8:10.67087528)n4:26.70227689,(((9:32.04690617,(((22:12.22119805,(23:4.171508774,(24:2.038188502,((25:3.072222829,26:4.500885427)n18:11.19518157,((((27:5.993317232,32:9.245047759)n22:9.253020599,30:1.931298852)n21:4.006276011,29:3.862303883)n20:3.866196152,28:6.449760105)n19:10.08527078)n17:11.65217574)n16:7.607642859)n15:15.59893784)n14:32.29717946,((33:23.91000036,(((((((34:6.701721549,71:3.820066495)n31:3.751835734,76:6.891784549)n30:15.21219707,((((35:8.505640872,78:2.47952839)n35:3.653359346,36:7.790497109)n34:4.536373302,((37:2.207773991,39:4.958978601)n37:8.369338252,(38:2.66622583,75:4.209051112)n38:2.408994621)n36:4.822741941)n33:4.087859392,74:10.95203887)n32:7.73971349)n29:7.225847542,73:26.32564074)n28:14.79367009,72:13.18873218)n27:13.04144843,83:5.033456072)n26:6.882388368,(77:9.874395877,82:9.22267139)n39:9.285668343)n25:12.71823052)n24:18.32637938,(62:4.051593482,63:4.903794408)n40:6.723751724)n23:1.938228935)n13:7.586441249,(((((40:33.69895375,(41:3.215931058,(42:0.08389642835,((43:3.71391362,44:2.914593615)n50:4.053009152,45:17.65525687)n49:21.08703661)n48:2.945248485)n47:4.857137322)n46:18.28772235,81:10.46920902)n45:33.75023019,(((46:10.23310518,48:30.64430369)n53:13.45780514,47:16.6047958)n52:42.44429828,((49:60.95724502,(((53:3.762314796,54:7.215013504)n58:19.98491438,(55:5.366446912,56:12.62932342)n59:4.676653519)n57:41.06478475,(57:10.86049747,(((58:4.54031216,61:16.62714963)n63:22.78788562,59:2.821058393)n62:11.84566361,60:2.787466288)n61:3.682317317)n60:3.888088048)n56:5.174600393)n55:6.369611591,(50:3.206284434,(51:5.465847433,52:5.233876705)n65:6.756581306)n64:17.36614388)n54:7.15643543)n51:8.482008338)n43:7.860357046,((64:6.763528168,(65:3.310532879,((66:10.09700727,67:9.571481895)n70:12.66380548,(68:8.25752458,(69:2.329357162,70:9.763345711)n72:6.371010281)n71:6.623013288)n69:8.108892512)n68:4.721686233)n67:13.12341356,(79:4.797640601,80:7.59146742)n73:6.392930819)n66:3.45384521)n42:5.457908869,((85:2.588413477,(86:9.818511069,87:4.027942479)n76:12.17407954)n75:8.868982434,88:15.55380711)n74:77.22064388)n41:2.637493551)n12:4.32775408)n11:3.286084086,((12:70.40996024,((14:4.412381619,((16:4.663355172,(((18:5.199364454,19:0.9299720526)n85:5.227536261,20:3.711055279)n84:3.263761103,21:3.307232082)n83:9.835177302)n82:7.321011383,17:5.778571803)n81:32.38822649)n80:4.311473273,15:7.66546176)n79:3.532010532)n78:9.223562598,13:40.71733606)n77:38.97864637)n10:2.778621942,((10:26.55983712,(11:21.92447443,31:3.193174608)n88:4.748140104)n87:20.15373926,84:15.26954395)n86:15.34861076)n9:5.739095509)n3:7.043196082)n2:3.502952456)n1;
+	TREE * UNTITLED = [&R] (1:52.46225321,(2:42.62149468,(((3:16.61615583,(4:6.632089823,(5:5.622650146,6:6.738256097)n7:51.18752512)n6:9.389925599)n5:24.54382285,(7:4.84152028,8:4.82365641)n8:10.67087528)n4:26.70227689,(((9:32.04690617,(((20:12.22119805,(21:4.171508774,(22:2.038188502,((23:3.072222829,24:4.500885427)n18:11.19518157,(((25:15.24633783,28:1.931298852)n21:4.006276011,27:3.862303883)n20:3.866196152,26:6.449760105)n19:10.08527078)n17:11.65217574)n16:7.607642859)n15:15.59893784)n14:32.29717946,((30:23.91000036,(((((68:22.10398161,((((31:8.505640872,69:2.47952839)n32:3.653359346,32:7.790497109)n31:4.536373302,((33:2.207773991,35:4.958978601)n34:8.369338252,(34:2.66622583,67:4.209051112)n35:2.408994621)n33:4.822741941)n30:4.087859392,66:10.95203887)n29:7.73971349)n28:7.225847542,65:26.32564074)n27:14.79367009,64:13.18873218)n26:13.04144843,74:5.033456072)n25:6.882388368,73:18.50833973)n24:12.71823052)n23:18.32637938,(55:4.051593482,56:4.903794408)n36:6.723751724)n22:1.938228935)n13:7.586441249,(((((36:33.69895375,(37:3.215931058,(38:0.08389642835,((39:3.71391362,40:2.914593615)n46:4.053009152,41:17.65525687)n45:21.08703661)n44:2.945248485)n43:4.857137322)n42:18.28772235,72:10.46920902)n41:33.75023019,(((42:10.23310518,44:30.64430369)n49:13.45780514,43:16.6047958)n48:42.44429828,((45:60.95724502,((49:27.19992788,(50:5.366446912,51:12.62932342)n54:4.676653519)n53:41.06478475,(52:10.86049747,(53:39.17386139,54:2.787466288)n56:3.682317317)n55:3.888088048)n52:5.174600393)n51:6.369611591,(46:3.206284434,(47:5.465847433,48:5.233876705)n58:6.756581306)n57:17.36614388)n50:7.15643543)n47:8.482008338)n39:7.860357046,((57:6.763528168,(58:3.310532879,((59:10.09700727,60:9.571481895)n63:12.66380548,(61:8.25752458,(62:2.329357162,63:9.763345711)n65:6.371010281)n64:6.623013288)n62:8.108892512)n61:4.721686233)n60:13.12341356,(70:4.797640601,71:7.59146742)n66:6.392930819)n59:3.45384521)n38:5.457908869,((76:2.588413477,(77:9.818511069,78:4.027942479)n69:12.17407954)n68:8.868982434,79:15.55380711)n67:77.22064388)n37:2.637493551)n12:4.32775408)n11:3.286084086,(((13:4.412381619,((15:4.663355172,((17:6.157508314,18:3.711055279)n76:3.263761103,19:3.307232082)n75:9.835177302)n74:7.321011383,16:5.778571803)n73:32.38822649)n72:4.311473273,14:7.66546176)n71:12.75557313,12:40.71733606)n70:38.97864637)n10:2.778621942,((10:26.55983712,(11:21.92447443,29:3.193174608)n79:4.748140104)n78:20.15373926,75:15.26954395)n77:15.34861076)n9:5.739095509)n3:7.043196082)n2:3.502952456)n1;
 END;
