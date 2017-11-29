@@ -124,7 +124,9 @@ matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
 saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
-One final issue is that to commute Gower distances we need all taxa to have some overlapping data. If not Gower distances will be NA (Gower distance does not impute missing data like some other methods). To avoid this problem we can remove the taxa with no overlaps as follows. This is commented out below because there are no non overlapping taxa in the Beck and Lee 2014 dataset. 
+One final issue is that to compute Gower distances we need all taxa to have some overlapping data. If not, Gower distances will be NA (Gower distance does not impute missing data like some other methods) and we can't estimate disparity. To avoid this problem we can remove the taxa with no overlaps using `TrimMorphDistMatrix` from `Claddis` on our distance matrix. Of course this then means we need to remove these from the tree as well. This then changes the node numbers which means we need to recalculate ancestral states. Because nothing is ever easy! Rather than going round in circles with this code, we just remove the species where this is a problem when we read in the trees (only an issue below for the Bapst and Brusatte datasets). Yes there's a more elegant way to do this, but time is tight and I'm pretty sure this project is trying to break us...
+
+If you needed to do this for your own data, this is how you can quickly work out which taxa to remove.
 
 ```{r}
 ## Trimming the distance matrix
@@ -132,10 +134,7 @@ One final issue is that to commute Gower distances we need all taxa to have some
 ## matrix_dist <- trim$dist.matrix
 
 ## Which taxa were removed?
-## as.vector(trim$removed.taxa)
-
-## Rewrite this to file for later use
-## saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+## (remove_taxa <- as.vector(trim$removed.taxa))
 ```
 
 And that's it... we now have all the processed data for running the `dispRity` package properly: the distance matrices(that we will use to build the `morphospace`), and the cleaned tree (`tree`). Remember that for the `time.subsets` function, you can use the `inc.nodes` logical option to include nodes or not!
@@ -203,9 +202,14 @@ slug <- "Bapst2016"
 matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
 tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
 
-# Replace zero branches with minimum branch length
+## Replace zero branches with minimum branch length
 tree$edge.length[which(tree$edge.length == 0)] <- 
   min(tree$edge.length[-which(tree$edge.length == 0)])
+
+## Remove taxa with non overlapping data (see note about Gower distances above)
+remove_Bapst <- c("Hagryphus_giganteus", "Atrociraptor_marshalli", "IGM100_1015_UndesDromaeosaurid", "Dromaeosaurus_albertensis", "Incisivosaurus_gauthieri", "Deinocheirus_mirificus", "Therizinosaurus_cheloniformis", "Anserimimus_planinychus", "Elmisaurus_rarus")
+
+tree <- drop.tip(tree, remove_Bapst)
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
@@ -232,15 +236,6 @@ matrix$matrix <- rbind(matrix$matrix, matrix_nodes)
 
 ## Constructing the distance matrix
 matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-
-## Trim taxa with non overlapping data
-trim <- TrimMorphDistMatrix(matrix_dist)
-matrix_dist <- trim$dist.matrix
-
-## Which taxa were removed?
-as.vector(trim$removed.taxa)
-
-## Save
 saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
 ```
 
@@ -301,6 +296,11 @@ tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
 tree$edge.length[which(tree$edge.length == 0)] <- 
   min(tree$edge.length[-which(tree$edge.length == 0)])
 
+## Remove taxa with non overlapping data (see note about Gower distances above)
+remove_Brusatte <- c("Shanag_ashile", "Atrociraptor_marshalli", "Proceratosaurus_bradleyi",     "Incisivosaurus_gauthieri", "Enigmosaurus", "Nanshiungosaurus_brevispinus", "Xixiasaurus", "Tsaagan_mangas", "Mirischia", "Pedopenna", "Suzhousaurus", "Juratyrant", "Vorona", "Bonapartenykus", "Teratophoneus", "Gobipteryx", "Songlingornis", "Liaoningornis_longidigitu", "Achillesaurus")
+
+tree <- drop.tip(tree, remove_Brusatte)
+
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
 tree$root.time <- max(tree.age(tree)[, 1])
@@ -310,6 +310,8 @@ tree <- cleaned_data$tree
 
 ## Removed taxa, i.e. those in the tree but not the matrix and vice versa
 as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Remove 
 
 ## Saving the tree
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
