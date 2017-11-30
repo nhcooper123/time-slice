@@ -1,0 +1,290 @@
+---
+title: "Outputs from time slice analyses"
+author: "Natalie Cooper and Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 6
+---
+
+This code runs the output analyses in the paper, i.e. creates tables, figures and statistical tests.
+
+```{r}
+set.seed(123)
+```
+
+Load packages and functions
+-----------------------------------
+
+```{r, eval = TRUE, message = FALSE}
+library(tidyverse)
+library(broom)
+```
+
+Loading the data
+-----------------------------------
+
+This script requires the outputs from `02-time-slice-analyses.Rmd`. The code below runs the analyses for the Beck and Lee 2014 dataset - chaneg the slug name to run the others. This of course can all be written into functions but we ran out of time so here is some suboptimal but working code!
+
+```{r}
+slug <- "Beck2014"
+#slug <- "Brusatte2014"
+#slug <- "Bapst2016"
+#slug <- "bears"
+#slug <- "Wright2017"
+```
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+#out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+```
+
+Outputs can be viewed using `out1$results$stratigraphy`, `out1$results$duration`, or `out1$results$number`.
+
+Testing for differences among the models is a little tricky, as we are interested in how disparity-through-time is influenced by the choice of time subsampling method, rather than the disparities estimated by each method, especially as these will influenced by the number of taxa (and/or nodes) included in each subsample. We therefore present two different, simple ways of comparing the models: paired Wilcoxon tests and identification of disparity peaks.
+
+Paired Wilcoxon tests
+----------------------
+
+First, we use paired Wilcoxon tests to compare (i) unequal sized time bins to unevenly spaced time slices where the bins are stratigraphic periods (ages or epochs) and slices occur at the midpoint of the stratigraphic period; (ii) equal time bins to equally spaced time slices where time bin size, or the interval between slices is defined by the average *duration* of the stratigraphic period (age or epoch); and (iii) equal time bins to equally spaced time slices where the number of time bins, or number of slices is defined by the average *number* of stratigraphic periods (ages or epochs) in the time frame of interest.
+
+Due to the uneven spread of taxa across phylogenies, some time bins will contain one or no species, meaning that we cannot estimate disparity for that time bin. We first, therefore, remove the time bins, and corresponding time slices, without disparity estimates. We then perform paired Wilcoxon tests, so that bins and slices for the same time period are being compared. Significant results suggest that there is a systematic difference in disparity values at each time point, depending on whether bins or slices are used.
+
+i) statigraphy
+
+```{r}
+strat <- out1$results$stratigraphy
+
+# Work out how many disparity outputs per method there are
+n_out <- 
+  strat %>%
+  filter(model == "acctran") %>%
+  summarise(n = n())
+
+# Get data into a format for wilcox tests
+strat2 <- 
+  strat %>% 
+  # Add bin numbers so correct pairs can be compared  
+  mutate(bin = rep(1:n_out$n, 7)) %>% 
+  # Select only the required columns  
+  select(bin, model, bs.median) %>%
+  # Spread the models out by bin to make extracting NA bins easier
+  spread(model, bs.median) %>%
+  # Remove bins with NAs
+  filter(complete.cases(.))
+
+# Wilcox tests
+w_acc <- wilcox.test(strat2$equalbins, strat2$acctran, paired = TRUE)
+w_del <- wilcox.test(strat2$equalbins, strat2$deltran, paired = TRUE)
+w_grad <- wilcox.test(strat2$equalbins, strat2$gradual, paired = TRUE)
+w_prox <- wilcox.test(strat2$equalbins, strat2$proximity, paired = TRUE)
+w_punc <- wilcox.test(strat2$equalbins, strat2$punctuated, paired = TRUE)
+w_rand <- wilcox.test(strat2$equalbins, strat2$random, paired = TRUE)
+
+# Save outputs
+outputS <- rbind(tidy(w_acc), tidy(w_del), tidy(w_grad), tidy(w_prox), 
+                tidy(w_punc), tidy(w_rand))
+outputS$model <- c("acctran", "deltran", "gradual", "proximity", 
+                        "punctuated", "random")
+outputS$type <- rep("stratigraphy", 6)
+outputS$period <- rep(strat$stratigraphy[1], 6)
+```
+
+ii) duration
+
+```{r}
+duration <- out1$results$duration
+
+# Work out how many disparity outputs per method there are
+n_out <- 
+  duration %>%
+  filter(model == "acctran") %>%
+  summarise(n = n())
+
+# Get data into a format for wilcox tests
+duration2 <- 
+  duration %>% 
+  # Add bin numbers so correct pairs can be compared  
+  mutate(bin = rep(1:n_out$n, 7)) %>% 
+  # Select only the required columns  
+  select(bin, model, bs.median) %>%
+  # Spread the models out by bin to make extracting NA bins easier
+  spread(model, bs.median) %>%
+  # Remove bins with NAs
+  filter(complete.cases(.))
+
+# Wilcox tests
+w_acc <- wilcox.test(duration2$equalbins, duration2$acctran, paired = TRUE)
+w_del <- wilcox.test(duration2$equalbins, duration2$deltran, paired = TRUE)
+w_grad <- wilcox.test(duration2$equalbins, duration2$gradual, paired = TRUE)
+w_prox <- wilcox.test(duration2$equalbins, duration2$proximity, paired = TRUE)
+w_punc <- wilcox.test(duration2$equalbins, duration2$punctuated, paired = TRUE)
+w_rand <- wilcox.test(duration2$equalbins, duration2$random, paired = TRUE)
+
+# Save outputs
+outputD <- rbind(tidy(w_acc), tidy(w_del), tidy(w_grad), tidy(w_prox), 
+                tidy(w_punc), tidy(w_rand))
+outputD$model <- c("acctran", "deltran", "gradual", "proximity", 
+                        "punctuated", "random")
+outputD$type <- rep("duration", 6)
+outputD$period <- rep(strat$stratigraphy[1], 6)
+```
+
+iii) number
+
+```{r}
+number <- out1$results$number
+
+# Work out how many disparity outputs per method there are
+n_out <- 
+  number %>%
+  filter(model == "acctran") %>%
+  summarise(n = n())
+
+# Get data into a format for wilcox tests
+number2 <- 
+  number %>% 
+  # Add bin numbers so correct pairs can be compared  
+  mutate(bin = rep(1:n_out$n, 7)) %>% 
+  # Select only the required columns  
+  select(bin, model, bs.median) %>%
+  # Spread the models out by bin to make extracting NA bins easier
+  spread(model, bs.median) %>%
+  # Remove bins with NAs
+  filter(complete.cases(.))
+
+# Wilcox tests
+w_acc <- wilcox.test(number2$equalbins, number2$acctran, paired = TRUE)
+w_del <- wilcox.test(number2$equalbins, number2$deltran, paired = TRUE)
+w_grad <- wilcox.test(number2$equalbins, number2$gradual, paired = TRUE)
+w_prox <- wilcox.test(number2$equalbins, number2$proximity, paired = TRUE)
+w_punc <- wilcox.test(number2$equalbins, number2$punctuated, paired = TRUE)
+w_rand <- wilcox.test(number2$equalbins, number2$random, paired = TRUE)
+
+# Save outputs
+outputN <- rbind(tidy(w_acc), tidy(w_del), tidy(w_grad), tidy(w_prox), 
+                tidy(w_punc), tidy(w_rand))
+outputN$model <- c("acctran", "deltran", "gradual", "proximity", 
+                        "punctuated", "random")
+outputN$type <- rep("number", 6)
+outputN$period <- rep(strat$stratigraphy[1], 6)
+```
+
+And finally save all the outputs...
+
+```{r}
+all_wilcox <- rbind(outputS, outputD, outputN)
+all_wilcox <- select(all_wilcox, -c(method, alternative))
+write.table(all_wilcox, file = paste0("../outputs/wilcox.", slug, ".csv"), quote = FALSE, 
+          row.names = FALSE, col.names = FALSE, append = TRUE, sep = ",")
+```
+
+Repeat for epochs by uncommenting `out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))` and rerunning.
+
+You can rerun for the other datasets by changing the slug name at the start.
+
+Disparity peaks
+----------------------
+
+Set the slug
+
+```{r}
+slug <- "Beck2014"
+#slug <- "Brusatte2014"
+#slug <- "Bapst2016"
+#slug <- "bears"
+#slug <- "Wright2017"
+```
+
+Read in the data
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+out2 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+```
+
+Extract the maximum bootstrapped median disparity values for each model, with details of the peak bin/slice times.
+
+```{r, warning = FALSE}
+# ages
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+
+strat <- 
+  strat %>%
+  group_by(model) %>%
+  filter(bs.median == max(bs.median, na.rm = TRUE))
+
+duration <-
+  duration %>%
+  group_by(model) %>%
+  filter(bs.median == max(bs.median, na.rm = TRUE))
+
+number <- 
+  number %>%
+  group_by(model) %>%
+  filter(bs.median == max(bs.median, na.rm = TRUE))
+
+# epochs
+strat2 <- out2$results$stratigraphy
+duration2 <- out2$results$duration
+number2 <- out2$results$number
+
+strat2 <- 
+  strat2 %>%
+  group_by(model) %>%
+  filter(bs.median == max(bs.median, na.rm = TRUE))
+
+duration2 <-
+  duration2 %>%
+  group_by(model) %>%
+  filter(bs.median == max(bs.median, na.rm = TRUE))
+
+number2 <- 
+  number2 %>%
+  group_by(model) %>%
+  filter(bs.median == max(bs.median, na.rm = TRUE))
+
+all_peaks <- rbind(strat, duration, number, strat2, duration2, number2)
+write.csv(all_peaks, file = paste0("../outputs/peaks.", slug, ".csv"), quote = FALSE, 
+          row.names = FALSE)
+
+```
+You can rerun for the other datasets by changing the slug name at the start.
+
+Tables
+----------
+
+Finally, for the purposes of completeness here are the full results as tables.
+
+Set the slug
+
+```{r}
+slug <- "Beck2014"
+#slug <- "Brusatte2014"
+#slug <- "Bapst2016"
+#slug <- "bears"
+#slug <- "Wright2017"
+```
+Read in the data
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+out2 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+```
+Make the tables
+```{r, eval = TRUE, echo = FALSE}
+# Ages
+knitr::kable(out1$results$stratigraphy, caption = "Disparity per stratigraphic age: unequal time bins and non-equidistant time slices")
+knitr::kable(out1$results$duration, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the median stratigraphic age duration")
+knitr::kable(out1$results$number, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the number of stratigraphic ages")
+
+# Epochs
+knitr::kable(out2$results$stratigraphy, caption = "Disparity per stratigraphic epoch: unequal time bins and non-equidistant time slices")
+knitr::kable(out2$results$duration, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the median stratigraphic epoch duration")
+knitr::kable(out2$results$number, caption = "Disparity per average stratigraphic time: equal time bins and equidistant time slices based on the number of stratigraphic epochs")
+```
+
+You can rerun for the other datasets by changing the slug name at the start.
