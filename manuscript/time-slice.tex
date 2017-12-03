@@ -219,29 +219,71 @@ We also recorded the number of taxa in each subsample as a proxy for taxonomic d
 
 \paragraph{Time slicing.} % THOMAS TO UPDATE THIS BIT!!!
 The ``time-slicing'' approach considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
-This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (punctuated or gradual % and others ADD).  
+This results in even-sampling of the cladisto-space across time and while permitting to use an underlying model of character evolution (punctuated or gradual). % and others ADD). %TG: I don't have any other ones in stock. But it could be easy to come up with new ones. They're easy to implement.
+
 In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
-When the phylogenetic elements are nodes or tips, the eigenvector scores for the nodes (estimated using ancestral state reconstruction as described in section \ref{ace}) or tips are directly used for estimating disparity.
-When the phylogenetic elements are branches we chose the eigenvector score for the branch using one of two evolutionary models:
+When the phylogenetic elements are nodes or tips, the ordination scores for the nodes (estimated using ancestral state reconstruction as described in section \ref{ace}) or tips are directly used for estimating disparity.
+When the phylogenetic elements are branches we chose the ordination score for the branch using one of two evolutionary models:
+
+%TG: Not sure if it's the "egeinvector" score or the "eigen" score. I think there's a trick in naming them depending on how the algorithm does the transformation (soemthing with using eigenvalues or eigenvectors). I call it ordination score for now.
+
+
 \begin{enumerate}
+
     \item{\textbf{Punctuated evolution.}} 
-    This model selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch regardless of the position of the slice along the branch. 
+    This model selects the ordination score from either the ancestral node or the descendant node/tip of the branch regardless of the position of the slice along the branch. 
     Similarly to the time interval approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period and clades undergo long periods of stasis during their evolution \citep{Gould1977,Hunt20112007}.
     We applied this model in three ways: 
     \begin{enumerate}[(i)]
-      \item selecting the eigenvector score of the ancestral node of the branch (ACCTRAN).
-      \item selecting the eigenvector score of the descendant node/tip of the branch (DELTRAN).
-      \item randomly selecting either the eigenvector score of the ancestral node or the descendant node/tip of the branch (random).
+
+
+      \item The ``acctran'' model, always selecting the ordination score of the ancestral node of the branch.
+      \item The ``deltran'' model, always selecting the ordination score of the descendant node/tip of the branch.
+      \item The ``random'' model, selecting randomly between the ordination score of the ancestor or the descendant of the branch.
+      \item The ``punctuated'' model (probabilistic), selecting the ordination score from both the ancestor and the descendant with an equal probability
+          \begin{equation}
+          p(\text{ancestor}) = p(\text{descendant}) = 0.5
+          \end{equation}
+
     \end{enumerate}
-    Method (i) assumes that changes always occur early on the branch (accelerated transition, ACCTRAN) and (ii) assumes that changes always occur later (delayed transition, DELTRAN).
-    We prefer not to make either assumption so we report the results from (iii), although the ACCTRAN and DELTRAN results are available in the appendix \ref{chap:Appendix_STD} (Fig. \ref{Supp_disparity_all_Mammaliaformes}, \ref{Supp_disparity_all_Eutheria}, \ref{Supp_disparity_all_Mammaliaformes_rarefied}, \ref{Supp_disparity_all_Eutheria_rarefied}).
+
+    The two first models assume that changes always occur early (ACCelerated TRANsition) or late along the branches (DELayed TRANsition).
+    The third model makes neither assumption and simply selects randomly the data between the ancestor and the descendant.
+    These three first models do not allow the data to vary throughout eventual pseudo-replications in the analysis (the bootstraps).
+    For example, using the ``random'' model, once the the data of the ancestor has been randomly chosen, only this data will be used during the bootstraps procedure.
+    Conversely, the ``punctuated'' model allows both ancestor's and descendant's data to be used during the bootstrapping with an equal probability.
+    This results in the bootstrapped disparity at a specific slice to effectively incorporate both the data from the descendant and the ancestor. %TG: now that I'm mentioning that, I should maybe rename this model. Lets discuss that on monday.
+
     \item{\textbf{Gradual evolution.}}
-    This model also selects the eigenvector score from either the ancestral node or the descendant node/tip of the branch, but the choice depends on the distance between the sampling time point and the end of the branch.
-    If the sampling time point falls in the first half of the branch length the eigenvector score is taken from the ancestral node, conversely, if the sampling time point falls in the second half of the branch length the eigenvector score is taken from the descendant node/tip.
+    These model also selects the ordination score from either the ancestral node or the descendant node/tip of the branch, but the choice depends on the distance between the sampling time point and the end of the branch.
+    If the sampling time point falls in the first half of the branch length the ordination score is taken from the ancestral node, conversely, if the sampling time point falls in the second half of the branch length the ordination score is taken from the descendant node/tip.
     This reflects a model of gradual evolution where changes in disparity are gradual and cumulative along the branch.
-    Under this model, the gradual changes could be either directional or random, however, directional evolution has been empirically shown to be rare \citep[only 5\% of the time][]{Hunt20112007}.
-    We therefore considered that changes from a character state A to B were only dependent on the branch length.
+  
+    \begin{enumerate}[(i)]
+    \setcounter{enumii}{4}
+    \item The ``proximity'' model, selecting the ordination of either the ancestor or the descendant if the slice occurs respectively before or after half the branch length.
+    \item The ``gradual'' model (probabilistic), selecting the ordination score from both the ancestor and the descendant with a probability equal to the length between the slice.
+          \begin{equation}
+              p(\text{ancestor}) = \frac{d(\text{ancestor},\text{slice})}{d(\text{ancestor},\text{descendant})}
+          \end{equation}
+          \begin{equation}
+              p(\text{descendant}) = 1 - p(\text{ancestor})
+          \end{equation}
+    \noindent Where $d(x,y)$ is the distance measured as branch length.
+    \end{enumerate}
+
+    The ``proximity'' model is a variation of the ``random'' one described above were the selection of the data is not random but arbitrarily based on branch length.
+    However, similarly to the ``random'' one, this model doesn't allow variation.
+    The last ``gradual'' model is also a variation of the ``punctuated'' and allows variation in a similar way (but based on branch length).
+    For example, if slice occurs at the third quarter of a branch from A to B (75\% of the total branch length), after bootstrapping, the disparity results will be based on 25\% of the data from A and 75\% of the data from B.
 \end{enumerate}
+
+%TG: Justification on the fact that these models are not ACEs.
+It is important to notice that the time-slicing method is not an ancestral states estimation method \textit{per se}.
+This method does not estimate values along a branch applying a model (\textit{c.f.} methods described in \ref{ace}) but rather chooses between the two available information (the descendant or the ancestor) using the models described above.
+This allows this method to be used in post-ordination analysis were the data used in each time slice is data already present in the cladisto-space.
+In other words, this method does not require a re-ordination of the cladisto-space every time a slice goes through a branch, thus allowing the properties of the cladisto-space (e.g. distance between species, variance per axis, etc.) to remain constant.
+
 
 We applied our time-slicing approach separately to each cladisto-space.
 We varied the intervals between time slices so that either (i) the *interval* between slices is equal to the median duration of the stratigraphic age or epoch; (ii) the *number* of slices is equal to the number of stratigraphic ages or epochs, or (iii) by setting the *number* of slices to 2, 5, 10, 15, or 20.
