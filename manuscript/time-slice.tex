@@ -74,10 +74,18 @@
 \setlength{\parindent}{1cm}
 
 \section{Introduction}
+%TG: Plan idea
+%TG: §1: disparity-through-time really cool and well used
+%TG: §2: caveats with both disparity and through-time part
+%TG: §3: specific ways to look through-time and their problems
+%TG: §4: our kind of solution
+
 Disparity-through-time analyes are common in palaeontology.
 Examples
 They often provide us with exciting insights into mass extinctions, competitive replacements etc.
-However, our methods for analysing diversity-through-time have not changed all that much in the XX years they have been popular. 
+However, our methods for analysing diversity-through-time have not changed all that much in the XX years they have been popular. %TG: small caveat on that after litterature search for the disparity review paper: disparity-through-time analysis have not changed much since Foote 1992, Foote and Gould 1992 and Briggs et al. 1992 in the classic palaeobiology approach...
+%TG: However to not piss of people, there were several attempts to "rationalise" (Wills 2001), test (Ciampaglio 2001) and expand (Pavlinov 2011 and Gerber et al 2011) namely with univariate approaches and "dtt" analysis (Harmon et al 2003).
+%TG: One of the critisisms from one of the rude reviews was this idea that age of popular method has nothing to do with its performance, by nuancing this sentence we can basically say: yeah, some people have made great advances and proposed great ideas for CORRECTING ERRORS in the methods from the 90s but somehow everybody have ignored them (in palaeobiology).
 The way we perfrom these analyses may have profound effects on our conclusions.
 
 One aspect that is not always carefully considered, is how to divide taxa into subsets through time. The nature of disparity, i.e. a diversity metric, means it cannot be calculated using just one individual, so some way of subsetting taxa is required.
@@ -102,6 +110,7 @@ We present this using five datasets collated from the literature.
 \subsection{Overview}
 \label{overview-section}
 % I'm unsure if this section is needed or not. The methods are long so it might help?
+%TG: agree though we might just do a simple figure like fig1 in http://onlinelibrary.wiley.com/doi/10.1111/bij.12746/pdf (but with way less stuff!). I can get working on that.
 To test the different time subsampling methods, we followed the protocol below. 
 Note that all the code needed to reproduce these analyses (along with detailed instructions) is provided HERE.
 
@@ -121,12 +130,12 @@ Note that although disparity-through-time analyses are possible without a phylog
 Each dataset consists of a set of first and last occurrence dates for all taxa, a matrix of morphological characters in NEXUS format, and a time-scaled phylogeny. 
 More details on these datasets can be found in the appendix. All data are available HERE. And the processing code too. Probably also want to link to Dryad etc. HERE
 
-  \begin{table}[!htbp]      
-    \caption[Datasets.]
-    {Dataset captions}
+  % \begin{table}[!htbp]      
+  %   \caption[Datasets.]
+  %   {Dataset captions}
     \input{tables/datasets.tex} 
     \label{tab:data}  
-  \end{table}
+  % \end{table}
 
 \subsection{Estimating ancestral character states}
 \label{ace}
