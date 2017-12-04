@@ -20,6 +20,7 @@ Load packages and functions
 ```{r, eval = TRUE, message = FALSE}
 library(tidyverse)
 library(broom)
+library(dispRity)
 ```
 
 Loading the data
@@ -275,6 +276,7 @@ out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
 out2 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
 ```
 Make the tables
+
 ```{r, eval = TRUE, echo = FALSE}
 # Ages
 knitr::kable(out1$results$stratigraphy, caption = "Disparity per stratigraphic age: unequal time bins and non-equidistant time slices")
@@ -288,3 +290,97 @@ knitr::kable(out2$results$number, caption = "Disparity per average stratigraphic
 ```
 
 You can rerun for the other datasets by changing the slug name at the start.
+
+
+Extinction effect
+----------
+
+Here we can test the effect of mass extinction on the different methods with the different models (for each dataset!).
+The way to test the extinction effect is a referential wilcoxon test.#' @param as.list \code{logical}, whether to output the results as a list for \code{\link{test.dispRity}} (\code{TRUE}) or not (\code{FALSE} - default).
+
+In other words, we compare the bins/slice just before the extinction event to the three ones just after (to account for an eventual lag effect).
+
+Set the slug:
+
+```{r}
+slug <- "Beck2014" ; extinction <- 66.0
+# slug <- "Brusatte2014"; extinction <- 66.0
+# slug <- "Bapst2016"; extinction <- 66.0
+# slug <- "bears"; extinction <- NA
+# slug <- "Wright2017"; extinction <- 443.0
+```
+
+Read in the data
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+out2 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+```
+
+Measure differences in disparity:
+
+
+```{r}
+## Get the extinction times (ages)
+ext_time_strat_age <- lapply(out1$objects$stratigraphy, extinction.subsets, extinction = extinction, lag = 3, as.list = TRUE)
+ext_time_durat_age <- lapply(out1$objects$duration, extinction.subsets, extinction = extinction, lag = 3, as.list = TRUE)
+ext_time_numbe_age <- lapply(out1$objects$number, extinction.subsets, extinction = extinction, lag = 3, as.list = TRUE)
+
+## Get the extinction times (epochs)
+ext_time_strat_epo <- lapply(out2$objects$stratigraphy, extinction.subsets, extinction = extinction, lag = 3, as.list = TRUE)
+ext_time_durat_epo <- lapply(out2$objects$duration, extinction.subsets, extinction = extinction, lag = 3, as.list = TRUE)
+ext_time_numbe_epo <- lapply(out2$objects$number, extinction.subsets, extinction = extinction, lag = 3, as.list = TRUE)
+
+## Test the effect of extinctions
+mapply.test <- function(data, times, test = wilcox.test, correction = "bonferroni") {
+  test <- try(output <- test.dispRity(data, test = test, comparisons = times, correction = correction), silent = TRUE)
+  if(class(test) == "try-error") {
+
+    ## Create an NA list
+    comparison_names <- unlist(lapply(times, function(time, data) paste(names(data$subsets)[time], collapse = " : "), data))
+    p_value <- statistic <- data.frame(rep(NA, 3), row.names = comparison_names)
+    colnames(statistic) <- "statistic: W"
+    colnames(p_value) <- "p.value"
+
+    return(list(statistic, p_value))
+  } else {
+    return(output)
+  }
+}
+
+## Applying the tests (ages)
+test_strat_age <- mapply(mapply.test, out1$objects$stratigraphy, ext_time_strat_age, SIMPLIFY = FALSE)
+test_durat_age <- mapply(mapply.test, out1$objects$duration, ext_time_durat_age, SIMPLIFY = FALSE)
+test_numbe_age <- mapply(mapply.test, out1$objects$number, ext_time_numbe_age, SIMPLIFY = FALSE)
+
+## Applying the tests (epochs)
+test_strat_epo <- mapply(mapply.test, out2$objects$stratigraphy, ext_time_strat_epo, SIMPLIFY = FALSE)
+test_durat_epo <- mapply(mapply.test, out2$objects$duration, ext_time_durat_epo, SIMPLIFY = FALSE)
+test_numbe_epo <- mapply(mapply.test, out2$objects$number, ext_time_numbe_epo, SIMPLIFY = FALSE)
+
+## Combining the tests into tables
+wrap.up.results <- function(results, type, method) {
+  results <- data.frame(matrix(unlist(results), ncol = 6, byrow = TRUE))
+  ## Adding the models
+  results <- cbind(c("bins", "acctran", "deltran", "random", "proximity", "punctuated", "gradual"),results)
+  ## Adding the type and method
+  results <- cbind(matrix(c(rep(type, 7), rep(method, 7)), ncol = 2), results)
+  ## Adding the column names
+  colnames(results) <- c("type", "method", "model", "e:1(W)", "e:2(W)", "e:3(W)", "e:1(p)", "e:2(p)", "e:3(p)")
+  return(results)
+}
+
+## Combining the results
+result <- wrap.up.results(test_strat_age, "age", "stratigraphy")
+result <- rbind(result, wrap.up.results(test_durat_age, "age", "duration"))
+result <- rbind(result, wrap.up.results(test_numbe_age, "age", "number"))
+result <- rbind(result, wrap.up.results(test_strat_epo, "epoch", "stratigraphy"))
+result <- rbind(result, wrap.up.results(test_durat_epo, "epoch", "duration"))
+result <- rbind(result, wrap.up.results(test_numbe_epo, "epoch", "number"))
+
+## Significant results
+result <- cbind(results, apply(result[,7:9], 2, function(col) ifelse(col < 0.05, TRUE, FALSE)))
+
+## Print the table
+knitr::kable(result)
+```
