@@ -223,35 +223,33 @@ When the phylogenetic elements are branches we chose the ordination score for th
     \item{\textbf{Punctuated evolution.}} 
     This model selects the ordination score from either the ancestral node or the descendant node/tip of the branch regardless of the position of the slice along the branch. 
     Similarly to the time interval approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period and clades undergo long periods of stasis during their evolution \citep{Gould1977,Hunt20112007}.
-    We applied this model in three ways: 
-    \begin{enumerate}[(i)]
+    We applied this model in four ways: 
 
+    \begin{enumerate}[(i)]
 
       \item The ``acctran'' model, always selecting the ordination score of the ancestral node of the branch.
       \item The ``deltran'' model, always selecting the ordination score of the descendant node/tip of the branch.
       \item The ``random'' model, selecting randomly between the ordination score of the ancestor or the descendant of the branch.
+      \item The ``proximity'' model, selecting the ordination of either the ancestor or the descendant if the slice occurs respectively before or after half the branch length.
+
+    \end{enumerate}
+
+    The two first models assume that changes always occur early (ACCelerated TRANsition) or late along the branches (DELayed TRANsition).
+    The third model makes neither assumption and simply selects randomly the data between the ancestor and the descendant and the fourth base the selection of either the ancestor or the descendant on where the slice occurs along the branch.
+    The punctuated models only select either the ordination score from the ancestor and the descendant once in the whole disparity analysis.
+    For example, if using the ``random'' model, if the data of the ancestor has been randomly chosen, only this data will be used during the bootstraps procedure and for the disparity calculation.
+    
+    \item{\textbf{Gradual evolution.}}
+    Contrary to the punctuated models, these following models do not select the ordination score of either the ancestor or the descendant but associate a probability to both.
+    This reflects a model of gradual evolution where changes in disparity are gradual and cumulative along the branch.
+
+    \begin{enumerate}[(i)]
+    \setcounter{enumii}{4}
       \item The ``punctuated'' model (probabilistic), selecting the ordination score from both the ancestor and the descendant with an equal probability
           \begin{equation}
           p(\text{ancestor}) = p(\text{descendant}) = 0.5
           \end{equation}
 
-    \end{enumerate}
-
-    The two first models assume that changes always occur early (ACCelerated TRANsition) or late along the branches (DELayed TRANsition).
-    The third model makes neither assumption and simply selects randomly the data between the ancestor and the descendant.
-    These three first models do not allow the data to vary throughout eventual pseudo-replications in the analysis (the bootstraps).
-    For example, using the ``random'' model, once the the data of the ancestor has been randomly chosen, only this data will be used during the bootstraps procedure.
-    Conversely, the ``punctuated'' model allows both ancestor's and descendant's data to be used during the bootstrapping with an equal probability.
-    This results in the bootstrapped disparity at a specific slice to effectively incorporate both the data from the descendant and the ancestor. %TG: now that I'm mentioning that, I should maybe rename this model. Lets discuss that on monday.
-
-    \item{\textbf{Gradual evolution.}}
-    These model also selects the ordination score from either the ancestral node or the descendant node/tip of the branch, but the choice depends on the distance between the sampling time point and the end of the branch.
-    If the sampling time point falls in the first half of the branch length the ordination score is taken from the ancestral node, conversely, if the sampling time point falls in the second half of the branch length the ordination score is taken from the descendant node/tip.
-    This reflects a model of gradual evolution where changes in disparity are gradual and cumulative along the branch.
-  
-    \begin{enumerate}[(i)]
-    \setcounter{enumii}{4}
-    \item The ``proximity'' model, selecting the ordination of either the ancestor or the descendant if the slice occurs respectively before or after half the branch length.
     \item The ``gradual'' model (probabilistic), selecting the ordination score from both the ancestor and the descendant with a probability equal to the length between the slice.
           \begin{equation}
               p(\text{ancestor}) = \frac{d(\text{ancestor},\text{slice})}{d(\text{ancestor},\text{descendant})}
@@ -262,10 +260,9 @@ When the phylogenetic elements are branches we chose the ordination score for th
     \noindent Where $d(x,y)$ is the distance measured as branch length.
     \end{enumerate}
 
-    The ``proximity'' model is a variation of the ``random'' one described above were the selection of the data is not random but arbitrarily based on branch length.
-    However, similarly to the ``random'' one, this model doesn't allow variation.
-    The last ``gradual'' model is also a variation of the ``punctuated'' and allows variation in a similar way (but based on branch length).
-    For example, if slice occurs at the third quarter of a branch from A to B (75\% of the total branch length), after bootstrapping, the disparity results will be based on 25\% of the data from A and 75\% of the data from B.
+    In these models, both the ancestor's and descendant's data will participate to the disparity calculation based on the following models:
+    For example, using the ``gradual.split'' model, if slice occurs at the third quarter of a branch from A to B (75\% of the total branch length), after bootstrapping, the disparity results will be based on 25\% of the data from A and 75\% of the data from B.
+    Because of the probabilistic nature of these models, there are only meaningful when calculating disparity from bootstrapped datasets.
 \end{enumerate}
 
 %TG: Justification on the fact that these models are not ACEs.
