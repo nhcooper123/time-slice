@@ -213,45 +213,79 @@ strat <- out1$results$stratigraphy
 duration <- out1$results$duration
 number <- out1$results$number
 
-strat <- 
+strat_max <- 
   strat %>%
   group_by(model) %>%
   filter(bs.median == max(bs.median, na.rm = TRUE))
 
-duration <-
+duration_max <-
   duration %>%
   group_by(model) %>%
   filter(bs.median == max(bs.median, na.rm = TRUE))
 
-number <- 
+number_max <- 
   number %>%
   group_by(model) %>%
   filter(bs.median == max(bs.median, na.rm = TRUE))
+
+strat_min <- 
+  strat %>%
+  group_by(model) %>%
+  filter(bs.median == min(bs.median, na.rm = TRUE))
+
+duration_min <-
+  duration %>%
+  group_by(model) %>%
+  filter(bs.median == min(bs.median, na.rm = TRUE))
+
+number_min <- 
+  number %>%
+  group_by(model) %>%
+  filter(bs.median == min(bs.median, na.rm = TRUE))
 
 # epochs
 strat2 <- out2$results$stratigraphy
 duration2 <- out2$results$duration
 number2 <- out2$results$number
 
-strat2 <- 
+strat2_max <- 
   strat2 %>%
   group_by(model) %>%
   filter(bs.median == max(bs.median, na.rm = TRUE))
 
-duration2 <-
+duration2_max <-
   duration2 %>%
   group_by(model) %>%
   filter(bs.median == max(bs.median, na.rm = TRUE))
 
-number2 <- 
+number2_max <- 
   number2 %>%
   group_by(model) %>%
   filter(bs.median == max(bs.median, na.rm = TRUE))
 
-all_peaks <- rbind(strat, duration, number, strat2, duration2, number2)
-write.csv(all_peaks, file = paste0("../outputs/peaks.", slug, ".csv"), quote = FALSE, 
+strat2_min <- 
+  strat2 %>%
+  group_by(model) %>%
+  filter(bs.median == min(bs.median, na.rm = TRUE))
+
+duration2_min <-
+  duration2 %>%
+  group_by(model) %>%
+  filter(bs.median == min(bs.median, na.rm = TRUE))
+
+number2_min <- 
+  number2 %>%
+  group_by(model) %>%
+  filter(bs.median == min(bs.median, na.rm = TRUE))
+
+all_peaks_max <- rbind(strat_max, duration_max, number_max, strat2_max, duration2_max, number2_max)
+write.csv(all_peaks_max, file = paste0("../outputs/peaks.max.", slug, ".csv"), quote = FALSE, 
           row.names = FALSE)
 
+all_peaks_min <- rbind(strat_min, duration_min, number_min, strat2_min, duration2_min, number2_min)
+write.csv(all_peaks_min, file = paste0("../outputs/peaks.min.", slug, ".csv"), quote = FALSE, 
+          row.names = FALSE)
+}
 ```
 You can rerun for the other datasets by changing the slug name at the start.
 
