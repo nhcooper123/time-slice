@@ -13,10 +13,61 @@ output:
 Loading the code:
 
 ```{r}
+library(ape)
+library(dispRity)
 source("../functions/figures_fun.R")
 ```
 
 ## Disparity peaks figures (maximum/minimum)
+
+Initialising the slug and loading the data:
+
+Initialising the slug and loading the data:
+
+```{r}
+## Slugs (choose one)
+slug <- "Beck2014"
+# slug <- "Brusatte2014"
+# slug <- "Bapst2016"
+# slug <- "Wright2017"
+
+## Load the data
+data_max <- read.csv(paste0("../outputs/peaks.max.", slug, ".csv"), stringsAsFactors = FALSE)
+
+## Get the relative age
+relative_time <- read.nexus(file = paste0("../data/processed/tree.", slug, ".tre"))
+if(slug == "Wright2017") {
+    relative_time <- 484.4
+} else {
+    relative_time <- max(tree.age(relative_time)$age)
+}
+```
+
+Single plots:
+
+```{r, fig.width = 12, fig.height = 6}
+op <- par(mfrow = c(1,2))
+plot.max.min(data_max, relative.time = relative_time, xaxis = TRUE, yaxis = TRUE, pch = 19, main = "Relative age at maximum disparity in Beck2014")
+plot.max.min(data_max, relative.time = relative_time, xaxis = TRUE, yaxis = TRUE, pch = 19, main = "Maximum disparity in Beck2014", what = "disparity", legend.coords = "bottomright")
+par(op)
+```
+
+Multiple plots:
+
+```{r, fig.width = 12, fig.height = 4}
+## Names of the datasets
+slugs <- as.list(c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017"))
+
+## Load all the data
+data_list <- lapply(slugs, function(slug) read.csv(paste0("../outputs/extinction.", slug, ".csv"), stringsAsFactors = FALSE))
+
+## Set up the colours (yeah, they're ugly for now)
+colours <- c("lightblue", "yellow", "white") #Signif, non-signif, NA
+
+## Plot all the results
+multi.plot.extinction(data_list, type = c("age", "epoch"), data.names = unlist(slugs), cols = colours)
+```
+
 
 
 
