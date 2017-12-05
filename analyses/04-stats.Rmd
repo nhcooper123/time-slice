@@ -379,8 +379,13 @@ result <- rbind(result, wrap.up.results(test_durat_epo, "epoch", "duration"))
 result <- rbind(result, wrap.up.results(test_numbe_epo, "epoch", "number"))
 
 ## Significant results
-result <- cbind(results, apply(result[,7:9], 2, function(col) ifelse(col < 0.05, TRUE, FALSE)))
+result <- cbind(result, apply(result[,7:9], 2, function(col) ifelse(col < 0.05, TRUE, FALSE)))
 
 ## Print the table
 knitr::kable(result)
+
+## Save the results
+write.csv(result, file = paste0("../outputs/extinction.", slug, ".csv"), quote = FALSE, 
+          row.names = FALSE)
+
 ```
