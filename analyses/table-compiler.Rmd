@@ -23,7 +23,7 @@ Loading the data:
 
 ```{r}
 ## Getting the data
-slugs <- list("Beck2014", "Brusatte2014", "Bapst2016", "bears", "Wright2017")
+slugs <- list("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017")
 
 ## Matrices lists
 matrices <- lapply(slugs, function(slug) ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))$matrix )
@@ -31,7 +31,7 @@ matrices <- lapply(slugs, function(slug) ReadMorphNexus(paste0("../data/matrices
 ## Trees lists
 trees <- lapply(slugs, function(slug) read.nexus(paste0("../data/processed/tree.", slug, ".tre")))
 ## Adding Wright's tree age
-trees[[5]]$root.time <- 485.4
+trees[[4]]$root.time <- 485.4
 ```
 
 ## Data set table
@@ -39,14 +39,14 @@ trees[[5]]$root.time <- 485.4
 
 ```{r}
 ## Column names
-colnames <- c("Group", "n taxa", "m characters", "Age range", "Reference", "Notes")
+colnames <- c("Group", "# taxa", "# characters", "Age range (MYA)", "Mass extinction (MYA)", "Reference(s)")
 
 ## Dataset names
 dataset <- unlist(slugs)
 dataset[4] <- "Heath2016"
 
 ## Groups
-group <- c("Eutherian mammals", "theropods", "theropods", "bears", "crinoids")
+group <- c("eutherian mammals", "theropods", "theropods", "crinoids")
 
 ## Number of taxa
 ntaxa <- unlist(lapply(matrices, nrow))
@@ -58,15 +58,14 @@ mcharacters <- unlist(lapply(matrices, ncol))
 age_ranges <- lapply(trees, function(tree) rev(range(tree.age(tree)$age)))
 age_ranges <- unlist(lapply(age_ranges, function(age) paste(age, collapse = " - ")))
 
-## References and Notes (to be filled in LaTeX)
-reference <- notes <- rep("", length(slugs))
-notes[2] <- "2 + 9 taxa removed"
-notes[3] <- "12 + 19 taxa removed. Tree was randomly selected from all time-scaled trees"
-notes[4] <- "12 + 0 taxa removed"
-notes[5] <-  "Maximum clade credibility tree, time-scaled by dividing branches by 0.03517385 and setting root time to 485.4"
+## Mass extinction
+mass <- c("66", "66", "66", "443")
+
+## References (to be filled in LaTeX)
+reference <- rep("", length(slugs))
 
 ## Formatting the table
-table_out <- data.frame(group, ntaxa, mcharacters, age_ranges, reference, notes)
+table_out <- data.frame(group, ntaxa, mcharacters, age_ranges, mass, reference)
 colnames(table_out) <- colnames
 rownames(table_out) <- dataset
 
