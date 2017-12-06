@@ -93,19 +93,19 @@ get.subsets <- function(morphospace, tree, bins, FADLAD, inc.nodes){
   	                                    model = "proximity")
 
   ## Subset samples by required number of time slices with proximity model
-  subsets.punctuated <- time.subsets(data = morphospace, tree = tree, 
+  subsets.equal.split <- time.subsets(data = morphospace, tree = tree, 
                                         method = "continuous", time = slices, 
                                         FADLAD = FADLAD, inc.nodes = inc.nodes,
-                                        model = "punctuated")
+                                        model = "equal.split")
 
   ## Subset samples by required number of time slices with proximity model
-  subsets.gradual <- time.subsets(data = morphospace, tree = tree, 
+  subsets.gradual.split <- time.subsets(data = morphospace, tree = tree, 
                                         method = "continuous", time = slices, 
                                         FADLAD = FADLAD, inc.nodes = inc.nodes,
-                                        model = "gradual")
+                                        model = "gradual.split")
 
   return(list(subsets.bins, subsets.acctran, subsets.deltran, subsets.random,
-              subsets.proximity, subsets.punctuated, subsets.gradual))
+              subsets.proximity, subsets.equal.split, subsets.gradual.split))
 }
 
 ##--------------------------------------------------------------------------
@@ -195,7 +195,7 @@ run.all.disparity <- function(morphospace, tree, bins, FADLAD, inc.nodes = TRUE,
   
   ## Add model designations
   models <- c("equalbins", "acctran", "deltran", "random", "proximity",
-              "punctuated", "gradual")
+              "equal.split", "gradual.split")
   disparity.outputs <- mapply(cbind, disparity.object, "model" = models,
                               SIMPLIFY = FALSE)
   ## Flatten list to a dataframe
@@ -366,7 +366,7 @@ plot.results.dispRity <- function(slug.object, method, colors, colors_CI, main,
     ## Legend
     if(legend) {
       if(length(slug.object[[1]]) == 7) {
-        legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "punctuated", "gradual", "time bins"), col = colors[1:7], lty = 1)
+        legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "equal.split", "gradual.split", "time bins"), col = colors[1:7], lty = 1)
       } else {
         legend(x = "bottomright", legend = c("acctran", "deltran", "random", "proximity", "time bins"), col = colors[1:5], lty = 1)
       }

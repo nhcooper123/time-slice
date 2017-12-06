@@ -26,7 +26,8 @@ library(dispRity)
 Loading the data
 -----------------------------------
 
-This script requires the outputs from `02-time-slice-analyses.Rmd`. The code below runs the analyses for the Beck and Lee 2014 dataset - chaneg the slug name to run the others. This of course can all be written into functions but we ran out of time so here is some suboptimal but working code!
+This script requires the outputs from `02-time-slice-analyses.Rmd`. The code below runs the analyses for the Beck and Lee 2014 dataset - change the slug name to run the others. This of course can all be written into functions but we ran out of time so here is some suboptimal but working code!
+
 
 ```{r}
 slug <- "Beck2014"
