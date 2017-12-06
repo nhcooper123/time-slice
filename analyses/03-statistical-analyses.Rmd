@@ -44,8 +44,8 @@ slugs <- c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017")
 for(i in 1:4) {
   slug <- slugs[i]
   
-out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
-#out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+#out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
 
 # i) statigraphy
 strat <- out1$results$stratigraphy
@@ -232,7 +232,6 @@ Set the slug:
 slug <- "Beck2014" ; extinction <- 66.0
 # slug <- "Brusatte2014"; extinction <- 66.0
 # slug <- "Bapst2016"; extinction <- 66.0
-# slug <- "bears"; extinction <- NA
 # slug <- "Wright2017"; extinction <- 443.0
 ```
 
@@ -327,7 +326,6 @@ Set the slug
 slug <- "Beck2014"
 #slug <- "Brusatte2014"
 #slug <- "Bapst2016"
-#slug <- "bears"
 #slug <- "Wright2017"
 ```
 
