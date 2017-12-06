@@ -14,6 +14,7 @@
 #' @param legend.coords where to plot the legend (can be left empty)
 #' @param xaxis whether to put the labels on the x axis
 #' @param yaxis whether to put the labels on the y axis
+#' @param relative.disparity whether to plot the disparity relatively
 #' 
 #' @examples
 #' ##
@@ -22,7 +23,7 @@
 #' @export
 #' 
 
-plot.max.min <- function(data, cols = c("black", "red", "green3", "blue", "cyan", "magenta", "yellow"), lty = c(1,2), pch = 21, what = "age", adj = 0.1, type = "age", legend = TRUE, relative.time, xaxis = FALSE, yaxis = FALSE, legend.coords, ...) {
+plot.max.min <- function(data, cols = c("black", "red", "green3", "blue", "cyan", "magenta", "yellow"), lty = c(1,2), pch = 19, what = "age", adj = 0.1, type = "age", legend = TRUE, relative.time, xaxis = FALSE, yaxis = FALSE, legend.coords, relative.disparity = FALSE, ...) {
 
     ## select the data type
     if(type == "age") {
@@ -48,15 +49,25 @@ plot.max.min <- function(data, cols = c("black", "red", "green3", "blue", "cyan"
 
         ## Adjusting ages
         if(!missing(relative.time)) {
-            data_values <- lapply(data_values, function(X, relative.time) return(X/relative.time), relative.time)
-            ylim <- c(0,1)
+            if(relative.time != FALSE) {
+                data_values <- lapply(data_values, function(X, relative.time) return(X/relative.time), relative.time)
+                ylim <- c(0,1)
+            } else {
+                ylim <- range(unlist(data_values))
+            }
         } else {
             ylim <- range(unlist(data_values))
         }
 
     } else {
         data_values <- data[,4:8]
-        ylim <- range(as.vector(data_values))
+        if(relative.disparity) {
+            ## Scale disparity
+            data_values <- data_values/max(data_values)
+            ylim <- range(as.vector(data_values))
+        } else {
+            ylim <- range(as.vector(data_values))
+        }
     }
 
     ## Get the sorting
@@ -161,8 +172,89 @@ plot.max.min <- function(data, cols = c("black", "red", "green3", "blue", "cyan"
 }
 
 
-multi.plot.max.min <- function() {
-    return(NULL)
+multi.plot.max.min <- function(data_list, what = c("age"), cols, lty, pch, adj = 0.1, relative.time, legend = FALSE, names.data) {
+
+    length_data <- length(data_list)
+
+    ## Plot layout
+    plot_layout <- layout(matrix(c(1:(length_data*2)), 2, length_data, byrow = TRUE), rep(1, length_data*2), rep(1, length_data*2), FALSE)
+    # layout.show(plot_layout)
+
+
+    # if(what == "age") {
+    if(!missing(relative.time)) {
+        is_relative.time <- TRUE
+        relative.disparity <- TRUE
+    } else {
+        is_relative.time <- FALSE
+        relative.disparity <- FALSE
+    }
+    # }
+
+    ## Set the relative time (if necessary)
+    if(is_relative.time) {
+        relative_time <- relative.time[[1]]
+    }
+
+    ## First plot (first row)
+    par(mar = c(0, 6, 4, 0)) #c(bottom, left, top, right)
+    plot.max.min(data_list[[1]], cols = colours, lty = lty, pch = pch, what = what, adj = adj, type = "age", xaxis = FALSE, yaxis = TRUE, relative.time = relative_time, relative.disparity = relative.disparity, legend = legend, main = names.data[[1]])
+
+    ## Other plots (first row)
+    for(slug in 2:(length_data-1)) {
+
+        if(is_relative.time) {
+            relative_time <- relative.time[[slug]]
+        }
+
+        par(mar = c(0, 0, 4, 0)) #c(bottom, left, top, right)
+        plot.max.min(data_list[[slug]], cols = colours, lty = lty, pch = pch, what = what, adj = adj, type = "age", xaxis = FALSE, yaxis = FALSE, relative.time = relative_time, relative.disparity = relative.disparity, legend = FALSE, main = names.data[[slug]])
+    }
+
+    if(is_relative.time) {
+        relative_time <- relative.time[[4]]
+    }
+
+    ## Last plot (first row)
+    par(mar = c(0, 0, 4, 3))
+    plot.max.min(data_list[[length_data]], cols = colours, lty = lty, pch = pch, what = what, adj = adj, type = "age", xaxis = FALSE, yaxis = FALSE, relative.time = relative_time, relative.disparity = relative.disparity, legend = FALSE, main = names.data[[length_data]])
+    
+    if(is_relative.time) {
+        axis(4, at = 0.5, tick = FALSE, label = "age")
+    } 
+
+
+    ## Set the relative time (if necessary)
+    if(is_relative.time) {
+        relative_time <- relative.time[[1]]
+    }
+
+    ## First plot (second row)
+    par(mar = c(4, 6, 0, 0)) #c(bottom, left, top, right)
+    plot.max.min(data_list[[1]], cols = colours, lty = lty, pch = pch, what = what, adj = adj, type = "epoch", xaxis = TRUE, yaxis = TRUE, relative.time = relative_time, relative.disparity = relative.disparity, legend = FALSE)
+
+    ## Other plots (second row)
+    for(slug in 2:(length_data-1)) {
+
+        if(is_relative.time) {
+            relative_time <- relative.time[[slug]]
+        }
+
+        par(mar = c(4, 0, 0, 0)) #c(bottom, left, top, right)
+        plot.max.min(data_list[[slug]], cols = colours, lty = lty, pch = pch, what = what, adj = adj, type = "epoch", xaxis = TRUE, yaxis = FALSE, relative.time = relative_time, relative.disparity = relative.disparity, legend = FALSE)
+    }
+
+    if(is_relative.time) {
+        relative_time <- relative.time[[4]]
+    }
+
+    ## Last plot (second row)
+    par(mar = c(4, 0, 0, 3))
+    plot.max.min(data_list[[length_data]], cols = colours, lty = lty, pch = pch, what = what, adj = adj, type = "epoch", xaxis = TRUE, yaxis = FALSE, relative.time = relative_time, relative.disparity = relative.disparity, legend = FALSE)
+    
+    if(is_relative.time) {
+        axis(4, at = 0.5, tick = FALSE, label = "epoch")
+    } 
 }
 
 #' @title Plotting extinction results

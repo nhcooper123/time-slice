@@ -59,13 +59,29 @@ Multiple plots:
 slugs <- as.list(c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017"))
 
 ## Load all the data
-data_list <- lapply(slugs, function(slug) read.csv(paste0("../outputs/extinction.", slug, ".csv"), stringsAsFactors = FALSE))
+data_list_max <- lapply(slugs, function(slug) read.csv(paste0("../outputs/peaks.max.", slug, ".csv"), stringsAsFactors = FALSE))
+data_list_min <- lapply(slugs, function(slug) read.csv(paste0("../outputs/peaks.min.", slug, ".csv"), stringsAsFactors = FALSE))
 
-## Set up the colours (yeah, they're ugly for now)
-colours <- c("lightblue", "yellow", "white") #Signif, non-signif, NA
+## Load the relative time
+relative_times <- lapply(slugs, function(slug) read.nexus(file = paste0("../data/processed/tree.", slug, ".tre")))
+relative_times <- lapply(relative_times, function(tree) max(tree.age(tree)$age))
+relative_times[[4]] <- 484.4
 
-## Plot all the results
-multi.plot.extinction(data_list, type = c("age", "epoch"), data.names = unlist(slugs), cols = colours)
+## Set up the colours (to be changed)
+colours <- palette()[1:7]
+
+## Plot all maximum ages
+multi.plot.max.min(data_list_max, what = c("age"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, legend = TRUE, names.data = unlist(slugs))
+
+## Plot all maximum disparity
+multi.plot.max.min(data_list_max, what = c("disparity"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
+
+## Plot all minimum ages
+multi.plot.max.min(data_list_max, what = c("age"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
+
+## Plot all minimum disparity
+multi.plot.max.min(data_list_max, what = c("disparity"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
+
 ```
 
 
