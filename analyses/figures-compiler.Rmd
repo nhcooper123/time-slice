@@ -77,10 +77,10 @@ multi.plot.max.min(data_list_max, what = c("age"), cols = colours, lty = c(1,2),
 multi.plot.max.min(data_list_max, what = c("disparity"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
 
 ## Plot all minimum ages
-multi.plot.max.min(data_list_max, what = c("age"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
+multi.plot.max.min(data_list_min, what = c("age"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
 
 ## Plot all minimum disparity
-multi.plot.max.min(data_list_max, what = c("disparity"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
+multi.plot.max.min(data_list_min, what = c("disparity"), cols = colours, lty = c(1,2), pch = 19, adj = 0.1, relative.time = relative_times, names.data = unlist(slugs))
 
 ```
 

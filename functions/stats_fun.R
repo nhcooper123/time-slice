@@ -23,7 +23,7 @@ select.max.min.method <- function(method, fun = max, method.name) {
 
     ## Summarise the data
     summary_data <- summary(disparity, round = 10)
-    return(cbind(summary_data[which(summary_data[,4] == fun(summary_data[,4], na.rm = TRUE)),], "model" = model))
+    return(cbind(summary_data[which(summary_data[,4] == fun(summary_data[,4], na.rm = TRUE))[1],], "model" = model))
   }  
 
   ## Apply the select.max.min function to the whole method

@@ -200,6 +200,15 @@ slug <- "Beck2014"
 #slug <- "Wright2017"
 ```
 
+<!-- for looping -->
+
+```{r, echo = FALSE, eval = FALSE}
+slugs <- c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017")
+for(i in 1:4) {
+slug <- slugs[i]
+}
+```
+
 Read in the data
 
 ```{r}
