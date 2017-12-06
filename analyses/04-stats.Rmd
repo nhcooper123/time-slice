@@ -21,6 +21,7 @@ Load packages and functions
 library(tidyverse)
 library(broom)
 library(dispRity)
+source("../functions/stats_fun.R")
 ```
 
 Loading the data
@@ -209,10 +210,42 @@ out2 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
 Extract the maximum bootstrapped median disparity values for each model, with details of the peak bin/slice times.
 
 ```{r, warning = FALSE}
+
+## Getting the max/min for each age/epoch
+age_results_max <- do.call(rbind, lapply(out1$objects, select.max.min.method, fun = max))
+age_results_min <- do.call(rbind, lapply(out1$objects, select.max.min.method, fun = min))
+epoch_results_max <- do.call(rbind, lapply(out1$objects, select.max.min.method, fun = max))
+epoch_results_min <- do.call(rbind, lapply(out1$objects, select.max.min.method, fun = min))
+
+## Combining into the nice table formats
+age_results_max <- cbind(age_results_max, "stratigraphy" = rep("Age", nrow(age_results_max)),
+                         "bin_type" = unlist(strsplit(rownames(age_results_max), split = "\\..*")))
+age_results_min <- cbind(age_results_min, "stratigraphy" = rep("Age", nrow(age_results_min)),
+                         "bin_type" = unlist(strsplit(rownames(age_results_min), split = "\\..*")))
+epoch_results_max <- cbind(epoch_results_max, "stratigraphy" = rep("Epoch", nrow(epoch_results_max)),
+                        "bin_type" = unlist(strsplit(rownames(epoch_results_max), split = "\\..*")))
+epoch_results_min <- cbind(epoch_results_min, "stratigraphy" = rep("Epoch", nrow(epoch_results_min)),
+                        "bin_type" = unlist(strsplit(rownames(epoch_results_min), split = "\\..*")))
+
+## Combining the age and epoch results together
+all_peaks_max <- rbind(age_results_max, epoch_results_max)
+all_peaks_min <- rbind(age_results_min, epoch_results_min)
+
+write.csv(all_peaks_max, file = paste0("../outputs/peaks.max.", slug, ".csv"), quote = FALSE, 
+          row.names = FALSE)
+
+write.csv(all_peaks_min, file = paste0("../outputs/peaks.min.", slug, ".csv"), quote = FALSE, 
+          row.names = FALSE)
+```
+
+<!-- former version -->
+
+```{r, eval = FALSE, echo = FALSE}
 # ages
 strat <- out1$results$stratigraphy
 duration <- out1$results$duration
 number <- out1$results$number
+
 
 strat_max <- 
   strat %>%
