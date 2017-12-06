@@ -286,7 +286,6 @@ write.csv(all_peaks_max, file = paste0("../outputs/peaks.max.", slug, ".csv"), q
 all_peaks_min <- rbind(strat_min, duration_min, number_min, strat2_min, duration2_min, number2_min)
 write.csv(all_peaks_min, file = paste0("../outputs/peaks.min.", slug, ".csv"), quote = FALSE, 
           row.names = FALSE)
-}
 ```
 You can rerun for the other datasets by changing the slug name at the start.
 
