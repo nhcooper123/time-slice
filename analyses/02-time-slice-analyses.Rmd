@@ -28,8 +28,8 @@ library(ape)
 ## install_github("TGuillerme/Claddis")
 library(Claddis)
 
-## The latest version of dispRity on release branch #TG: master is under many changes!
-## install_github("TGuillerme/dispRity", ref = "release")
+## The latest version of dispRity
+## install_github("TGuillerme/dispRity", ref = "master")
 library(dispRity) 
 
 ## Load functions using source
