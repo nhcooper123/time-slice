@@ -54,8 +54,8 @@
 
 \vfill
 
-\runninghead{Time slicing}
-\keywords{??} 
+\runninghead{Time subsamples in disparity-through-time analyses}
+\keywords{time bin, time slice, disparity} 
 % up to 6
 
 \begin{document}
@@ -80,31 +80,39 @@
 %TG: §3: specific ways to look through-time and their problems
 %TG: §4: our kind of solution
 
-Disparity-through-time analyes are common in palaeontology.
-Examples
-They often provide us with exciting insights into mass extinctions, competitive replacements etc.
-However, our methods for analysing diversity-through-time have not changed all that much in the XX years they have been popular. %TG: small caveat on that after litterature search for the disparity review paper: disparity-through-time analysis have not changed much since Foote 1992, Foote and Gould 1992 and Briggs et al. 1992 in the classic palaeobiology approach...
+Disparity-through-time analyes are common in palaeontology \citep{Foote01071994}.
+They reveal how the morphological diversity of clades has changed through time, and allow us to make inferences about the breadth of ecological niches extinct taxa occupied \citep{foote1997evolution}.
+Results from disparity-through-time studies also provide insights into the ecological impacts of mass extinctions, competitive replacements, and the evolution of morphological innovations \citep{Brusatte12092008,Foote29111996,friedmanexplosive2010}.
+Unfortunately, the way we perform these analyses may have profound effects on our conclusions.
+
+% However, our methods for analysing diversity-through-time have not changed all that much in the XX years they have been popular. %TG: small caveat on that after litterature search for the disparity review paper: disparity-through-time analysis have not changed much since Foote 1992, Foote and Gould 1992 and Briggs et al. 1992 in the classic palaeobiology appro,ach...
 %TG: However to not piss of people, there were several attempts to "rationalise" (Wills 2001), test (Ciampaglio 2001) and expand (Pavlinov 2011 and Gerber et al 2011) namely with univariate approaches and "dtt" analysis (Harmon et al 2003).
 %TG: One of the critisisms from one of the rude reviews was this idea that age of popular method has nothing to do with its performance, by nuancing this sentence we can basically say: yeah, some people have made great advances and proposed great ideas for CORRECTING ERRORS in the methods from the 90s but somehow everybody have ignored them (in palaeobiology).
-The way we perfrom these analyses may have profound effects on our conclusions.
+% NC: OK so lets save ourselves some pain and not mention this at all and save it all for the bitching in the review paper!!!
 
-One aspect that is not always carefully considered, is how to divide taxa into subsets through time. The nature of disparity, i.e. a diversity metric, means it cannot be calculated using just one individual, so some way of subsetting taxa is required.
+Disparity-through-time analyes have two main analysis components: calculating disparity, and creating time subsamples of the data. 
+Here we focus on the latter.
+The nature of disparity (it is a diversity metric), means it cannot be calculated using just one individual, so some way of subsetting taxa is required.
+Changes in disparity-through-time are generally investigated by calculating the disparity of taxa present during specific time intervals or time bins \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
+These time bins are usually defined based on stratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrarily chosen time bins of equal duration \citep{Butler2012,hopkinsdecoupling2013,bensonfaunal2014}.
+However, this approach has several limitations.
 
-Stratigraphy
-Time bins
-Time slicing (requires a phylogeny)
+First, time bins defined by stratigraphy are not of equal size, biasing higher disparity towards longer stratigraphic periods. 
+This can be dealt with using rarefaction, i.e. repeating the analysis using the smallest number of taxa present in any bin as the number of sampled taxa in each bin. 
+This can, however, lead to very large confidence intervals when there are stratigraphic periods with very few species.
+Other studies split large time bins so they are of roughly equal size, but this is quite an \textit{ad hoc} procedure that can introduce more bias depending on where bins are split.
+Second, all time binning approaches (whether bins are equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring \textit{between} intervals, rather than also allowing for gradual changes \textit{within} intervals \citep{Hunt21042015}.
+Finally, time bin analyses are often limited by the number of taxa in each bin.
+If there are insufficient taxa in a time bin, disparity cannot be calculated, so further analysis, e.g. correlations of disparity with climate proxies or other hypothesised drivers of morphological evolution, are not possible.
 
-Changes in disparity through time are generally investigated by calculating the disparity of taxa that occupy the cladisto-space during specific time intervals \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
-These time intervals are usually defined based on biostratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrarily chosen time periods of equal duration \citep{Butler2012,hopkinsdecoupling2013,bensonfaunal2014}.
-However, this approach suffers from two main biases. 
-First, if biostratigraphy is used to determine the time intervals, disparity may be distorted towards higher differences between time intervals because biostratigraphical periods are geologically defined based on differences in the morphology of fossils found in the different strata.
-Second, this approach assumes that all characters evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring between intervals, rather than also allowing for gradual changes within intervals \citep{Hunt21042015}.
+To address these issues, we propose a ``time-slicing'' approach that takes advantage of the wealth of paleontological datasets which now have associated phylogenies. 
+Time slicing uses a phylogenetic tree and considers subsets of taxa at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
+This results in even-sampling across time and permits us to define the underlying model of character evolution (punctuated or gradual).  
+Time-slicing also includes any element present in the phylogeny (branches, nodes and tips) at the time slice in question as part of the disparity calculation.
+This allows us to measure disparity at time points where there are no terminal taxa, and increases the sample size at each time point, making downstream analyses of the drivers of disparity much more feasible.
 
-To address these issues, we used a ``time-slicing'' approach that considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
-This results in even-sampling of the cladisto-space across time and permits us to define the underlying model of character evolution (punctuated or gradual).  
-In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
-
-We present this using four datasets collated from the literature.
+Here we present the time slicing methods using four datasets taken from the literature.
+We calculate disparity-through-time for each dataset using a range of time binning and time slicing methods, and then compare these approaches with respect to the relative disparities calculated, but also with how the different approaches influence biological conclusions. We find that XXX
 
 \section{Materials and Methods}
 \subsection{Overview}
@@ -135,10 +143,8 @@ These datasets are freely available with their accompanying papers (Table \ref{d
   %   \caption[Datasets.]
   %   {Dataset captions}
     \input{tables/table_datasets.tex} 
-    \label{tab:data}  
+    \label{tab:datasets}  
   % \end{table}
-% remove notes, add strat ages, add refs to dat sources
-
 
 \subsection{Estimating ancestral character states}
 \label{ace}
