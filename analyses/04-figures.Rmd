@@ -11,9 +11,12 @@ output:
 ```{r, message = FALSE}
 library(tidyverse)
 library(gridExtra)
+source("../functions/multiplot_fun.R")
 ```
+
+
 ```{r}
-slug <- "Brusatte2014"
+slug <- "Beck2014"
 ```
 
 Load the data 
@@ -35,12 +38,16 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just two models,
+# make disparity relative by dividing by max values
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Duration
 x <- str_split(duration$subset, " - ") 
@@ -51,7 +58,10 @@ duration2 <-
   duration %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Number
 x <- str_split(number$subset, " - ") 
@@ -62,38 +72,41 @@ number2 <-
   number %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 ```
 
 Make plots in preparation for larger grid plot below
 
 ```{r}
 
-brusatte_base <- 
-  ggplot(strat2, aes(y = bs.median, x = time, colour = model)) +
+beck_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
   theme_classic(base_size = 16) + 
-  xlab("Time (MYA)") + 
-  ylab("Disparity") + 
-  scale_y_continuous(breaks = seq(0, 10, 2), 
-                     labels = seq(0, 10, 2)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2), 
+                     labels = seq(0, 1, 0.2)) +
   scale_x_reverse(limits = c(100, 0)) +
-  expand_limits(x = 0, y = 3) +
-  theme(legend.position = "none")
+  expand_limits(x = 0, y = 0)
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
 
-brusatte_s <- 
-  brusatte_base +
+beck_s <- 
+  beck_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
   
-brusatte_d <- 
-  brusatte_base +
+beck_d <- 
+  beck_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
 
-brusatte_n <- 
-  brusatte_base +
+beck_n <- 
+  beck_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
 
 ```
 
@@ -127,7 +140,10 @@ strat2 <-
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Duration
 x <- str_split(duration$subset, " - ") 
@@ -138,7 +154,10 @@ duration2 <-
   duration %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Number
 x <- str_split(number$subset, " - ") 
@@ -149,7 +168,10 @@ number2 <-
   number %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 ```
 
 Make plots in preparation for larger grid plot below
@@ -157,30 +179,30 @@ Make plots in preparation for larger grid plot below
 ```{r}
 
 brusatte_base <- 
-  ggplot(strat2, aes(y = bs.median, x = time, colour = model)) +
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
   theme_classic(base_size = 16) + 
-  xlab("Time (MYA)") + 
-  ylab("Disparity") + 
-  scale_y_continuous(breaks = seq(0, 10, 2), 
-                     labels = seq(0, 10, 2)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2), 
+                     labels = seq(0, 1, 0.2)) +
   scale_x_reverse(limits = c(100, 0)) +
-  expand_limits(x = 0, y = 3) +
-  theme(legend.position = "none")
+  expand_limits(x = 0, y = 0)
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
 
 brusatte_s <- 
   brusatte_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
   
 brusatte_d <- 
   brusatte_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
 
 brusatte_n <- 
   brusatte_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
 
 ```
 
@@ -212,7 +234,10 @@ strat2 <-
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Duration
 x <- str_split(duration$subset, " - ") 
@@ -223,7 +248,10 @@ duration2 <-
   duration %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Number
 x <- str_split(number$subset, " - ") 
@@ -234,7 +262,10 @@ number2 <-
   number %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 ```
 
 Make plots in preparation for larger grid plot below
@@ -242,30 +273,30 @@ Make plots in preparation for larger grid plot below
 ```{r}
 
 bapst_base <- 
-  ggplot(strat2, aes(y = bs.median, x = time, colour = model)) +
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
   theme_classic(base_size = 16) + 
-  xlab("Time (MYA)") + 
-  ylab("Disparity") + 
-  scale_y_continuous(breaks = seq(0, 10, 2), 
-                     labels = seq(0, 10, 2)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2), 
+                     labels = seq(0, 1, 0.2)) +
   scale_x_reverse(limits = c(100, 0)) +
-  expand_limits(x = 0, y = 4) +
-  theme(legend.position = "none")
+  expand_limits(x = 0, y = 0)
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
 
 bapst_s <- 
   bapst_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
   
 bapst_d <- 
   bapst_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
 
 bapst_n <- 
   bapst_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
 
 ```
 
@@ -297,7 +328,10 @@ strat2 <-
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Duration
 x <- str_split(duration$subset, " - ") 
@@ -308,7 +342,10 @@ duration2 <-
   duration %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 
 # Number
 x <- str_split(number$subset, " - ") 
@@ -319,7 +356,10 @@ number2 <-
   number %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  filter(model == "equalbins" | model == "proximity")
+  filter(model == "equalbins" | model == "proximity" | model == "gradual.split") %>%
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
 ```
 
 Make plots in preparation for larger grid plot below
@@ -327,43 +367,50 @@ Make plots in preparation for larger grid plot below
 ```{r}
 
 wright_base <- 
-  ggplot(strat2, aes(y = bs.median, x = time, colour = model)) +
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
   theme_classic(base_size = 16) + 
-  xlab("Time (MYA)") + 
-  ylab("Disparity") + 
-  scale_y_continuous(breaks = seq(0, 3, 1), 
-                     labels = seq(0, 3, 1)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2), 
+                     labels = seq(0, 1, 0.2)) +
   scale_x_reverse(limits = c(470, 370),
                   breaks = c(seq(470, 370, by = -20))) +
-  expand_limits(y = c(1,3)) +
-  theme(legend.position = "none")
+  expand_limits(x = 0, y = 0) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank())
 
 wright_s <- 
   wright_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  theme(legend.position = "none")
   
 wright_d <- 
   wright_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  theme(legend.position = "none")
 
 wright_n <- 
   wright_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = `2.5%`, ymax = `97.5%`), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  theme(legend.position = "none")
 
 ```
 
 Finally plot them all together
 
 ```{r}
+# Using modified multiplot function
+# written by Scott Chamberlain
+all <-   
+  multiplot(beck_s, beck_d, beck_n,
+            brusatte_s, brusatte_d, brusatte_n,
+            bapst_s, bapst_d, bapst_n,
+            wright_s, wright_d, wright_n,
+            cols = 3, 
+            labs = list("Time (MYA)", 
+                        "Relative disparity"))
 
-all <- grid.arrange(brusatte_s, brusatte_d, brusatte_n,
-                    bapst_s, bapst_d, bapst_n,
-                    wright_s, wright_d, wright_n, ncol = 3)
-
-
-ggsave("", all, 
+ggsave("../manuscript/figures/figure-dtt.png", all, 
        device = png(width = 600, height = 400))
 ```
