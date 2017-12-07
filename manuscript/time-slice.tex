@@ -219,13 +219,12 @@ Here we explore the following scenarios.
 
 \paragraph{Time slicing} 
 \label{time_slicing}
-% THOMAS TO UPDATE THIS BIT!!!
 The ``time-slicing'' approach considers subsets of taxa in the cladisto-space at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
-This results in even-sampling of the cladisto-space across time and while permitting to use an underlying model of character evolution (punctuated or gradual). % and others ADD). %TG: I don't have any other ones in stock. But it could be easy to come up with new ones. They're easy to implement.
+This results in even-sampling of the cladisto-space across time and while permitting to use an underlying model of character evolution (punctuated or gradual). 
 
 In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
-When the phylogenetic elements are nodes or tips, the ordination scores for the nodes (estimated using ancestral state reconstruction as described in section \ref{ace}) or tips are directly used for estimating disparity.
-When the phylogenetic elements are branches we chose the ordination score for the branch using one of two evolutionary models:
+When the phylogenetic elements are nodes or tips, the ordination scores for the nodes (estimated using ancestral state reconstruction as described above) or tips are directly used for estimating disparity.
+When the phylogenetic elements are branches we choose the ordination score for the branch using one of two evolutionary models:
 
 %TG: Not sure if it's the "egeinvector" score or the "eigen" score. I think there's a trick in naming them depending on how the algorithm does the transformation (soemthing with using eigenvalues or eigenvectors). I call it ordination score for now.
 
@@ -234,14 +233,14 @@ When the phylogenetic elements are branches we chose the ordination score for th
 
     \item{\textbf{Punctuated evolution.}} 
     This model selects the ordination score from either the ancestral node or the descendant node/tip of the branch regardless of the position of the slice along the branch. 
-    Similarly to the time interval approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period and clades undergo long periods of stasis during their evolution \citep{Gould1977,Hunt20112007}.
-    We applied this model in four ways: 
+    Similarly to the time bin approach, this reflects a model of punctuated evolution where changes in disparity occur either at the start or at the end of a branch over a relatively short time period and clades undergo long periods of stasis during their evolution \citep{Gould1977,Hunt20112007}.
+    We apply this model in four ways: 
 
     \begin{enumerate}[(i)]
 
       \item The ``acctran'' model, always selecting the ordination score of the ancestral node of the branch.
       \item The ``deltran'' model, always selecting the ordination score of the descendant node/tip of the branch.
-      \item The ``random'' model, selecting randomly between the ordination score of the ancestor or the descendant of the branch.
+      \item The ``random'' model, randomly selecting the ordination score of either the ancestor or the descendant of the branch.
       \item The ``proximity'' model, selecting the ordination of either the ancestor or the descendant if the slice occurs respectively before or after half the branch length.
 
     \end{enumerate}
@@ -278,8 +277,8 @@ When the phylogenetic elements are branches we chose the ordination score for th
 \end{enumerate}
 
 %TG: Justification on the fact that these models are not ACEs.
-It is important to notice that the time-slicing method is not an ancestral states estimation method \textit{per se}.
-This method does not estimate values along a branch applying a model (\textit{c.f.} methods described in \ref{ace}) but rather chooses between the two available information (the descendant or the ancestor) using the models described above.
+It is important to note that the time-slicing method is not an ancestral states estimation method \textit{per se}.
+This method does not estimate values along a branch applying a model (\textit{c.f.} methods described in \ref{ace}) but rather chooses between the two available pieces of information (the ordination score of the descendant or the ancestor) using the models described above.
 This allows this method to be used in post-ordination analysis were the data used in each time slice is data already present in the cladisto-space.
 In other words, this method does not require a re-ordination of the cladisto-space every time a slice goes through a branch, thus allowing the properties of the cladisto-space (e.g. distance between species, variance per axis, etc.) to remain constant.
 
