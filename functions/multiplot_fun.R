@@ -38,8 +38,8 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL,
     }
     
     if(!length(labs) == 0){
-      grid.text(labs[1], x=labpos[[1]][1], y=labpos[[1]][2], gp=gpar(fontsize=16))
-      grid.text(labs[2], x=labpos[[2]][1], y=labpos[[2]][2], rot=90, gp=gpar(fontsize=16))
+      grid.text(labs[1], x=labpos[[1]][1], y=labpos[[1]][2], gp=gpar(fontsize=14))
+      grid.text(labs[2], x=labpos[[2]][1], y=labpos[[2]][2], rot=90, gp=gpar(fontsize=14))
     }
   }
 }
