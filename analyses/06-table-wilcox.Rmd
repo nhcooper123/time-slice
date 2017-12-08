@@ -1,0 +1,131 @@
+---
+title: "Wilcoxon results tables"
+author: "Natalie Cooper"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 12
+---
+
+# Compiling the tables for the paper
+
+Loading the packages
+
+```{r}
+library(xtable)
+library(Claddis)
+library(ape)
+library(dispRity)
+library(tidyverse)
+```
+
+Loading the data:
+
+```{r}
+## Getting the data
+slugs <- list("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017")
+
+## Wilcox results
+wilk <- lapply(slugs, function(slug) read.csv(paste0("../outputs/wilcox.", slug, ".csv"), 
+                                              header = FALSE))
+
+```
+
+Manipulate the data into the format we need.
+
+```{r}
+# Stick p values and W values together
+# Repalce p values with *
+p.values.function <- function(data){ 
+  for (i in 1:length(data$V2)){
+    if(data$V2[i] < 0.05 & data$V2[i] > 0.01){data$V2[i] <- "*"}
+    if(data$V2[i] < 0.01 & data$V2[i] > 0.001){data$V2[i] <- "**"}
+    if(data$V2[i] < 0.001){data$V2[i] <- "***"}
+    if(data$V2[i] > 0.05){data$V2[i] <- ""}
+  }
+  data$V6 <- paste0(data$V1, data$V2)
+return(data)
+}
+
+# Extract epoch only, and proximity and gradual split models
+# Remove excess columns
+# Add model column name
+fix.wilcox <- function(data){
+  data %>%
+  filter(V5 == "Epoch") %>%
+  select(-c(V1,V2, V5)) %>%
+  filter(V3 == "proximity" | V3 == "gradual.split") %>%
+  spread(V4, V6) %>%
+  rename(model = V3)
+}
+  
+wilk2 <- purrr::map(wilk, p.values.function)
+wilk3 <- purrr::map_df(wilk2, fix.wilcox)
+wilk3$dataset <- c(rep(unlist(slugs)[1], 2), rep(unlist(slugs)[2], 2), 
+                   rep(unlist(slugs)[3], 2), rep(unlist(slugs)[4], 2))
+
+```
+
+## Create table for epochs
+
+```{r}
+## variable names
+colnames <- c("Dataset", "Model", "Stratigraphy", "Duration", "Number")
+
+## Formatting the table
+table_out <- data.frame(wilk3$dataset, wilk3$model, wilk3$stratigraphy,
+                        wilk3$duration, wilk3$number)
+colnames(table_out) <- colnames
+
+## Table caption
+table_caption <- "Wilcoxon results"
+
+sink(file = "../manuscript/tables/raw_wilcox_epoch.tex")
+print(xtable(table_out, caption = table_caption), include.rownames = FALSE)
+sink()
+```
+
+## Repeat for appendix tables with epoch and age and all models
+
+Manipulate the data into the format we need.
+
+```{r}
+# Remove excess columns
+# Add model column name
+fix.wilcox.appendix <- function(data){
+  data %>%
+  select(-c(V1,V2)) %>%
+  spread(V4, V6) %>%
+  arrange(V5) %>%
+  rename(model = V3) %>%
+  rename(period = V5)
+}
+  
+wilk2 <- purrr::map(wilk, p.values.function)
+wilk3 <- purrr::map_df(wilk2, fix.wilcox.appendix)
+wilk3$dataset <- c(rep(unlist(slugs)[1], 2), rep(unlist(slugs)[2], 2), 
+                   rep(unlist(slugs)[3], 2), rep(unlist(slugs)[4], 2))
+
+```
+
+## Create table for all data
+
+```{r}
+## variable names
+colnames <- c("Dataset", "Period", "Model", "Stratigraphy", "Duration", "Number")
+
+## Formatting the table
+table_out <- data.frame(wilk3$dataset, wilk3$period,
+                        wilk3$model, wilk3$stratigraphy,
+                        wilk3$duration, wilk3$number)
+colnames(table_out) <- colnames
+
+## Table caption
+table_caption <- "Wilcoxon results for appendix"
+
+sink(file = "../manuscript/tables/raw_wilcox_appendix.tex")
+print(xtable(table_out, caption = table_caption), include.rownames = FALSE)
+sink()
+```
+
