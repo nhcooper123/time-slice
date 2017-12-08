@@ -341,15 +341,32 @@ We repeated these analyses using the two time bins/slices after the one immediat
 
 \subsection{Disparity-through-time analyses}
 
-The full results tables can be found in appendix ??? % details.
+Disparity changes through time for each of the four datasets (Figure \ref{figure:dtt}, Figure in appendix, full tables in the appendix). 
+Relative disparities tend to be lower with time binning methods, likely because these contain fewer taxa than time-slicing methods.
+The six different time-slicing methods (acctran, deltran, random, proximity, equal splits and gradual splits) show similar patterns, so we focus only of the results for one method with a punctuated model of evolution (specifically the `proximity' method), and one method with a gradual model of evolution (specifically the `gradual splits' method).
+Results for all six methods can be found in the appendix. % add details of appendix
 
-% Remind somewhere here that we focus on the proximity and gradual slice methods in the results. But full results are in appendix
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-dtt.pdf}
+    \caption[Relative disparity through time for four example datasets.]
+    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    Pink points represent time binning methods, blue points are time slices with a punctuated model of evolution (specifically the `proximity' method), and green points are time slices with a gradual model of evolution (specifically the `gradual splits' method).
+    Relative disparities (median bootstrapped disparity divided by the maximum median bootstrapped disparity for a dataset and analysis method) are presented so they can be compared across datasets/methods. 
+    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
+    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    In all cases, time bin disparities are plotted at the midpoint of the bin, and error bars represent the 95\% confidence intervals around the bootstrapped median disparity.
+    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).
+    Results for stratigraphic ages, and for other time-slicing models, are in the appendix.}
+    \label{figure:dtt}
+  \end{figure}
 
 \subsection{Testing for differences in the time sub-sampling methods}
-% some demonstration of the differences in the binning - the ladder versus lines plot
 
 \paragraph{Systematic differences in disparity-through-time.} 
-% table? plots? Might be same as the plots above.
+The results of the Wilcoxon tests show that...
+
 
 \paragraph{Disparity peaks and troughs.}
 % Plots showing the differences
@@ -395,8 +412,9 @@ Further stuff to fix?
 	
 
 \section{Acknowledgments}
-	We thank Mark Sutton and Phillip Mannion for inviting us to contribute to the `Evolutionary Modelling' symposium at The Palaeontological Association Annual Meeting 2017.
+	NC thanks Mark Sutton and Phillip Mannion for the invitation to contribute to the `Evolutionary Modelling' symposium at The Palaeontological Association Annual Meeting 2017.
   TG acknowledges support from the Australian Discovery Project Grant number DP170103227 awarded to Vera Weisbecker.
+  We thank Dave Bapst, Steve Brusatte, Graeme Lloyd, April Wright and Davey Wright for assistance in gathering data for the analyses.
 	
 \bibliographystyle{palaeo} 
 \bibliography{time-refs} 
