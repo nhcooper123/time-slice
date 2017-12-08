@@ -1,5 +1,5 @@
 ---
-title: "Wilcoxon results tables"
+title: "Wilcoxon results tables - text and appendix"
 author: "Natalie Cooper"
 date: "`r Sys.Date()`"
 output:
@@ -48,45 +48,46 @@ p.values.function <- function(data){
 return(data)
 }
 
-# Extract epoch only, and proximity and gradual split models
+# Extract proximity and gradual split models
 # Remove excess columns
 # Add model column name
 fix.wilcox <- function(data){
   data %>%
-  filter(V5 == "Epoch") %>%
-  select(-c(V1,V2, V5)) %>%
+  select(-c(V1,V2)) %>%
   filter(V3 == "proximity" | V3 == "gradual.split") %>%
   spread(V4, V6) %>%
-  rename(model = V3)
+  arrange(V5) %>%
+  rename(model = V3) %>%
+  rename(period = V5)  
 }
   
 wilk2 <- purrr::map(wilk, p.values.function)
 wilk3 <- purrr::map_df(wilk2, fix.wilcox)
-wilk3$dataset <- c(rep(unlist(slugs)[1], 2), rep(unlist(slugs)[2], 2), 
-                   rep(unlist(slugs)[3], 2), rep(unlist(slugs)[4], 2))
+wilk3$dataset <- c(rep(unlist(slugs)[1], 4), rep(unlist(slugs)[2], 4), 
+                   rep(unlist(slugs)[3], 4), rep(unlist(slugs)[4], 4))
 
 ```
 
-## Create table for epochs
+## Create table
 
 ```{r}
 ## variable names
-colnames <- c("Dataset", "Model", "Stratigraphy", "Duration", "Number")
+colnames <- c("Dataset", "Period", "Model", "Stratigraphy", "Duration", "Number")
 
 ## Formatting the table
-table_out <- data.frame(wilk3$dataset, wilk3$model, wilk3$stratigraphy,
+table_out <- data.frame(wilk3$dataset, wilk3$period, wilk3$model, wilk3$stratigraphy,
                         wilk3$duration, wilk3$number)
 colnames(table_out) <- colnames
 
 ## Table caption
 table_caption <- "Wilcoxon results"
 
-sink(file = "../manuscript/tables/raw_wilcox_epoch.tex")
+sink(file = "../manuscript/tables/raw_wilcox.tex")
 print(xtable(table_out, caption = table_caption), include.rownames = FALSE)
 sink()
 ```
 
-## Repeat for appendix tables with epoch and age and all models
+## Repeat for appendix tables with all models
 
 Manipulate the data into the format we need.
 
@@ -104,8 +105,8 @@ fix.wilcox.appendix <- function(data){
   
 wilk2 <- purrr::map(wilk, p.values.function)
 wilk3 <- purrr::map_df(wilk2, fix.wilcox.appendix)
-wilk3$dataset <- c(rep(unlist(slugs)[1], 2), rep(unlist(slugs)[2], 2), 
-                   rep(unlist(slugs)[3], 2), rep(unlist(slugs)[4], 2))
+wilk3$dataset <- c(rep(unlist(slugs)[1], 12), rep(unlist(slugs)[2], 12), 
+                   rep(unlist(slugs)[3], 12), rep(unlist(slugs)[4], 12))
 
 ```
 
