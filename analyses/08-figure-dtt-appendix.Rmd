@@ -1,0 +1,855 @@
+---
+title: "Disparity through time - for appendix"
+author: "Natalie Cooper"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 12
+---
+
+```{r, message = FALSE}
+library(tidyverse)
+library(gridExtra)
+library(grid)
+source("../functions/multiplot_fun.R")
+```
+
+
+```{r}
+slug <- "Beck2014"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models,
+# make disparity relative by dividing by max values
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+
+beck_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(100, 0),
+                  breaks = c(seq(100, 0, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+beck_s <- 
+  beck_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  ggtitle("Stratigraphy") +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  annotate("text", x = 75, y = 0.15, label = "Beck2014")
+  
+beck_d <- 
+  beck_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  ggtitle("Duration") +
+  theme(plot.title = element_text(size = 14, hjust = 0.5))
+
+beck_n <- 
+  beck_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  ggtitle("Number") +
+  theme(plot.title = element_text(size = 14, hjust = 0.5))
+
+```
+
+Pick the slug
+
+```{r}
+slug <- "Brusatte2014"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+
+brusatte_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(100, 0),
+                  breaks = c(seq(100, 0, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+brusatte_s <- 
+  brusatte_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  annotate("text", x = 70, y = 0.15, label = "Brusatte2014")
+  
+brusatte_d <- 
+  brusatte_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+brusatte_n <- 
+  brusatte_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+```
+
+```{r}
+slug <- "Bapst2016"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+bapst_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(100, 0),
+                  breaks = c(seq(100, 0, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+bapst_s <- 
+  bapst_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  annotate("text", x = 75, y = 0.15, label = "Bapst2016")
+  
+bapst_d <- 
+  bapst_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+bapst_n <- 
+  bapst_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+```
+
+```{r}
+slug <- "Wright2017"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+
+wright_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(470, 370),
+                  breaks = c(seq(470, 370, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+wright_s <- 
+  wright_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  annotate("text", x = 440, y = 0.15, label = "Wright2017")
+  
+wright_d <- 
+  wright_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  scale_x_reverse(limits = c(470, 370),
+                  breaks = c(seq(470, 370, by = -100)))
+
+wright_n <- 
+  wright_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+```
+
+Finally plot them all together
+
+```{r}
+# Using modified multiplot function
+# written by Scott Chamberlain
+
+pdf("../manuscript/figures/fig-dtt-age-appendix.pdf")  
+  multiplot(beck_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")),
+            brusatte_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
+            bapst_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")),
+            wright_s + theme(plot.margin=unit(c(5.5, 5.5, 12, 25),"points")), 
+            beck_d, brusatte_d, bapst_d, 
+            wright_d + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5),"points")),
+            beck_n,
+            brusatte_n,
+            bapst_n,
+            wright_n + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5),"points")),
+            cols = 3, 
+            labs = list("Time (MYA)", 
+                        "Relative disparity"),
+            labpos=list(c(0.5, 0.015), c(0.03, 0.5)))
+dev.off()
+```
+
+Repeat for epochs
+-----------------
+```{r}
+slug <- "Beck2014"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models,
+# make disparity relative by dividing by max values
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+
+beck_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(100, 0),
+                  breaks = c(seq(100, 0, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+beck_s <- 
+  beck_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  ggtitle("Stratigraphy") +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  annotate("text", x = 75, y = 0.15, label = "Beck2014")
+  
+beck_d <- 
+  beck_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  ggtitle("Duration") +
+  theme(plot.title = element_text(size = 14, hjust = 0.5))
+
+beck_n <- 
+  beck_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  ggtitle("Number") +
+  theme(plot.title = element_text(size = 14, hjust = 0.5))
+
+```
+
+Pick the slug
+
+```{r}
+slug <- "Brusatte2014"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+
+brusatte_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(100, 0),
+                  breaks = c(seq(100, 0, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+brusatte_s <- 
+  brusatte_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  annotate("text", x = 70, y = 0.15, label = "Brusatte2014")
+  
+brusatte_d <- 
+  brusatte_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+brusatte_n <- 
+  brusatte_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+```
+
+```{r}
+slug <- "Bapst2016"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+bapst_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(100, 0),
+                  breaks = c(seq(100, 0, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+bapst_s <- 
+  bapst_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  annotate("text", x = 75, y = 0.15, label = "Bapst2016")
+  
+bapst_d <- 
+  bapst_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+bapst_n <- 
+  bapst_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+```
+
+```{r}
+slug <- "Wright2017"
+```
+
+Load the data 
+
+```{r}
+out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+
+strat <- out1$results$stratigraphy
+duration <- out1$results$duration
+number <- out1$results$number
+```
+
+Get the data into the correct format to plot
+
+```{r}
+# Stratigraphy
+# Get ages for the bins, go for the midpoints
+x <- str_split(strat$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+# Modify data - add midpoints, remove missing data, filter to just two models
+strat2 <- 
+  strat %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Duration
+x <- str_split(duration$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+duration2 <- 
+  duration %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+
+# Number
+x <- str_split(number$subset, " - ") 
+y <- map(x, as.numeric)
+z <- map(y, mean)
+
+number2 <- 
+  number %>%
+  mutate(time = unlist(z)) %>%
+  filter(bs.median != 0 & !is.na(bs.median)) %>%
+  
+  mutate(relative.disparity = bs.median/max(bs.median)) %>%
+  mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
+  mutate(relative.upr = `97.5%`/max(bs.median))
+```
+
+Make plots in preparation for larger grid plot below
+
+```{r}
+
+wright_base <- 
+  ggplot(strat2, aes(y = relative.disparity, x = time, colour = model)) +
+  theme_classic(base_size = 12) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.5), 
+                     labels = seq(0, 1, 0.5)) +
+  scale_x_reverse(limits = c(470, 370),
+                  breaks = c(seq(470, 370, by = -50))) +
+  expand_limits(x = 0, y = c(0,1)) +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "none")
+
+wright_s <- 
+  wright_base +
+  geom_point(data = strat2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  annotate("text", x = 440, y = 0.15, label = "Wright2017")
+  
+wright_d <- 
+  wright_base +
+  geom_point(data = duration2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  scale_x_reverse(limits = c(470, 370),
+                  breaks = c(seq(470, 370, by = -100)))
+
+wright_n <- 
+  wright_base +
+  geom_point(data = number2, size = 2, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+
+```
+
+Finally plot them all together
+
+```{r}
+# Using modified multiplot function
+# written by Scott Chamberlain
+
+pdf("../manuscript/figures/fig-dtt-epoch-appendix.pdf")  
+  multiplot(beck_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")),
+            brusatte_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
+            bapst_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")),
+            wright_s + theme(plot.margin=unit(c(5.5, 5.5, 12, 25),"points")), 
+            beck_d, brusatte_d, bapst_d, 
+            wright_d + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5),"points")),
+            beck_n,
+            brusatte_n,
+            bapst_n,
+            wright_n + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5),"points")),
+            cols = 3, 
+            labs = list("Time (MYA)", 
+                        "Relative disparity"),
+            labpos=list(c(0.5, 0.015), c(0.03, 0.5)))
+dev.off()
+```
