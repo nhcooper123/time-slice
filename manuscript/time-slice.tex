@@ -119,6 +119,9 @@ We calculate disparity-through-time for each dataset using a range of time binni
 \label{overview-section}
 To test the different time sub-sampling methods, we followed the protocol below (Figure \ref{datasets}). 
 All the code needed to reproduce these analyses (along with detailed instructions) is provided on GitHub (https://github.com/nhcooper123/time-slice). 
+
+https://rawgit.com/TGuillerme/dispRity/master/inst/gitbook/_book/details-of-specific-functions.html#time-slicing
+
 % NC: might move this to the NHM github account
 
 % Add overview figure
@@ -136,7 +139,7 @@ All the code needed to reproduce these analyses (along with detailed instruction
 To test the different time binning/slicing methods we selected four datasets: a mammal dataset from \cite{beckancient2014}, two theropod datasets from \cite{brusatte2014gradual} and \cite{bapst2016topology}, and a crinoid dataset from \cite{wright2017bayesian}.
 Table \ref{table:datasets} and appendix ??? provide more details. % add appendix details
 Each dataset consists of first and last occurrence dates for all taxa, a matrix of morphological characters in NEXUS format, and a time-scaled phylogeny. 
-These datasets are freely available with their accompanying papers (Table \ref{table:datasets}), but for reproducibility purposes we also provide the data we used on the NHM Data Portal (CITE).
+These datasets are freely available with their accompanying papers (Table \ref{table:datasets}), but for reproducibility purposes we also provide the data we used on GitHub (https://github.com/nhcooper123/time-slice/data).
 
 % Dataset details table
 \begin{landscape}
@@ -385,27 +388,6 @@ Note that for epochs, we find fewer significant differences simply because the s
 %Fig width 80mm single column
 %110mm - 2/3 width
 %166mm full page
-
-
-	
-%PCA figure
-	%\begin{figure}[!htbp]
-	%\centering
-	%\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/PCA_threeplot.png}
-	%\caption[Morphospace (principal components) plot of morphological diversity in tenrec and golden mole skulls.]
-	%	{Principal components plots of the morphospaces occupied by tenrecs (triangles, n=31 species) and golden moles (circles, n=12 species) for skulls in dorsal (top left), ventral (top right) and lateral (bottom left) views. Each point represents the average skull shape of an individual species. Axes are principal component 1 (PC1) and principal component 2 (PC2) of the average scores from principal components analyses of mean Procrustes shape coordinates for each species.}
-	%\label{fig:threePCA}
-	%\end{figure}
-
-
-% Results table
-	%\begin{table}[!htbp]			
-		%\caption[Comparing morphological diversity in tenrecs and golden moles.]
-		%{Morphological diversity in tenrecs compared to golden moles (12 species). N is the number of tenrec species: 31 species or 17 species including just five representatives of the \textit{Microgale} Genus. Morphological diversity of the Family is the mean Euclidean distance from each species to the Family centroid. Significant differences between the two Families (p$<$0.05) from two-tailed t-tests are highlighted in bold.}
-		%\input{tables/diversity.results} 
-		%\label{tab:diversity}  
-	%\end{table}
-	
 
 \section{Discussion}
 
