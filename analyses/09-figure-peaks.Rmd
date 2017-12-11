@@ -1,5 +1,5 @@
 ---
-title: "Disparity peaks and troughs"
+title: "Disparity peaks"
 author: "Natalie Cooper"
 date: "`r Sys.Date()`"
 output:
@@ -288,8 +288,8 @@ pdf("../manuscript/figures/fig-peaks-epoch.pdf")
             bapst_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             wright_peaks + theme(plot.margin=unit(c(5.5, 5.5, 20, 25),"points")),
             cols = 1,
-            labs = list("Time at disparity peak (MYA)", 
-                        "Time bins or time slice method"),
+            labs = list("Time bins or time slice method",
+                        "Time at disparity peak (MYA)"),
             labpos = list(c(0.5, 0.015), c(0.03, 0.5)))
   
 
@@ -306,8 +306,8 @@ pdf("../manuscript/figures/fig-peaks-age.pdf")
             bapst_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             wright_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 20, 25),"points")),
             cols = 1,
-            labs = list("Time at disparity peak (MYA)", 
-                        "Time bins or time slice method"),
+            labs = list("Time bins or time slice method",
+                        "Time at disparity peak (MYA)"),
             labpos = list(c(0.5, 0.015), c(0.03, 0.5)))
   
 dev.off()
@@ -602,8 +602,8 @@ pdf("../manuscript/figures/fig-peaks-epoch-appendix.pdf")
             bapst_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             wright_peaks + theme(plot.margin=unit(c(5.5, 5.5, 20, 25),"points")),
             cols = 1,
-            labs = list("Time at disparity peak (MYA)", 
-                        "Time bins or time slice method"),
+            labs = list("Time bins or time slice method",
+                        "Time at disparity peak (MYA)"),
             labpos = list(c(0.5, 0.015), c(0.03, 0.5)))
   
 
@@ -620,8 +620,8 @@ pdf("../manuscript/figures/fig-peaks-age-appendix.pdf")
             bapst_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             wright_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 20, 25),"points")),
             cols = 1,
-            labs = list("Time at disparity peak (MYA)", 
-                        "Time bins or time slice method"),
+            labs = list("Time bins or time slice method",
+                        "Time at disparity peak (MYA)"),
             labpos = list(c(0.5, 0.015), c(0.03, 0.5)))
   
 dev.off()
