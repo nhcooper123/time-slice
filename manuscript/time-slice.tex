@@ -121,10 +121,11 @@ We calculate disparity-through-time for each dataset using a range of time binni
 To test the different time sub-sampling methods, we followed the protocol below (Figure \ref{datasets}). 
 All the code needed to reproduce these analyses (along with detailed instructions) is provided on GitHub (https://github.com/nhcooper123/time-slice). 
 
-https://rawgit.com/TGuillerme/dispRity/master/inst/gitbook/_book/details-of-specific-functions.html#time-slicing
+%https://rawgit.com/TGuillerme/dispRity/master/inst/gitbook/_book/details-of-specific-functions.html#time-slicing$
 
 % NC: might move this to the NHM github account
 % TG: why that? It'll be just extra hassle no?
+% NC: Nah it's just a group and makes it clearer here that I'm actually doing some programming work. Takes about 30s to transfer and just means you/I need to change our remotes which again takes 30s.
 
 % Add overview figure
 %TG: This is a first draft of the figure and its caption. Tell me what you think.
@@ -385,6 +386,21 @@ Note that for epochs, we find fewer significant differences simply because the s
 \paragraph{Disparity peaks and troughs.}
 % Plots showing the differences
 
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch.pdf}
+    \caption[Timing of peak disparity for four example datasets.]
+    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    Pink points represent time binning methods, green points are time slices with a punctuated model of evolution (specifically the `proximity' method), and blue points are time slices with a gradual model of evolution (specifically the `gradual splits' method). 
+    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
+    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
+    The four datasets are on separate rows, from top to bottom these are Beck2014, Brusatte2014, Bapst2016 and Wright2017 (Table \ref{table:datasets}).
+    Results for stratigraphic ages, and for other time-slicing models, are in the appendix.}
+    \label{figure:peak1}
+  \end{figure}
+
 \paragraph{Effects of mass extinction events.}
 % Big heat map table thing
 
@@ -448,6 +464,35 @@ Further stuff to fix?
   \input{tables/table_wilcox_appendix.tex} 
   \label{table:wilcox2}  
 %\end{landscape}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch-appendix.pdf}
+    \caption[Timing of peak disparity for four example datasets.]
+    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    %Pink points represent time binning methods, green points are time slices with a punctuated model of evolution (specifically the `proximity' method), and blue points are time slices with a gradual model of evolution (specifically the `gradual splits' method). 
+    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
+    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
+    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).}
+    \label{figure:peak2}
+  \end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-age-appendix.pdf}
+    \caption[Timing of peak disparity for four example datasets.]
+    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    %Pink points represent time binning methods, green points are time slices with a punctuated model of evolution (specifically the `proximity' method), and blue points are time slices with a gradual model of evolution (specifically the `gradual splits' method). 
+    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic ages. 
+    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages in the time frame of the dataset. 
+    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages in the time frame of the dataset. 
+    For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
+    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).}
+    \label{figure:peak3}
+  \end{figure}
+
 	
 \bibliographystyle{palaeo} 
 \bibliography{time-refs} 
