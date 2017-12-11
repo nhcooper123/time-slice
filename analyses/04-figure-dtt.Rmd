@@ -39,7 +39,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models,
+# Modify data - add midpoints, remove missing data, filter to just three models,
 # make disparity relative by dividing by max values
 strat2 <- 
   strat %>%
@@ -144,7 +144,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just three models
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
@@ -240,7 +240,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just three models
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
@@ -335,7 +335,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just three models
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
@@ -459,7 +459,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models,
+# Modify data - add midpoints, remove missing data, filter to just three models,
 # make disparity relative by dividing by max values
 strat2 <- 
   strat %>%
@@ -564,7 +564,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just three models
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
@@ -660,7 +660,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just three models
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
@@ -755,7 +755,7 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data, filter to just three models
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
