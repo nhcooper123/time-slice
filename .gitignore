@@ -66,3 +66,7 @@ inst/doc
 
 ignore/
 *.Rcheck/
+
+manuscript/outlinesvg.svg
+
+manuscript/outline_plots.R

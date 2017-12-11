@@ -89,6 +89,7 @@ Unfortunately, the way we perform these analyses may have profound effects on ou
 %TG: However to not piss of people, there were several attempts to "rationalise" (Wills 2001), test (Ciampaglio 2001) and expand (Pavlinov 2011 and Gerber et al 2011) namely with univariate approaches and "dtt" analysis (Harmon et al 2003).
 %TG: One of the critisisms from one of the rude reviews was this idea that age of popular method has nothing to do with its performance, by nuancing this sentence we can basically say: yeah, some people have made great advances and proposed great ideas for CORRECTING ERRORS in the methods from the 90s but somehow everybody have ignored them (in palaeobiology).
 % NC: OK so lets save ourselves some pain and not mention this at all and save it all for the bitching in the review paper!!!
+% TG: agree!
 
 Disparity-through-time analyes have two main analysis components: calculating disparity, and creating time sub-samples of the data. 
 Here we focus on the latter.
@@ -123,16 +124,18 @@ All the code needed to reproduce these analyses (along with detailed instruction
 https://rawgit.com/TGuillerme/dispRity/master/inst/gitbook/_book/details-of-specific-functions.html#time-slicing
 
 % NC: might move this to the NHM github account
+% TG: why that? It'll be just extra hassle no?
 
 % Add overview figure
+%TG: This is a first draft of the figure and its caption. Tell me what you think.
 
-  %\begin{figure}[!htbp]
-    %\centering
-    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/overview}
-    %\caption[caption title]
-    % {caption text}
-    %\label{overview}
-  %\end{figure}
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{outlinesvg.pdf}
+    \caption[caption title]
+    {Outline of the disparity-through-time pipeline applied to each data set: 1) we used ancestral characters estimation to infer nodal character states, 2) we measured the pairwise Gower distance between the tips and nodal characters, 3) we ordinated the distance matrix using a PCoA, 4) we split that matrix using stratigraphy bins, equal bins and the time slice method, 5) we measured disparity through time for each of these methods.}
+    \label{overview}
+  \end{figure}
 
 \subsection{Example datasets}
 \label{datasets}
@@ -252,8 +255,9 @@ When the phylogenetic elements are branches we choose the ordination score for t
           p(\text{ancestor}) = p(\text{descendant}) = 0.5
           \end{equation}
 
-    \item The ``gradual splits'' model (probabilistic), selects the ordination score from both the ancestor and the descendant with a probability equal to the distance between the slice.
+    \item The ``gradual splits'' model (probabilistic), selects the ordination score from both the ancestor and the descendant with a probability function of the distance between the nodes/tips and the slice.
     % NC: I'm unsure what you mean here: "the distance between the slice." Do you mean the branch length, the interval between slices, or the distance between the slice and the node?
+    %TG: I've clarified as above. Tell me if it's clearer. In my words: the distance between the slice and the node, like you illustrate in your presentation (nicely done by the way!)
           \begin{equation}
               p(\text{ancestor}) = \frac{d(\text{ancestor},\text{slice})}{d(\text{ancestor},\text{descendant})}
           \end{equation}
