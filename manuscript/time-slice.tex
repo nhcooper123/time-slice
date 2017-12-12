@@ -36,7 +36,7 @@
 
 % Title page information
 
-\title{Time for a rethink: disparity-through-time}
+\title{Time for a rethink: time sub-sampling methods in disparity-through-time analyses}
 %TG: Great title first part! How about changing the other part to 
 %Time for a rethink: different ways of slicing through the stratigraphic cake leads to different disparity through time results.
 
@@ -85,12 +85,6 @@ They reveal how the morphological diversity of clades has changed through time, 
 Results from disparity-through-time studies also provide insights into the ecological impacts of mass extinctions, competitive replacements, and the drivers of morphological evolution \citep{Brusatte12092008,Foote29111996,friedmanexplosive2010}.
 Unfortunately, the way we perform these analyses may have profound effects on our conclusions.
 
-% However, our methods for analysing diversity-through-time have not changed all that much in the XX years they have been popular. %TG: small caveat on that after litterature search for the disparity review paper: disparity-through-time analysis have not changed much since Foote 1992, Foote and Gould 1992 and Briggs et al. 1992 in the classic palaeobiology appro,ach...
-%TG: However to not piss of people, there were several attempts to "rationalise" (Wills 2001), test (Ciampaglio 2001) and expand (Pavlinov 2011 and Gerber et al 2011) namely with univariate approaches and "dtt" analysis (Harmon et al 2003).
-%TG: One of the critisisms from one of the rude reviews was this idea that age of popular method has nothing to do with its performance, by nuancing this sentence we can basically say: yeah, some people have made great advances and proposed great ideas for CORRECTING ERRORS in the methods from the 90s but somehow everybody have ignored them (in palaeobiology).
-% NC: OK so lets save ourselves some pain and not mention this at all and save it all for the bitching in the review paper!!!
-% TG: agree!
-
 Disparity-through-time analyes have two main analysis components: calculating disparity, and creating time sub-samples of the data. 
 Here we focus on the latter.
 The nature of disparity (it is a diversity metric), means it cannot be calculated using just one individual, so some way of subsetting taxa is required.
@@ -132,9 +126,9 @@ All the code needed to reproduce these analyses (along with detailed instruction
 
   \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{outlinesvg.pdf}
-    \caption[caption title]
-    {Outline of the disparity-through-time pipeline applied to each data set: 1) we used ancestral characters estimation to infer nodal character states, 2) we measured the pairwise Gower distance between the tips and nodal characters, 3) we ordinated the distance matrix using a PCoA, 4) we split that matrix using stratigraphy bins, equal bins and the time slice method, 5) we measured disparity through time for each of these methods.}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/outlinesvg.pdf}
+    \caption[Outline of the disparity-through-time pipeline]
+    {1) We use ancestral character estimation to infer nodal character states; 2) we measure the pairwise Gower distance between the tip character states and nodal character states; 3) we ordinate the distance matrix using principal coordinates analysis (PCoA); 4) we time sub-sample the PCoA matrix using time bins defined by stratigraphic periods, equally sized time bins and time slices (using six methods to estimate ordination scores for branches); and finally 5) we measure disparity-through-time for each of these methods.}
     \label{overview}
   \end{figure}
 
@@ -221,9 +215,6 @@ In practice, time-slicing considers the disparity of any element present in the 
 When the phylogenetic elements are nodes or tips, the ordination scores for the nodes (estimated using ancestral state reconstruction as described above) or tips are directly used for calculating disparity.
 When the phylogenetic elements are branches we choose the ordination score for the branch using one of two evolutionary models:
 
-%TG: Not sure if it's the "egeinvector" score or the "eigen" score. I think there's a trick in naming them depending on how the algorithm does the transformation (soemthing with using eigenvalues or eigenvectors). I call it ordination score for now.
-
-
 \begin{enumerate}
 
     \item{\textbf{Punctuated evolution.}} 
@@ -256,9 +247,8 @@ When the phylogenetic elements are branches we choose the ordination score for t
           p(\text{ancestor}) = p(\text{descendant}) = 0.5
           \end{equation}
 
-    \item The ``gradual splits'' model (probabilistic), selects the ordination score from both the ancestor and the descendant with a probability function of the distance between the nodes/tips and the slice.
-    % NC: I'm unsure what you mean here: "the distance between the slice." Do you mean the branch length, the interval between slices, or the distance between the slice and the node?
-    %TG: I've clarified as above. Tell me if it's clearer. In my words: the distance between the slice and the node, like you illustrate in your presentation (nicely done by the way!)
+    \item The ``gradual splits'' model (probabilistic), selects the ordination score from both the ancestor and the descendant with a probability function of the distance between the nodes/tip at the ends of the branch and the slice.
+
           \begin{equation}
               p(\text{ancestor}) = \frac{d(\text{ancestor},\text{slice})}{d(\text{ancestor},\text{descendant})}
           \end{equation}
@@ -273,7 +263,6 @@ When the phylogenetic elements are branches we choose the ordination score for t
     Because of the probabilistic nature of these models, they are only meaningful when calculating disparity from bootstrapped datasets.
 \end{enumerate}
 
-%TG: Justification on the fact that these models are not ACEs.
 It is important to note that the time-slicing method is not an ancestral states estimation method \textit{per se}.
 This method does not estimate values along a branch applying a model (\textit{c.f.} methods described for reconstructing ancestral states in the preparing data for disparity-through-time section above) but rather chooses between the two available pieces of information (the ordination score of the descendant or the ancestor) using the models described above.
 This allows the method to be used in post-ordination analysis where the data used in each time slice is data already present in the cladisto-space.
@@ -330,11 +319,11 @@ We first, therefore, remove the time bins, and corresponding time slices, withou
 We then perform paired Wilcoxon tests, so that bins and slices for the same time period are being compared. 
 Significant results suggest that there is a systematic difference in disparity values at each time point, depending on whether bins or slices are used.
 
-\paragraph{Disparity peaks and troughs.}
-We are perhaps more interested in how the conclusions disparity-through-time analyses are influenced by the choice of time sub-sampling method, rather than the disparities estimated by each method \textit{per se}, especially as these will influenced by the number of taxa (and/or nodes) included in each sub-sample. 
+\paragraph{Disparity peaks.}
+We are perhaps more interested in how the conclusions disparity-through-time analyses are influenced by the choice of time sub-sampling method, rather than the disparities estimated by each method \textit{per se}, especially as these will be influenced by the number of taxa (and/or nodes) included in each sub-sample. 
 Therefore, we also investigate where peaks and troughs of disparity occur in each of our datasets for the different time sub-sampling methods. 
-We calculated the maximum and minimum bootstrapped disparities for each dataset and for each time sub-sampling method, along with their associated confidence intervals.
-Significant shifts in disparity peaks or troughs suggest that the choice of time sub-sampling method will influence our conclusions about relative changes in the disparity of our example clades through time. 
+We calculated the maximum bootstrapped disparities for each dataset and for each time sub-sampling method, along with their associated confidence intervals.
+Significant shifts in disparity peaks suggest that the choice of time sub-sampling method will influence our conclusions about relative changes in the disparity of our example clades through time. 
 
 \paragraph{Effects of mass extinction events.}
 Many analyses of disparity-through-time aim to demonstrate differences in disparity before and after mass extinction events [citations]. 
@@ -347,7 +336,7 @@ We repeated these analyses using the two time bins/slices after the one immediat
 
 \subsection{Disparity-through-time analyses}
 
-Disparity changes through time for each of the four datasets (Figure \ref{figure:dtt}, Figure in appendix, full tables in the appendix). 
+Disparity changes through time for each of the four datasets (Figure \ref{figure:dtt}, Figure in appendix, full tables in the appendix). % add details of appendix
 Relative disparities tend to be lower with time binning methods, likely because these contain fewer taxa than time-slicing methods.
 The six different time-slicing methods (acctran, deltran, random, proximity, equal splits and gradual splits) show similar patterns, so we focus only of the results for one method with a punctuated model of evolution (specifically the `proximity' method), and one method with a gradual model of evolution (specifically the `gradual splits' method).
 Results for all six methods can be found in the appendix. % add details of appendix
@@ -374,7 +363,7 @@ Results for all six methods can be found in the appendix. % add details of appen
 There is no overall significant systematic difference among the disparities calculated using time bins and those calculated using the time-slicing methods. (Table \ref{table:wilcox}, Appendix Table \ref{table:wilcox2}). 
 Instead, the differences depend on the dataset and method in question.
 For example, the \cite{brusatte2014gradual}, \cite{bapst2016topology} and \cite{wright2017bayesian} datasets, show significant differences when using bins versus time slices defined by stratigraphy, but the \cite{beckancient2014} dataset appears robust to these different models.
-Likewise, the \cite{beckancient2014}, \cite{brusatte2014gradual} and \cite{bapst2016topology} show different disparities when the number of bins or slices is the average number of stratigraphic periods, but this is not see in the \cite{wright2017bayesian} dataset.
+Likewise, the \cite{beckancient2014}, \cite{brusatte2014gradual} and \cite{bapst2016topology} show different disparities when the number of bins or slices is the average number of stratigraphic periods, but this is not seen in the \cite{wright2017bayesian} dataset.
 Note that for epochs, we find fewer significant differences simply because the smaller numbers of bins and slices being compared means we have low power to detect a significant difference.
 
 % Wilcoxon results table
@@ -383,9 +372,12 @@ Note that for epochs, we find fewer significant differences simply because the s
   \label{table:wilcox}  
 %\end{landscape}
 
-\paragraph{Disparity peaks and troughs.}
-% Plots showing the differences
+\paragraph{Disparity peaks}
+In the \cite{beckancient2014} and \cite{brusatte2014gradual} datasets, disparity peaks occur much earlier when time slicing rather than time binning approaches are used (Figure \ref{figure:peak1}, Appendix figure). % appendix details
+This is also true for straigraphic time bins in the \cite{bapst2016topology} and \cite{wright2017bayesian} datasets, althought when using equal time bins the peaks are later than the time slicing methods, or very similar (Figure \ref{figure:peak1}, Appendix figure).
+Across the three time binning methods, the \cite{beckancient2014} and \cite{brusatte2014gradual} datasets have similar disparity peaks whichever method is used, whereas in the \cite{bapst2016topology} and \cite{wright2017bayesian} datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Figure \ref{figure:peak1}, Appendix figure).
 
+% Plots showing the differences
   \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch.pdf}
@@ -402,7 +394,17 @@ Note that for epochs, we find fewer significant differences simply because the s
   \end{figure}
 
 \paragraph{Effects of mass extinction events.}
+Mass extinction events influence disparity in all four datasets (Figure \ref{figure:extinction1}, appendix). 
+However, whether this change in disparity is significant or not depends on the dataset, and on the method used to create time sub-samples (Figure \ref{figure:extinction1}, appendix). % appendix!!!
+
 % Big heat map table thing
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch.pdf}
+    \caption[Extinction four example datasets.]
+    {XXX}
+    \label{figure:extinction1}
+  \end{figure}
 
 %Fig. or Figs
 %Fig width 80mm single column
