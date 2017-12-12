@@ -1,5 +1,5 @@
 ---
-title: "Table compiler"
+title: "Dataset table"
 author: "Thomas Guillerme"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
     fig_height: 12
 ---
 
-# Compiling the tables for the paper
+# Compiling the dataset table
 
 Loading the packages
 
