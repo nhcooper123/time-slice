@@ -318,7 +318,7 @@ plot.extinction <- function(data, type, cols = c("blue", "orange", "white"), mai
     ## Add the x axis
     if(xaxis) axis(1, at = c(0.125, 0.5, 0.85), label = c("stratigraphy", "duration", "number"), tick = FALSE)
     ## Add the upper x axis
-    if(xaxis2) axis(3, at = c(seq(from = 0, to = 1, by = 1/8)), label = rep(c("e:1", "e:2", "e:3"), 3), tick = FALSE, padj = 1.5)
+    if(xaxis2) axis(3, at = c(seq(from = 0, to = 1, by = 1/8)), label = rep(c("e:1", "e:2", "e:3"), 3), tick = FALSE, padj = 1.5, cex = 0.8)
     ## Add the right y axis
     if(yaxis2) axis(4, at = 0.5, tick = FALSE, labels = type)
 }
