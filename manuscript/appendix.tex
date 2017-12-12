@@ -8,8 +8,7 @@
 \usepackage{pdflscape}	
 \usepackage{mathtools}	
 \usepackage[osf]{mathpazo} 
-\usepackage{lineno} 
-\usepackage{ms}    	
+\usepackage{lineno} 	
 \usepackage{hyperref}
 \usepackage[round]{natbib} 
 \usepackage{setspace}
@@ -17,8 +16,9 @@
 \setcounter{secnumdepth}{0} 
 \raggedright 			
 \pagenumbering{arabic}	
-\linenumbers
 
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
 
 % First order headings upper case bold
 \usepackage{titlesec}
@@ -30,47 +30,20 @@
 % Third order, italics, paragraph style
 \titleformat*{\paragraph}{\small\itshape}
 
-
-% lists - arabic in (1; (2); (3) .
-
-
-% Title page information
-
-\title{Supporting Information from `Time for a rethink: time sub-sampling methods in disparity-through-time analyses'}
-
-\author{
-	Thomas Guillerme$^{1*}$ and Natalie Cooper$^{2}$
-}
-
-\date{}
-
-\affiliation{\noindent{\footnotesize
-	$^1$School of Biological Sciences, University of Queensland, St. Lucia, Queensland, Australia.\\
-	$^2$Department of Life Sciences, Natural History Museum, Cromwell Road, London, SW7 5BD, UK. natalie.cooper@nhm.ac.uk}\\
-	$^*$Corresponding author\\}
-
-\vfill
-
-%\runninghead{Time sub-samples in disparity-through-time analyses}
-%\keywords{time bin, time slice, disparity} 
-% up to 6
-
 \begin{document}
 
-\mstitlepage
-\parindent = 1.5em
-\addtolength{\parskip}{.3em}
+\noindent{\Large \bf Supporting Information from `Time for a rethink: time sub-sampling methods in disparity-through-time analyses'}
 
-%\section{Abstract}
-% 300 words max
-	
-
-\newpage
 \raggedright
-\doublespacing
 \setlength{\parindent}{1cm}
 
-\section{Additional tables and figures}
+\section{Appendix S1: Extra details of datasets}
+
+Which species were removed? 
+Strap plots?
+
+\newpage
+\section{Appendix S2: Additional tables and figures}
 
   \begin{figure}[!htbp]
     \centering
@@ -134,12 +107,8 @@
     Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages in the time frame of the dataset. 
     Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages in the time frame of the dataset. 
     For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
-    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).}
+    The four dataset names are on the first plot for each dataset (Table 1).}
     \label{figure:peak3}
   \end{figure}
-
-	
-\bibliographystyle{palaeo} 
-\bibliography{time-refs} 
 
 \end{document}
