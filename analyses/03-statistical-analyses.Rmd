@@ -257,14 +257,35 @@ ext_time_numbe_epo <- lapply(out2$objects$number, extinction.subsets, extinction
 
 ## Test the effect of extinctions
 mapply.test <- function(data, times, test = wilcox.test, correction = "bonferroni") {
-  test <- try(output <- test.dispRity(data, test = test, comparisons = times, correction = correction), silent = TRUE)
-  if(class(test) == "try-error") {
+  test_run <- try(output <- test.dispRity(data, test = test, comparisons = times, correction = correction), silent = TRUE)
+  if(class(test_run) == "try-error") {
+
+    ## Try the test on less lags
+    subsets_to_test <- unique(unlist(times))
+    na_subsets <- summary(data)$obs[subsets_to_test]
+    if(any(is.na(na_subsets))) {
+      ## Remove the subsets with NA from the comparisons
+      subsets_to_remove <- unlist(lapply(lapply(times, function(X) match(X, subsets_to_test[which(is.na(na_subsets))])), function(X) return(any(!is.na(X)))))
+
+      ## Remove the subsets
+      times_no_na <- times[!subsets_to_remove]
+    } else {
+      subsets_to_remove <- rep(TRUE, length(times))
+    }
 
     ## Create an NA list
     comparison_names <- unlist(lapply(times, function(time, data) paste(names(data$subsets)[time], collapse = " : "), data))
     p_value <- statistic <- data.frame(rep(NA, 3), row.names = comparison_names)
     colnames(statistic) <- "statistic: W"
     colnames(p_value) <- "p.value"
+
+    if(!all(subsets_to_remove)) {
+      output <- test.dispRity(data, test = test, comparisons = times_no_na, correction = correction)
+
+      ## Replacing the NAs
+      statistic[!subsets_to_remove,1] <- output[[1]][,1]
+      p_value[!subsets_to_remove,1] <- output[[2]][,1]
+    }
 
     return(list(statistic, p_value))
   } else {
