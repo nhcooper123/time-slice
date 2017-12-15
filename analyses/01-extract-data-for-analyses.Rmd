@@ -143,145 +143,6 @@ Running these extractions for other datasets
 ===================================================
 Ideally we'd have written functions to do this, and/or a big old loop. But each dataset was slightly different so we've dealt with each individually.
 
-Wright 2017
------------
-
-```{r}
-slug <- "Wright2017"
-
-## Loading the data and tree
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
-
-# Replace zero branches with minimum branch length
-tree$edge.length[which(tree$edge.length == 0)] <- 
-  min(tree$edge.length[-which(tree$edge.length == 0)])
-
-# Note from Wright 2017: MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
-# Divide branches by 0.03517385
-tree$edge.length <- tree$edge.length / 0.03517385
-
-# Add root time: 485.4
-tree$root.time <- 485.4
-
-# Tidy the tree and the data
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-cleaned_data <- clean.data(matrix$matrix, tree)
-matrix$matrix <- cleaned_data$data
-tree <- cleaned_data$tree
-
-## Removed taxa, i.e. those in the tree but not the matrix and vice versa
-as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
-
-## Saving the tree
-write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
-
-## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-
-## Add ancestral states to nodes
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-row.names(matrix_nodes) <- tree$node.label
-matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
-
-## Constructing the distance matrix
-matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug,".Rda"))
-
-```
-
-Bapst et al 2016 Biol Letters
------------
-
-```{r}
-slug <- "Bapst2016"
-
-## Loading the data and tree
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
-
-## Replace zero branches with minimum branch length
-tree$edge.length[which(tree$edge.length == 0)] <- 
-  min(tree$edge.length[-which(tree$edge.length == 0)])
-
-## Remove taxa with non overlapping data (see note about Gower distances above)
-remove_Bapst <- c("Hagryphus_giganteus", "Atrociraptor_marshalli", "IGM100_1015_UndesDromaeosaurid", "Dromaeosaurus_albertensis", "Incisivosaurus_gauthieri", "Deinocheirus_mirificus", "Therizinosaurus_cheloniformis", "Anserimimus_planinychus", "Elmisaurus_rarus")
-
-tree <- drop.tip(tree, remove_Bapst)
-
-# Tidy the tree and the data
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- max(tree.age(tree)[, 1])
-cleaned_data <- clean.data(matrix$matrix, tree)
-matrix$matrix <- cleaned_data$data
-tree <- cleaned_data$tree
-
-## Removed taxa, i.e. those in the tree but not the matrix and vice versa
-as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
-
-## Saving the tree
-write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
-
-## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-
-## Add ancestral states to nodes
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-row.names(matrix_nodes) <- tree$node.label
-matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
-
-## Constructing the distance matrix
-matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-```
-
-
-Heath et al bears
------------
-
-```{r}
-slug <- "bears"
-
-## Loading the data and tree
-matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
-tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
-
-# Replace zero branches with minimum branch length
-tree$edge.length[which(tree$edge.length == 0)] <- 
-  min(tree$edge.length[-which(tree$edge.length == 0)])
-
-# Tidy the tree and the data
-tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- max(tree.age(tree)[, 1])
-cleaned_data <- clean.data(matrix$matrix, tree)
-matrix$matrix <- cleaned_data$data
-tree <- cleaned_data$tree
-
-## Removed taxa, i.e. those in the tree but not the matrix and vice versa
-as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
-
-## Saving the tree
-write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
-
-## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-
-## Add ancestral states to nodes
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
-row.names(matrix_nodes) <- tree$node.label
-matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
-
-## Constructing the distance matrix
-matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
-saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
-```
-
 Brusatte et al 2014 Current Biol
 -----------
 
@@ -338,4 +199,100 @@ as.vector(trim$removed.taxa)
 
 ## Save
 saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+```
+
+Bapst et al 2016 Biol Letters
+-----------
+
+```{r}
+slug <- "Bapst2016"
+
+## Loading the data and tree
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+tree <- read.nexus(paste0("../data/trees/", slug, ".nex"))
+
+## Replace zero branches with minimum branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
+
+## Remove taxa with non overlapping data (see note about Gower distances above)
+remove_Bapst <- c("Hagryphus_giganteus", "Atrociraptor_marshalli", "IGM100_1015_UndesDromaeosaurid", "Dromaeosaurus_albertensis", "Incisivosaurus_gauthieri", "Deinocheirus_mirificus", "Therizinosaurus_cheloniformis", "Anserimimus_planinychus", "Elmisaurus_rarus")
+
+tree <- drop.tip(tree, remove_Bapst)
+
+# Tidy the tree and the data
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+tree$root.time <- max(tree.age(tree)[, 1])
+cleaned_data <- clean.data(matrix$matrix, tree)
+matrix$matrix <- cleaned_data$data
+tree <- cleaned_data$tree
+
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
+
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                  uncertainty.threshold = 0.95)
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+
+## Add ancestral states to nodes
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+row.names(matrix_nodes) <- tree$node.label
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+
+## Constructing the distance matrix
+matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,".Rda"))
+```
+
+Wright 2017
+-----------
+
+```{r}
+slug <- "Wright2017"
+
+## Loading the data and tree
+matrix <- ReadMorphNexus(paste0("../data/matrices/", slug, ".nex"))
+tree <- read.nexus(paste0("../data/trees/", slug, ".tre"))
+
+# Replace zero branches with minimum branch length
+tree$edge.length[which(tree$edge.length == 0)] <- 
+  min(tree$edge.length[-which(tree$edge.length == 0)])
+
+# Note from Wright 2017: MCC tree. Note that to properly timescale the tree [e.g., in R] you must first divide the branch lengths by the corresponding clock rate, (= 0.03517385), and then set the root.time to 485.4]
+# Divide branches by 0.03517385
+tree$edge.length <- tree$edge.length / 0.03517385
+
+# Add root time: 485.4
+tree$root.time <- 485.4
+
+# Tidy the tree and the data
+tree <- makeNodeLabel(tree, method = "number", prefix = "n")
+cleaned_data <- clean.data(matrix$matrix, tree)
+matrix$matrix <- cleaned_data$data
+tree <- cleaned_data$tree
+
+## Removed taxa, i.e. those in the tree but not the matrix and vice versa
+as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
+
+## Saving the tree
+write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
+
+## Estimating the ancestral states (with a uncertainty threshold of 0.95)
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                  uncertainty.threshold = 0.95)
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+
+## Add ancestral states to nodes
+## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+row.names(matrix_nodes) <- tree$node.label
+matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
+
+## Constructing the distance matrix
+matrix_dist <- MorphDistMatrixFast(matrix, distance = "Gower")
+saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug,".Rda"))
+
 ```
