@@ -1,5 +1,5 @@
 ---
-title: "Disparity peaks"
+title: "Disparity peaks - for appendix"
 author: "Natalie Cooper"
 date: "`r Sys.Date()`"
 output:
