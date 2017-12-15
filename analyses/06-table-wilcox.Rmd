@@ -36,7 +36,7 @@ Manipulate the data into the format we need.
 
 ```{r}
 # Stick p values and W values together
-# Repalce p values with *
+# Replace p values with *
 p.values.function <- function(data){ 
   for (i in 1:length(data$V2)){
     if(data$V2[i] < 0.05 & data$V2[i] > 0.01){data$V2[i] <- "*"}
@@ -82,6 +82,7 @@ colnames(table_out) <- colnames
 ## Table caption
 table_caption <- "Wilcoxon results"
 
+## Save
 sink(file = "../manuscript/tables/raw_wilcox.tex")
 print(xtable(table_out, caption = table_caption), include.rownames = FALSE)
 sink()
@@ -125,8 +126,10 @@ colnames(table_out) <- colnames
 ## Table caption
 table_caption <- "Wilcoxon results for appendix"
 
+## Save
 sink(file = "../manuscript/tables/raw_wilcox_appendix.tex")
 print(xtable(table_out, caption = table_caption), include.rownames = FALSE)
 sink()
 ```
 
+These tables are LaTeX format and can be added into documents after a small amount of manipulation.

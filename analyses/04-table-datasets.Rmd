@@ -77,6 +77,5 @@ xtable(table_out, caption = table_caption)
 sink()
 ```
 
-## Time subsets table
-
+This produces a nicely formatted LaTeX table. Some edits will need to be made before it is incorporated into a document but it contains all the basic information required.
 

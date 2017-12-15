@@ -79,12 +79,10 @@ We used the data to explore these different scenarios:
 2. Equally sized time bins. 
     i. Where the *duration* of the bin is equal to the median duration of the stratigraphic period.
     ii. Where the *number* of bins is equal to the number of stratigraphic periods.
-    iii. Where the *number* of bins is either 2, 5, 10, 15, or 20.
 
 3. Time slicing. 
     i. Where the *interval* between slices is equal to the median duration of the stratigraphic period.
     ii. Where the *number* of slices is equal to the number of stratigraphic periods.
-    iii. Where the *number* of slices is either 2, 5, 10, 15, or 20.
 
 Running the analyses and saving the outputs
 --------------------------------------------

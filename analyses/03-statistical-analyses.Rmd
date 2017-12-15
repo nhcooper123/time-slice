@@ -1,5 +1,5 @@
 ---
-title: "Outputs from time slice analyses"
+title: "Statistical analyses of time slice outputs"
 author: "Natalie Cooper and Thomas Guillerme"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
     fig_height: 6
 ---
 
-This code runs the output analyses in the paper, i.e. creates tables and performs statistical tests.
+This code runs the output analyses in the paper, i.e. performs statistical tests.
 
 ```{r}
 set.seed(123)
@@ -24,7 +24,7 @@ library(dispRity)
 source("../functions/stats_fun.R")
 ```
 
-This script requires the outputs from `02-time-slice-analyses.Rmd`. This of course can all be written into functions but we ran out of time so here is some suboptimal but working code!
+This script requires the outputs from `02-time-slice-analyses.Rmd` and functions in `stats_fun.R`. This of course can all be written into functions but we ran out of time so here is some suboptimal but working code!
 
 Testing for differences among the models is a little tricky, as we are interested in how disparity-through-time is influenced by the choice of time subsampling method, rather than the disparities estimated by each method, especially as these will influenced by the number of taxa (and/or nodes) included in each subsample. We therefore present two different, simple ways of comparing the models: paired Wilcoxon tests and identification of disparity peaks.
 
@@ -44,8 +44,8 @@ slugs <- c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017")
 for(i in 1:4) {
   slug <- slugs[i]
   
-#out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
-out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+#out1 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
 
 # i) statigraphy
 strat <- out1$results$stratigraphy
@@ -79,9 +79,12 @@ w_rand <- wilcox.test(strat2$equalbins, strat2$random, paired = TRUE)
 # Save outputs
 outputS <- rbind(tidy(w_acc), tidy(w_del), tidy(w_grad), tidy(w_prox), 
                 tidy(w_punc), tidy(w_rand))
+# Add model names
 outputS$model <- c("acctran", "deltran", "gradual.split", "proximity", 
                         "equal.split", "random")
+# Add that this is the stratigraphy method
 outputS$type <- rep("stratigraphy", 6)
+# Add label for "Age" vs. "Epoch"
 outputS$period <- rep(strat$stratigraphy[1], 6)
 
 ## ii) duration
@@ -218,13 +221,13 @@ write.csv(all_peaks_min, file = paste0("../outputs/peaks.min.", slug, ".csv"), q
 ```
 
 
-Extinction effect
-------------------
+Mass extinction effects
+---------------------
 
-Here we can test the effect of mass extinction on the different methods with the different models (for each dataset!).
+Here we can test the effect of mass extinction on the different methods with the different models (for each dataset).
 The way to test the extinction effect is a referential wilcoxon test.#' @param as.list \code{logical}, whether to output the results as a list for \code{\link{test.dispRity}} (\code{TRUE}) or not (\code{FALSE} - default).
 
-In other words, we compare the bins/slice just before the extinction event to the three ones just after (to account for an eventual lag effect).
+In other words, we compare the bins/slice just before the extinction event to the three ones just after (to account for an possible lag effect).
 
 Set the slug:
 

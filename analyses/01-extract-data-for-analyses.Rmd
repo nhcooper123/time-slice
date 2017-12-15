@@ -172,8 +172,6 @@ tree <- cleaned_data$tree
 ## Removed taxa, i.e. those in the tree but not the matrix and vice versa
 as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 
-## Remove 
-
 ## Saving the tree
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 

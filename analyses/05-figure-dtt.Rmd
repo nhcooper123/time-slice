@@ -1,5 +1,5 @@
 ---
-title: "Disparity through time - simplified and for appendix"
+title: "Disparity through time figures"
 author: "Natalie Cooper"
 date: "`r Sys.Date()`"
 output:
@@ -7,6 +7,8 @@ output:
     fig_width: 12
     fig_height: 12
 ---
+
+Load packages
 
 ```{r, message = FALSE}
 library(tidyverse)
@@ -417,20 +419,20 @@ Finally plot them all together
 # written by Scott Chamberlain
 
 pdf("../manuscript/figures/fig-dtt-age.pdf")  
-  multiplot(beck_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")),
-            brusatte_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
-            bapst_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")),
-            wright_s + theme(plot.margin=unit(c(5.5, 5.5, 12, 25),"points")), 
+  multiplot(beck_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25), "points")),
+            brusatte_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25), "points")), 
+            bapst_s + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25), "points")),
+            wright_s + theme(plot.margin=unit(c(5.5, 5.5, 12, 25), "points")), 
             beck_d, brusatte_d, bapst_d, 
-            wright_d + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5),"points")),
+            wright_d + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5), "points")),
             beck_n,
             brusatte_n,
             bapst_n,
-            wright_n + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5),"points")),
+            wright_n + theme(plot.margin=unit(c(5.5, 5.5, 12, 5.5), "points")),
             cols = 3, 
             labs = list("Time (MYA)", 
                         "Relative disparity"),
-            labpos=list(c(0.5, 0.015), c(0.03, 0.5)))
+            labpos = list(c(0.5, 0.015), c(0.03, 0.5)))
 dev.off()
 ```
 
