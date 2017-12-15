@@ -207,7 +207,7 @@ FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, heade
 ## See "01-extract-data-for analyses.Rmd" for how we cleaned these
 tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
 ## Add root age as defined in Wright 2017
-tree$root.time <- 484.4
+tree$root.time <- 485.4
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
