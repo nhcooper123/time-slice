@@ -39,16 +39,15 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models,
+# Modify data - add midpoints, remove missing data, 
 # make disparity relative by dividing by max values
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  
   mutate(relative.disparity = bs.median/max(bs.median)) %>%
   mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
-  mutate(relative.upr = `97.5%`/max(bs.median))
+  mutate(relative.upr = `97.5%`/max(bs.median)) 
 
 # Duration
 x <- str_split(duration$subset, " - ") 
@@ -92,15 +91,15 @@ beck_base <-
                   breaks = c(seq(100, 0, by = -50))) +
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position = "none")
+        axis.title.x = element_blank())
 
 beck_s <- 
   beck_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
   geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
   ggtitle("Stratigraphy") +
-  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "none") +
   annotate("text", x = 75, y = 0.15, label = "Beck2014")
   
 beck_d <- 
@@ -108,14 +107,18 @@ beck_d <-
   geom_point(data = duration2, size = 2, alpha = 0.8) +
   geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
   ggtitle("Duration") +
-  theme(plot.title = element_text(size = 14, hjust = 0.5))
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "none")
 
 beck_n <- 
   beck_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
   geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
   ggtitle("Number") +
-  theme(plot.title = element_text(size = 14, hjust = 0.5))
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.key.size = unit(0.2, "in"),
+        legend.text = element_text(size = 8),
+        legend.title=element_blank())
 
 ```
 
@@ -144,12 +147,11 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  
   mutate(relative.disparity = bs.median/max(bs.median)) %>%
   mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
   mutate(relative.upr = `97.5%`/max(bs.median))
@@ -240,12 +242,11 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  
   mutate(relative.disparity = bs.median/max(bs.median)) %>%
   mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
   mutate(relative.upr = `97.5%`/max(bs.median))
@@ -335,12 +336,11 @@ x <- str_split(strat$subset, " - ")
 y <- map(x, as.numeric)
 z <- map(y, mean)
 
-# Modify data - add midpoints, remove missing data, filter to just two models
+# Modify data - add midpoints, remove missing data
 strat2 <- 
   strat %>%
   mutate(time = unlist(z)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
-  
   mutate(relative.disparity = bs.median/max(bs.median)) %>%
   mutate(relative.lwr = `2.5%`/max(bs.median)) %>%
   mutate(relative.upr = `97.5%`/max(bs.median))
@@ -513,14 +513,15 @@ beck_base <-
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        legend.position = "none")
+        )
 
 beck_s <- 
   beck_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
   geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
   ggtitle("Stratigraphy") +
-  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "none") +
   annotate("text", x = 75, y = 0.15, label = "Beck2014")
   
 beck_d <- 
@@ -528,14 +529,18 @@ beck_d <-
   geom_point(data = duration2, size = 2, alpha = 0.8) +
   geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
   ggtitle("Duration") +
-  theme(plot.title = element_text(size = 14, hjust = 0.5))
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.position = "none")
 
 beck_n <- 
   beck_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
   geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
   ggtitle("Number") +
-  theme(plot.title = element_text(size = 14, hjust = 0.5))
+  theme(plot.title = element_text(size = 14, hjust = 0.5),
+        legend.key.size = unit(0.2, "in"),
+        legend.text = element_text(size = 8),
+        legend.title=element_blank())
 
 ```
 
