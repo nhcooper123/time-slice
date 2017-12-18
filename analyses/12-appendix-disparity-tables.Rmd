@@ -1,0 +1,122 @@
+---
+title: "Disparity tables for the appendix q"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 6
+---
+
+# Building the disparity tables for each dataset
+
+```{r}
+library(dispRity)
+library(xtable)
+
+## Function for only selecting the first occurrence of each level (for fancy tables)
+level.selector <- function(column, data) {
+    ## Selecting the data
+    data_col <- data[, column]
+
+    ## Selecting the levels
+    all_levels <- levels(as.factor(data_col))
+
+    ## Replacing them in the column
+    for(one_level in 1:length(all_levels)) {
+        ## Selecting the levels occurrences
+        level_occurrences <- data_col %in% all_levels[one_level]
+        ## Selecting the first of each
+        first_level_occurrences <- sapply(seq(2:length(level_occurrences[-1])), function(X, test)
+            return(ifelse((level_occurrences[X] == TRUE && level_occurrences[X-1] == FALSE)
+                , TRUE, FALSE)), level_occurrences)
+
+        ## Replacing the values in data_col
+        data_col[which(first_level_occurrences)] <- paste0(data_col[which(first_level_occurrences)],
+                                                           "@1st")
+    }
+
+    ## Remove the non first entries
+    data_col[-grep("@1st", data_col)] <- ""
+    data_col <- gsub("@1st", "", data_col)
+
+    return(data_col)
+}
+
+## Rounding slices/bins values
+round.slices <- function(slice, digits = 3) {
+    options(warn = -1)
+    ## Convert into numeric
+    slice_value <- as.numeric(slice)
+    options(warn = 0)
+
+    if(is.na(slice_value)) {
+        ## Is the value simply NA or a bin
+        if(grep("-", slice) > 0) {
+            ## Separating both values
+            bin_values <- unlist(strsplit(slice, split = " - "))
+            ## Rounding the values
+            bin_values <- round(as.numeric(bin_values), digits = digits)
+            ## Recombining them
+            return(paste(bin_values, collapse = " - "))
+
+        } else {
+            ## Slice value is a real NA
+            return(as.character(NA))
+        }
+    } else {
+        ## Slice is a slice
+        return(as.character(round(as.numeric(slice_value), digits = digits)))
+    }
+}
+
+```
+
+
+## Generate the raw results tables for each datasets
+
+
+```{r, warn = FALSE}
+slugs <- c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017")
+
+for(one_slug in 1:length(slugs)) {
+
+    slug <- slugs[one_slug]
+
+    ## Loading the data
+    out1 <- readRDS(file = paste0("../outputs/age.", slug, ".Rda"))
+    out2 <- readRDS(file = paste0("../outputs/epoch.", slug, ".Rda"))
+
+    ## bind all the data together
+    results <- rbind(do.call(rbind, out1$results), do.call(rbind, out2$results))
+
+    ## Re-order the columns
+    results <- results[,c(10,11,9, 1:8)]
+    results[,1:3] <- apply(results[,1:3], 2, as.character)
+
+    ## Empty repetition cells (for aesthetics)
+    ## Stratigraphy
+    results[, 1] <- level.selector(1, results)
+    ## Bin_type
+    results[, 2] <- level.selector(2, results)
+    ## Model
+    results[, 3] <- level.selector(3, results)
+
+    ## Correcting the first slice
+    results[1, c(1,2,3)] <- c("Ages", "stratigraphy", "equalbins")
+
+    ## Rounding the slices
+    results[, 4] <- sapply(results[, 4], round.slices, digits = 2)
+
+    ## Numbering the columns
+    results[, 5:11] <- apply(results[, 5:11], 2, as.numeric)
+
+    ## Table caption
+    table_caption <- paste("Disparity measurement (sum of variance) for", slug, "dataset")
+
+    ## Save the table (as longtable)
+    write(print(xtable(results, caption = table_caption, digits = 2),
+                tabular.environment = "longtable", include.rownames = FALSE, floating = FALSE),
+          file = paste0("../manuscript/tables/disparity_measurement-", slug, ".tex"))
+}
+```

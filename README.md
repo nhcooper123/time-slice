@@ -39,6 +39,7 @@ This code is not as tidy or functionified as we would like as we were a bit push
 * **09-appendix-trees-figures.Rmd** Builds plots of phylogenies using the R package `strap` to add stratigraphic information.
 * **10-appendix-figure-dtt.Rmd** Reproduces Figures AX and AX.
 * **11-appendix-figure-peaks.Rmd** Reproduces Figures AX and AX.
+* **12-appendix-disparity-tables.Rmd** Reproduces the detailed disparity measurement tables.
 
 ## Session Info
 For reproducibility purposes, here is the output of `devtools:session_info()` used to perform the analyses in the publication.
