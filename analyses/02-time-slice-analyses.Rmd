@@ -124,8 +124,18 @@ FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, heade
 ## Loading the tree
 ## See "01-extract-data-for analyses.Rmd" for how we cleaned these
 tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
-## Add root age (max tree age date)
-tree$root.time <- max(tree.age(tree)[, 1])
+
+## Remove the taxa not present in the tree but in the FADLAD
+absent_in_tree <- clean.data(FADLAD, tree)$dropped_rows
+if(!any(is.na(absent_in_tree))) {
+    FADLAD <- FADLAD[-match(absent_in_tree, rownames(FADLAD)),]
+}
+
+## Getting the tree ages
+tree_ages <- tree.age(tree)
+
+## Scaling with the latest FADLAD
+tree$root.time <- max(tree_ages[,1] + min(FADLAD[,2]))
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
@@ -164,8 +174,19 @@ FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, heade
 ## Loading the tree
 ## See "01-extract-data-for analyses.Rmd" for how we cleaned these
 tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
-## Add root age (max tree age date)
-tree$root.time <- max(tree.age(tree)[, 1])
+
+## Remove the taxa not present in the tree but in the FADLAD
+absent_in_tree <- clean.data(FADLAD, tree)$dropped_rows
+if(!any(is.na(absent_in_tree))) {
+    FADLAD <- FADLAD[-match(absent_in_tree, rownames(FADLAD)),]
+}
+
+## Getting the tree ages
+tree_ages <- tree.age(tree)
+
+## Scaling with the latest FADLAD
+tree$root.time <- max(tree_ages[,1] + min(FADLAD[,2]))
+
 
 ## Loading the distance matrices
 ## See "01-extract-data-for analyses.Rmd" for how we made these
