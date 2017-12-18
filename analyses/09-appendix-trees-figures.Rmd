@@ -9,8 +9,11 @@ output:
 ---
 
 Load the packages 
+
 ```{r}
 library(strap)
+library(dispRity)
+library(ape)
 ```
 
 Load the data
@@ -18,23 +21,51 @@ Load the data
 ```{r}
 ## Choose a slug
 slug <- "Beck2014"
-#slug <- "Brusatte2014"
-#slug <- "Bapst2016"
-#slug <- "Wright2017"
+# slug <- "Brusatte2014"
+# slug <- "Bapst2016" #ok
+# slug <- "Wright2017" #ok
+
+## Loading the tree
+tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
 
 ## Loading the FADLAD
 FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
 
-## Loading the tree
-tree <- read.nexus(paste0("../data/processed/tree.", slug, ".tre"))
-## Add root age (max tree age date)
-## Remember that for Wright this is 485.4
-tree$root.time <- max(tree.age(tree)[, 1])
+## Remove the taxa not present in the tree but in the FADLAD
+absent_in_tree <- clean.data(FADLAD, tree)$dropped_rows
+if(!any(is.na(absent_in_tree))) {
+    FADLAD <- FADLAD[-match(absent_in_tree, rownames(FADLAD)),]
+}
+
+## Getting the tree ages
+tree_ages <- tree.age(tree)
+
+## Scaling with the latest FADLAD
+tree$root.time <- max(tree_ages[,1] + min(FADLAD[,2]))
+
+## Correct the root age for Wright2017
+tree$root.time <- ifelse(slug == "Wright2017", 485.4, tree$root.time)
+
+## Updating the tree age
+tree_ages <- tree.age(tree)
+
+## Updating the FADLAD (if missing tips)
+if(nrow(FADLAD) !=  Ntip(tree)) {
+    ## Selecting the missing taxa
+    missing_taxa <- which(is.na(match(tree_ages$elements[1:Ntip(tree)], rownames(FADLAD))))
+    ## Creating a FADLAD table for the missing taxa (FAD = LAD = tip age)
+    FADLAD_tmp <- data.frame(FAD = tree_ages$ages[missing_taxa], LAD = tree_ages$ages[missing_taxa],
+                             row.names = tree_ages$elements[missing_taxa])
+    ## Combining both.data frames
+    FADLAD <- rbind(FADLAD, FADLAD_tmp)
+}
 ```
 
 Plot the trees and save as PDF
+
 ```{r}
-pdf(paste0("../manuscript/figures/fig-tree-", slug, "-appendix.pdf"), width = 12, height = 12)  
+pdf(paste0("../manuscript/figures/fig-tree-", slug, "-appendix.pdf"), width = 12, height = 12) 
+## Adjust plot sizes (for offset labels with e.g.: x.lim = c(350, 485.4) and cex.tip = 0.5))
 geoscalePhylo(tree = tree, ages = FADLAD)
 dev.off()
 ```
