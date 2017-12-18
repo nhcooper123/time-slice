@@ -27,7 +27,8 @@ Make sure you work with `dispRity` 0.4 and TG's version of `Claddis` (much faste
 library(devtools)
 library(ape)
 
-## The latest version of Claddis (on development on my own branch)
+## The Thomas' Claddis development version
+## (contains faster AncStateEstMatrix and MorphDistMatrixFast functions)
 install_github("TGuillerme/Claddis")
 library(Claddis)
 
@@ -102,7 +103,7 @@ After this we can add the node states to the overall matrix:
 ```{r}
 ## Loading the matrix
 ## Not needed if running all the code at once
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Adding the node names as row names
 row.names(matrix_nodes) <- tree$node.label
@@ -164,10 +165,24 @@ tree <- drop.tip(tree, remove_Brusatte)
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- max(tree.age(tree)[, 1])
 cleaned_data <- clean.data(matrix$matrix, tree)
 matrix$matrix <- cleaned_data$data
 tree <- cleaned_data$tree
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Remove the taxa not present in the tree but in the FADLAD
+absent_in_tree <- clean.data(FADLAD, tree)$dropped_rows
+if(!any(is.na(absent_in_tree))) {
+    FADLAD <- FADLAD[-match(absent_in_tree, rownames(FADLAD)),]
+}
+
+## Getting the tree ages
+tree_ages <- tree.age(tree)
+
+## Scaling with the latest FADLAD
+tree$root.time <- max(tree_ages[,1] + min(FADLAD[,2]))
 
 ## Removed taxa, i.e. those in the tree but not the matrix and vice versa
 as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
@@ -176,12 +191,12 @@ as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+# matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+#                                  uncertainty.threshold = 0.95)
+# saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
@@ -202,6 +217,7 @@ saveRDS(matrix_dist, file = paste0("../data/processed/distance_matrix.", slug ,"
 Bapst et al 2016 Biol Letters
 -----------
 
+
 ```{r}
 slug <- "Bapst2016"
 
@@ -220,10 +236,24 @@ tree <- drop.tip(tree, remove_Bapst)
 
 # Tidy the tree and the data
 tree <- makeNodeLabel(tree, method = "number", prefix = "n")
-tree$root.time <- max(tree.age(tree)[, 1])
 cleaned_data <- clean.data(matrix$matrix, tree)
 matrix$matrix <- cleaned_data$data
 tree <- cleaned_data$tree
+
+## Loading the FADLAD
+FADLAD <- read.csv(paste0("../data/FADLAD/", slug, ".csv"), row.names = 1, header = TRUE)
+
+## Remove the taxa not present in the tree but in the FADLAD
+absent_in_tree <- clean.data(FADLAD, tree)$dropped_rows
+if(!any(is.na(absent_in_tree))) {
+    FADLAD <- FADLAD[-match(absent_in_tree, rownames(FADLAD)),]
+}
+
+## Getting the tree ages
+tree_ages <- tree.age(tree)
+
+## Scaling with the latest FADLAD
+tree$root.time <- max(tree_ages[,1] + min(FADLAD[,2]))
 
 ## Removed taxa, i.e. those in the tree but not the matrix and vice versa
 as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
@@ -232,12 +262,12 @@ as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+# matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+#                                   uncertainty.threshold = 0.95)
+# saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
@@ -280,12 +310,12 @@ as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-                                  uncertainty.threshold = 0.95)
-saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+# matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+#                                   uncertainty.threshold = 0.95)
+# saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
-## matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 row.names(matrix_nodes) <- tree$node.label
 matrix$matrix <- rbind(matrix$matrix, matrix_nodes) 
 
