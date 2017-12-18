@@ -352,11 +352,11 @@ multi.plot.extinction <- function(data, type, cols = c("blue", "orange", "white"
         par(mar = c(0, 6, 4, 0)) #c(bottom, left, top, right)
         plot.extinction(data[[1]], type = type[1], col = cols, yaxis = TRUE, xaxis2 = TRUE, main = data.names[[1]], ...)
 
-        ## Other plots (first row)
-        for(slug in 2:(length(data)-1)) {
-            par(mar = c(0, 0, 4, 0)) #c(bottom, left, top, right)
-            plot.extinction(data[[slug]], type = type[1], col = cols, main = data.names[[slug]], xaxis2 = TRUE, ...)
-        }
+        # ## Other plots (first row)
+        # for(slug in 2:(length(data)-1)) {
+        #     par(mar = c(0, 0, 4, 0)) #c(bottom, left, top, right)
+        #     plot.extinction(data[[slug]], type = type[1], col = cols, main = data.names[[slug]], xaxis2 = TRUE, ...)
+        # }
 
         ## Last plot (first row)
         par(mar = c(0, 0, 4, 3)) #c(bottom, left, top, right)
@@ -366,11 +366,11 @@ multi.plot.extinction <- function(data, type, cols = c("blue", "orange", "white"
         par(mar = c(4, 6, 0, 0)) #c(bottom, left, top, right)
         plot.extinction(data[[1]], type = type[2], col = cols, yaxis = TRUE, xaxis = TRUE, ...)
 
-        ## Other plots (second row)
-        for(slug in 2:(length(data)-1)) {
-            par(mar = c(4, 0, 0, 0)) #c(bottom, left, top, right)
-            plot.extinction(data[[slug]], type = type[2], col = cols, xaxis = TRUE, ...)
-        }
+        # ## Other plots (second row)
+        # for(slug in 2:(length(data)-1)) {
+        #     par(mar = c(4, 0, 0, 0)) #c(bottom, left, top, right)
+        #     plot.extinction(data[[slug]], type = type[2], col = cols, xaxis = TRUE, ...)
+        # }
 
         ## Last plot (first row)
         par(mar = c(4, 0, 0, 3)) #c(bottom, left, top, right)

@@ -31,8 +31,6 @@ Initialising the slug and loading the data:
 ```{r, eval = FALSE}
 ## Slugs (choose one)
 slug <- "Beck2014"
-# slug <- "Brusatte2014"
-# slug <- "Bapst2016"
 # slug <- "Wright2017"
 
 data <- read.csv(paste0("../outputs/extinction.", slug, ".csv"), stringsAsFactors = FALSE)
@@ -50,7 +48,7 @@ Multiple plots:
 ```{r, fig.width = 12, fig.height = 4}
 
 ## Names of the datasets
-slugs <- as.list(c("Beck2014", "Brusatte2014", "Bapst2016", "Wright2017"))
+slugs <- as.list(c("Beck2014", "Wright2017"))
 
 ## Load all the data
 data_list <- lapply(slugs, function(slug) read.csv(paste0("../outputs/extinction.", slug, ".csv"), stringsAsFactors = FALSE))
@@ -59,7 +57,7 @@ data_list <- lapply(slugs, function(slug) read.csv(paste0("../outputs/extinction
 colours <- c(gg_color_hue(2), "white") #Signif, non-signif, NA
 
 ## Plot all the results
-pdf("../manuscript/figures/fig-extinction-effect.pdf", width = 12, height = 4)  
+pdf("../manuscript/figures/fig-extinction-effect.pdf", width = 8, height = 4)  
 multi.plot.extinction(data_list, type = c("age", "epoch"), data.names = unlist(slugs), cols = colours)
 dev.off()
 ```

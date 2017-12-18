@@ -233,8 +233,6 @@ Set the slug:
 
 ```{r}
 slug <- "Beck2014" ; extinction <- 66.0
-# slug <- "Brusatte2014"; extinction <- 66.0
-# slug <- "Bapst2016"; extinction <- 66.0
 # slug <- "Wright2017"; extinction <- 443.0
 ```
 
