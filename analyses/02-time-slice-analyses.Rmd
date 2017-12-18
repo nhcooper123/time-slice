@@ -8,7 +8,7 @@ output:
     fig_height: 6
 ---
 
-This code runs the analyses in the paper. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this. Note that much of this uses functions in the `simulations_fun.R` file.
+This code runs the analyses in the paper. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this. Note that much of this uses functions in the `simulations_fun.R` file. It also is also quite slow on some machines, but all outputs are available in the repo.
 
 ```{r}
 set.seed(123)
