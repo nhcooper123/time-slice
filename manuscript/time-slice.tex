@@ -103,10 +103,10 @@ These time bins are usually defined based on stratigraphy \citep[e.g.][]{cisnero
 However, this approach has several limitations.
 
 First, time bins defined by stratigraphy are not of equal size, biasing higher disparity towards longer stratigraphic periods. 
-This can be dealt with using rarefaction methods, i.e. repeating the analysis while re-sampling the taxa to have the same amount of taxa in each bin (e.g. using bootstrapping with limited resampling).
+This can be dealt with using rarefaction methods, i.e. repeating the analysis while resampling the taxa to have the same number of taxa in each bin (e.g. using bootstrapping with limited resampling).
 This can, however, lead to large confidence intervals when there are stratigraphic periods with few species.
 Other studies split large time bins so they are of roughly equal size, but this is often an \textit{ad hoc} procedure that can introduce more bias depending on where bins are split.
-Second, all time binning approaches (whether bins are equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring \textit{between} intervals, rather than also allowing for gradual changes \textit{within} intervals \citep[fairly common in the fossil record;][]{Hunt21042015}.
+Second, all time binning approaches (whether bins are equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring \textit{between} intervals, rather than also allowing for gradual changes \textit{within} intervals \citep[a pattern that is fairly common in the fossil record;][]{Hunt21042015}.
 Third, when investigating changes in disparity due to events at a specific time point (e.g. a mass extinction), time bins may have not have high enough resolution to resolve changes at the event, for example if time bins are every 20 million years it may be hard to capture the effects of an event five million years into the bin.
 Finally, time bin analyses are often limited by the number of taxa in each bin.
 If there are insufficient taxa in a time bin, disparity cannot be calculated, so further analyses, e.g. correlations of disparity with hypothesised drivers of morphological evolution, are not possible.
@@ -118,7 +118,8 @@ Time-slicing also includes any element present in the phylogeny (branches, nodes
 This allows us to measure disparity at time points where there are no sampled terminal taxa, and increases the sample size at each time point, making downstream analyses of the drivers of disparity much more feasible.
 
 Here we present our time-slicing methods using four datasets taken from the literature.
-We calculate disparity-through-time for each dataset using a range of time binning and time-slicing methods, and then compare these approaches with respect to the relative disparities calculated, but also with how the different approaches influence biological conclusions. We find that the choice of time sub-sampling method can have profound effects on the conclusions of disparity-through-time analyses. 
+We calculate disparity-through-time for each dataset using a range of time binning and time-slicing methods, and then compare these approaches with respect to the relative disparities calculated, but also investigate how the different approaches influence biological conclusions. 
+We find that the choice of time sub-sampling method can have profound effects on the conclusions of disparity-through-time analyses. 
 
 \section{Materials and Methods}
 \subsection{Overview}
@@ -400,7 +401,7 @@ Across the three time binning methods, the \cite{beckancient2014} and \cite{brus
 % Plots showing the differences
   \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-dtt-epoch.pdf}
     \caption[Timing of peak disparity for four example datasets.]
     {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
     Pink points represent time binning methods, green points are time slices with a punctuated model of evolution (specifically the `proximity' method), and blue points are time slices with a gradual model of evolution (specifically the `gradual splits' method). 
