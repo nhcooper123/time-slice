@@ -33,7 +33,7 @@ install_github("TGuillerme/Claddis")
 library(Claddis)
 
 ## The latest version of dispRity 
-install_github("TGuillerme/dispRity")
+install_github("TGuillerme/dispRity@v0.5")
 library(dispRity) 
 ```
 
@@ -191,9 +191,9 @@ as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-# matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-#                                  uncertainty.threshold = 0.95)
-# saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                 uncertainty.threshold = 0.95)
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
 matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
@@ -262,9 +262,9 @@ as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-# matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-#                                   uncertainty.threshold = 0.95)
-# saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                   uncertainty.threshold = 0.95)
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
 matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))
@@ -310,9 +310,9 @@ as.vector(na.omit(c(cleaned_data$dropped_tips, cleaned_data$dropped_rows)))
 write.nexus(tree, file = paste0("../data/processed/tree.", slug ,".tre"))
 
 ## Estimating the ancestral states (with a uncertainty threshold of 0.95)
-# matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
-#                                   uncertainty.threshold = 0.95)
-# saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
+matrix_nodes <- AncStateEstMatrix(matrix, tree, estimate.allchars = TRUE,
+                                   uncertainty.threshold = 0.95)
+saveRDS(matrix_nodes, file = paste0("../data/processed/ancestral_states.", slug ,".Rda"))
 
 ## Add ancestral states to nodes
 matrix_nodes <- readRDS(paste0("../data/processed/ancestral_states.", slug ,".Rda"))

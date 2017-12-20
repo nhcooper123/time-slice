@@ -29,7 +29,7 @@ library(ape)
 library(Claddis)
 
 ## The latest version of dispRity
-## install_github("TGuillerme/dispRity", ref = "master")
+## install_github("TGuillerme/dispRity@v0.5")
 library(dispRity) 
 
 ## Load functions using source
