@@ -13,10 +13,19 @@
 \usepackage[round]{natbib} 
 \usepackage{setspace}
 \usepackage{longtable}
+\usepackage{fancyhdr}
 
 \setcounter{secnumdepth}{0} 
-\raggedright 			
-\pagenumbering{arabic}	
+%\raggedright 			
+%\pagenumbering{arabic}	
+\pagenumbering{gobble}
+
+\pagestyle{fancy}
+\rhead{\textit{Guillerme \& Cooper 2018}}
+\lhead{\textit{Supporting Information}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headsep}{0.3in}
 
 \renewcommand{\thetable}{A\arabic{table}}
 \renewcommand{\thefigure}{A\arabic{figure}}
@@ -33,9 +42,8 @@
 
 \begin{document}
 
-\noindent{\Large \bf Supporting Information from ``Time for a rethink: time sub-sampling methods in disparity-through-time analyses''}
+\par{\centering{\Large \bf Supporting Information from ``Time for a rethink: time sub-sampling methods in disparity-through-time analyses''\par}}
 
-\raggedright
 \setlength{\parindent}{1cm}
 
 \section{Appendix S1: Extra details of datasets}
@@ -46,7 +54,7 @@ The following taxa were removed because they were in the phylogeny but not the c
 \subsection{Brusatte2014 (Figure \ref{figure:brusatte})} 
 We used one randomly selected time-scaled tree from Brusatte et al. (2014).
 Zero-length branches were replaced with the minimum branch length in the phylogeny.
-The following taxa were removed because they were in the phylogeny but not the character matrix or vice versa: \textit{Sinraptor dongi}, \textit{Hesperonychus elizabethae}, \textit{Pyroraptor olympius}, \textit{Limenavis patagonica}, \textit{Lithornis}, \textit{Crypturellus undulatus}, \textit{Gallus gallus}, \textit{Crax pauxi}, \textit{Anas platyrhynchus}, \textit{Chauna torquata}, \textit{Epidendrosaurus} and \textit{Kinnareemimus}. 
+The following taxa were removed because they were in the phylogeny but not the character matrix or vice versa: \textit{Sinraptor dongi}, \textit{Hesperonychus elizabethae}, \textit{Pyroraptor olympius}, \textit{Limenavis patagonica}, \textit{Lithornis}, \textit{Crypturellus undulatus}, \textit{Gallus gallus}, \textit{Crax pauxi}, \textit{Anas}\\ \textit{platyrhynchus}, \textit{Chauna torquata}, \textit{Epidendrosaurus} and \textit{Kinnareemimus}. 
 The following taxa were removed because they shared no characters in the morphological matrix: \textit{Shanag ashile}, \textit{Atrociraptor marshalli}, \textit{Proceratosaurus bradleyi}, \textit{Incisivosaurus gauthieri}, \textit{Enigmosaurus}, \textit{Nanshiungosaurus brevispinus}, \textit{Xixiasaurus}, \textit{Tsaagan mangas}, \textit{Mirischia}, \textit{Pedopenna}, \textit{Suzhousaurus}, \textit{Juratyrant}, \textit{Vorona}, \textit{Bonapartenykus}, \textit{Teratophoneus}, \textit{Gobipteryx}, \textit{Songlingornis}, \textit{Liaoningornis longidigitu} and \textit{Achillesaurus}.   
 
 \subsection{Bapst2016 (Figure \ref{figure:bapst})} 
@@ -140,7 +148,7 @@ No taxa were removed.
 % disparity peaks figures
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch-appendix.pdf}
+   % \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch-appendix.pdf}
     \caption[Timing of peak disparity for four example datasets.]
     {Timing of peak disparity for stratigraphic epochs.
     Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
@@ -155,7 +163,7 @@ No taxa were removed.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-age-appendix.pdf}
+    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-age-appendix.pdf}
     \caption[Timing of peak disparity for four example datasets.]
     {Timing of peak disparity for stratigraphic ages.
     Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
