@@ -33,7 +33,7 @@
 
 \begin{document}
 
-\noindent{\Large \bf Supporting Information from `Time for a rethink: time sub-sampling methods in disparity-through-time analyses'}
+\noindent{\Large \bf Supporting Information from ``Time for a rethink: time sub-sampling methods in disparity-through-time analyses''}
 
 \raggedright
 \setlength{\parindent}{1cm}
@@ -96,18 +96,24 @@ No taxa were removed.
 \newpage
 \section{Appendix S2: Additional tables and figures}
 
+% Reset table and figure counters to 1
+\setcounter{figure}{0}  
+\setcounter{table}{0}  
+
 % DTT figures
   \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-dtt-epoch-appendix.pdf}
     \caption[Relative disparity through time for four example datasets.]
-    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    {Relative disparity-through-time for stratigraphic epochs. 
+    Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
     Relative disparities (median bootstrapped disparity divided by the maximum median bootstrapped disparity for a dataset and analysis method) are presented so they can be compared across datasets/methods. 
-    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
-    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
-    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
+    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
     In all cases, time bin disparities are plotted at the midpoint of the bin, and error bars represent the 95\% confidence intervals around the bootstrapped median disparity.
-    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).}
+    The four dataset names are on the first plot for each dataset (see Table 1 for details).
+    Results for stratigraphic ages are shown in Figure A2.}
     \label{figure:dtt2}
   \end{figure}  
 
@@ -115,13 +121,15 @@ No taxa were removed.
     \centering
     \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-dtt-age-appendix.pdf}
     \caption[Relative disparity through time for four example datasets.]
-    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    {Relative disparity-through-time for stratigraphic ages. 
+    Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
     Relative disparities (median bootstrapped disparity divided by the maximum median bootstrapped disparity for a dataset and analysis method) are presented so they can be compared across datasets/methods. 
-    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic ages. 
-    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages in the time frame of the dataset. 
-    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages in the time frame of the dataset. 
+    Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic ages. 
+    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages in the time frame of the dataset. 
+    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages in the time frame of the dataset. 
     In all cases, time bin disparities are plotted at the midpoint of the bin, and error bars represent the 95\% confidence intervals around the bootstrapped median disparity.
-    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).}
+    The four dataset names are on the first plot for each dataset (see Table 1 for details).
+    Results for stratigraphic epochs are shown in Figure A1.}
     \label{figure:dtt3}
   \end{figure}  
 
@@ -134,12 +142,14 @@ No taxa were removed.
     \centering
     \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch-appendix.pdf}
     \caption[Timing of peak disparity for four example datasets.]
-    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
-    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
-    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
-    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    {Timing of peak disparity for stratigraphic epochs.
+    Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
+    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
     For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
-    The four dataset names are on the first plot for each dataset (Table \ref{table:datasets}).}
+    The four datasets are on separate rows, from top to bottom these are Beck2014, Brusatte2014, Bapst2016 and Wright2017 (see Table 1 for details).
+    Results for stratigraphic ages are in Figure A4.}
     \label{figure:peak2}
   \end{figure}
 
@@ -147,36 +157,37 @@ No taxa were removed.
     \centering
     \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-age-appendix.pdf}
     \caption[Timing of peak disparity for four example datasets.]
-    {Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
-    Stratigraphy uses unequal time bins or non-equidistant slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic ages. 
-    Duration uses equal time bins or equidistant slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages in the time frame of the dataset. 
-    Number uses equal time bins or equidistant slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages in the time frame of the dataset. 
+    {Timing of peak disparity for stratigraphic ages.
+    Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
+    Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic ages. 
+    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages in the time frame of the dataset. 
+    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages in the time frame of the dataset. 
     For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
-    The four dataset names are on the first plot for each dataset (Table 1).}
+    The four datasets are on separate rows, from top to bottom these are Beck2014, Brusatte2014, Bapst2016 and Wright2017 (see Table 1 for details).
+    Results for stratigraphic epochs are in Figure A3.}
     \label{figure:peak3}
   \end{figure}
 
-% Extinction figures
+% Full results tables
+% These are so huge (100 pages!!!) I'm going to leave them out for now...
 
+%\begin{landscape}
+%  \input{tables/disparity_measurement-Beck2014.tex} 
+%\end{landscape}
 
-% Full results
-\begin{landscape}
-  \input{tables/disparity_measurement-Wright2017.tex} 
-  \label{table:wrigth-results}  
-\end{landscape}
-\begin{landscape}
-  \input{tables/disparity_measurement-Brusatte2014.tex} 
-  \label{table:wrigth-results}  
-\end{landscape}
-\begin{landscape}
-  \input{tables/disparity_measurement-Bapst2016.tex} 
-  \label{table:wrigth-results}  
-\end{landscape}
-\begin{landscape}
-  \input{tables/disparity_measurement-Wright2017.tex} 
-  \label{table:wrigth-results}  
-\end{landscape}
+%\newpage
+%\begin{landscape}
+%  \input{tables/disparity_measurement-Brusatte2014.tex} 
+%\end{landscape}
 
+%\newpage
+%\begin{landscape}
+%  \input{tables/disparity_measurement-Bapst2016.tex} 
+%\end{landscape}
 
+%\newpage
+%\begin{landscape}
+ % \input{tables/disparity_measurement-Wright2017.tex}  
+%\end{landscape}
 
 \end{document}
