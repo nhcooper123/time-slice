@@ -115,7 +115,7 @@ wilk3$dataset <- c(rep(unlist(slugs)[1], 12), rep(unlist(slugs)[2], 12),
 
 ```{r}
 ## variable names
-colnames <- c("Dataset", "Period", "Model", "Stratigraphy", "Duration", "Number")
+colnames <- c("Dataset", "Period", "Method", "Stratigraphy", "Duration", "Number")
 
 ## Formatting the table
 table_out <- data.frame(wilk3$dataset, wilk3$period,
@@ -124,7 +124,7 @@ table_out <- data.frame(wilk3$dataset, wilk3$period,
 colnames(table_out) <- colnames
 
 ## Table caption
-table_caption <- "Wilcoxon results for appendix"
+table_caption <- "Results of paired Wilcoxon tests investigating whether disparities calculated using time bins are significantly different to those calculated using time-slices. Time-slices used either a  punctuated (‘proximity’ method) or gradual (‘gradual.split’ method) model of evolution. Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic ages or epochs. Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic ages or epochs in the time frame of the dataset. Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic ages or epochs in the time frame of the dataset. Results for other time-slicing methods are in the Supporting Information Appendix S2: Table A1"
 
 ## Save
 sink(file = "../manuscript/tables/raw_wilcox_appendix.tex")
