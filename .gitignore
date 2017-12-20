@@ -13,7 +13,6 @@
 *.exe
 *.o
 *.so
-
 # Packages #
 *.7z
 *.dmg
@@ -23,12 +22,10 @@
 *.rar
 *.tar
 *.zip
-
 # Logs and databases #
 *.log
 *.sql
 *.sqlite
-
 # LaTeX #
 *.aux
 *.bbl
@@ -43,30 +40,23 @@
 *.fdb_latexmk
 *.pdf
 *.fls
-
 # beamer
 *.nav
 *.snm
-
 # OS generated files #
 *.DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
-
 # R #
 *.Rhistory
 *.Rapp.history
 .Rproj.user
 .RData
 inst/doc
-
 # *.\#*
 # \#*\#
-
 ignore/
 *.Rcheck/
-
 manuscript/outlinesvg.svg
-
 manuscript/outline_plots.R
