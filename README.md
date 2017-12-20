@@ -42,8 +42,8 @@ This code is not as tidy or functionified as we would like as we were a bit push
 * **12-appendix-disparity-tables.Rmd** Produces the detailed disparity outputs tables. Currently not in the appendices are they are around 100 pages long!
 
 ## Other folders
-* `functions/` contains functions required by the code in the `analyses/ folder`.
-* `outputs/` contains all the outputs from the code in the `analyses/ folder` except for the figures and tables which can be found in `manuscript/figures` and `manuscript/tables`.
+* `functions/` contains functions required by the code in the `analyses/` folder.
+* `outputs/` contains all the outputs from the code in the `analyses/` folder except for the figures and tables which can be found in `manuscript/figures` and `manuscript/tables`.
 * `manuscript/` contains the LaTeX version of the manuscript and appendices, plus style template, bibliography, figures and tables.
 
 ## Checkpoint for reproducibility
