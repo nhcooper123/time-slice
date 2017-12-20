@@ -67,7 +67,7 @@ For reproducibility purposes, here is the output of `devtools::session_info()` u
 	 tz       Europe/Dublin               
 	 date     2017-12-20                  
 
-	  Packages --------------------------------------------------------------------------------
+	Packages --------------------------------------------------------------------------------
 	 package           * version  date       source                              
 	 ade4                1.7-10   2017-12-15 cran (@1.7-10)                      
 	 animation           2.5      2017-03-30 CRAN (R 3.4.0)                      
