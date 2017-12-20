@@ -36,10 +36,15 @@ This code is not as tidy or functionified as we would like as we were a bit push
 * **06-table-wilcox.Rmd** Reproduces Table 2, and Table A1. 
 * **07-figure-peaks.Rmd** Reproduces Figure 3.
 * **08-figure-extinction.Rmd** Reproduces Figure 4.
-* **09-appendix-trees-figures.Rmd** Builds plots of phylogenies using the R package `strap` to add stratigraphic information.
-* **10-appendix-figure-dtt.Rmd** Reproduces Figures AX and AX.
-* **11-appendix-figure-peaks.Rmd** Reproduces Figures AX and AX.
-* **12-appendix-disparity-tables.Rmd** Reproduces the detailed disparity measurement tables.
+* **09-appendix-trees-figures.Rmd** Builds plots of phylogenies using the R package `strap` to add stratigraphic information (Appendix S2: Figures A1-A4).
+* **10-appendix-figure-dtt.Rmd** Reproduces Appendix S2: Figures A1 and A2.
+* **11-appendix-figure-peaks.Rmd** Reproduces Appendix S2: Figures A3 and A4.
+* **12-appendix-disparity-tables.Rmd** Produces the detailed disparity outputs tables. Currently not in the appendices are they are around 100 pages long!
+
+## Other folders
+* `functions/` contains functions required by the code in the `analyses/ folder`.
+* `outputs/` contains all the outputs from the code in the `analyses/ folder` except for the figures and tables which can be found in `manuscript/figures` and `manuscript/tables`.
+* `manuscript/` contains the LaTeX version of the manuscript and appendices, plus style template, bibliography, figures and tables.
 
 ## Checkpoint for reproducibility
 To rerun all the code with packages as they existed on CRAN at time of our analyses we recommend using the `checkpoint` package, and running this code prior to the analysis:
