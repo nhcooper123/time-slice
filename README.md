@@ -57,6 +57,7 @@ checkpoint("2017-12-18")
 For reproducibility purposes, here is the output of `devtools::session_info()` used to perform the analyses in the publication.
 
 Session info ----------------------------------------------------------------------------
+
  setting  value                       
  version  R version 3.4.3 (2017-11-30)
  system   x86_64, darwin15.6.0        
@@ -67,6 +68,7 @@ Session info -------------------------------------------------------------------
  date     2017-12-20                  
 
 Packages --------------------------------------------------------------------------------
+
  package           * version  date       source                              
  ade4                1.7-10   2017-12-15 cran (@1.7-10)                      
  animation           2.5      2017-03-30 CRAN (R 3.4.0)                      
