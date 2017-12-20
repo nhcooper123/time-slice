@@ -1,5 +1,5 @@
 ---
-title: "Disparity tables for the appendix q"
+title: "Disparity tables for the Appendix"
 author: "Thomas Guillerme"
 date: "`r Sys.Date()`"
 output:

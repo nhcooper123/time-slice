@@ -1,6 +1,6 @@
 ---
 title: "Dataset table"
-author: "Thomas Guillerme"
+author: "Thomas Guillerme and Natalie Cooper"
 date: "`r Sys.Date()`"
 output:
   html_document:
