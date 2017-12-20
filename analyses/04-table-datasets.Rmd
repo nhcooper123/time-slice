@@ -70,7 +70,7 @@ colnames(table_out) <- dataset
 rownames(table_out) <- rownames
 
 ## Table caption
-table_caption <- "Details of the datasets used in this study. Note that although Brusatte2014 and Bapst2016 cross the Cretaceaous Palaeogene (K-Pg) mass extinction there are not enough taxa post K-Pg to investigate the effects of the mass extinction on disparity."
+table_caption <- "Details of the datasets used in this study. Note that although Brusatte2014 and Bapst2016 cross the Cretaceous Palaeogene (K-Pg) mass extinction there are not enough taxa post K-Pg to investigate the effects of the mass extinction on disparity."
 
 sink(file = "../manuscript/tables/raw_datasets.tex")
 xtable(table_out, caption = table_caption)
