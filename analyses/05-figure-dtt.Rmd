@@ -194,8 +194,8 @@ brusatte_base <-
   theme_classic(base_size = 12) + 
   scale_y_continuous(breaks = seq(0, 1, 0.5), 
                      labels = seq(0, 1, 0.5)) +
-  scale_x_reverse(limits = c(100, 0),
-                  breaks = c(seq(100, 0, by = -50))) +
+  scale_x_reverse(limits = c(170, 70),
+                  breaks = c(seq(170, 70, by = -50))) +
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
@@ -205,7 +205,7 @@ brusatte_s <-
   brusatte_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
   geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
-  annotate("text", x = 70, y = 0.15, label = "Brusatte2014")
+  annotate("text", x = 140, y = 0.15, label = "Brusatte2014")
   
 brusatte_d <- 
   brusatte_base +
@@ -289,8 +289,8 @@ bapst_base <-
   theme_classic(base_size = 12) + 
   scale_y_continuous(breaks = seq(0, 1, 0.5), 
                      labels = seq(0, 1, 0.5)) +
-  scale_x_reverse(limits = c(100, 0),
-                  breaks = c(seq(100, 0, by = -50))) +
+  scale_x_reverse(limits = c(200, 50),
+                  breaks = c(seq(200, 50, by = -50))) +
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
@@ -300,7 +300,7 @@ bapst_s <-
   bapst_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
   geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
-  annotate("text", x = 75, y = 0.15, label = "Bapst2016")
+  annotate("text", x = 120, y = 0.15, label = "Bapst2016")
   
 bapst_d <- 
   bapst_base +
@@ -614,8 +614,8 @@ brusatte_base <-
   theme_classic(base_size = 12) + 
   scale_y_continuous(breaks = seq(0, 1, 0.5), 
                      labels = seq(0, 1, 0.5)) +
-  scale_x_reverse(limits = c(100, 0),
-                  breaks = c(seq(100, 0, by = -50))) +
+  scale_x_reverse(limits = c(170, 70),
+                  breaks = c(seq(170, 70, by = -50))) +
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
@@ -625,7 +625,7 @@ brusatte_s <-
   brusatte_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
   geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
-  annotate("text", x = 70, y = 0.15, label = "Brusatte2014")
+  annotate("text", x = 140, y = 0.15, label = "Brusatte2014")
   
 brusatte_d <- 
   brusatte_base +
@@ -709,8 +709,8 @@ bapst_base <-
   theme_classic(base_size = 12) + 
   scale_y_continuous(breaks = seq(0, 1, 0.5), 
                      labels = seq(0, 1, 0.5)) +
-  scale_x_reverse(limits = c(100, 0),
-                  breaks = c(seq(100, 0, by = -50))) +
+  scale_x_reverse(limits = c(200, 50),
+                  breaks = c(seq(200, 50, by = -50))) +
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
@@ -720,7 +720,7 @@ bapst_s <-
   bapst_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
   geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
-  annotate("text", x = 75, y = 0.15, label = "Bapst2016")
+  annotate("text", x = 165, y = 0.15, label = "Bapst2016")
   
 bapst_d <- 
   bapst_base +
