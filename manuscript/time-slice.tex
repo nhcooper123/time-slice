@@ -420,7 +420,7 @@ In general, for the \cite{beckancient2014} dataset, time binning tended to give 
     \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-extinction-effect.pdf}
     \caption[Extinction example datasets.]
     {Effects of mass extinction events on disparity.
-    Pink cells and blue cells indicate respectively a significant or non significant change in disparity before and after the mass extinction event (Cretaceous-Paleogene 66 MYA; \citealt{beckancient2014}; Ordovician-Silurian 455–430 MYA; \citealt{wright2017bayesian}).
+    Pink cells and blue cells indicate respectively a significant or non significant change in disparity before and after the mass extinction event (Cretaceous-Paleogene 66 MYA; \citealt{beckancient2014}; Ordovician-Silurian 455-430 MYA; \citealt{wright2017bayesian}).
     \textit{e:1}, \textit{e:2}, and \textit{e:3} denote whether the comparison was between the time bin or time-slice immediately after the mass extinction (\textit{e:1}), or the second (\textit{e:2}) or third (\textit{e:3}) bin/slice after the mass extinction to account for any lag effect.
     The top seven rows use stratigraphic ages and the bottom seven rows use stratigraphic epochs.
     Labels on the left hand side indicate whether time bins (``bins'') were used, or which of the six time-slicing methods was used.}
@@ -434,24 +434,31 @@ In general, for the \cite{beckancient2014} dataset, time binning tended to give 
 
 \section{Discussion}
 Disparity-through-time analyses are influenced by the choice of time sub-sampling method used to divide the taxa. 
-These changes are idiosyncratic - it is not possible to predict \textit{a priori} which method will give which result. 
+While differences in the relative disparities calculated among time sub-sampling methods may not be of much biological importance, these changes can have important implications for the conclusions of downstream analyses. 
+For example, using stratigraphic epochs as our reference time period, there are 21 potential methods for time sub-sampling our data (splitting by stratigraphy, number and duration, see methods, and using time bins or one of six time-slicing methods). 
+Of these 21 methods, in 16 (76\%) we show that placental mammals \citep{beckancient2014} significantly increased in disparity in the time bin/slice immediately after the K-Pg mass extinction event, and in 20 (95\%) we show that crinoids \citep{wright2017bayesian} significantly decreased in disparity in the time bin/slice immediately after the O-S mass extinction event.
+Given the high congruence (76\% and 95\%) of these results, one could argue that time-sub-sampling methods are not important. 
+However, if we had chosen to investigate crinoid disparity only using time bins and splitting these so the number of time bins was equal to the number of epochs (number), we would have concluded that the O-S extinction had no effect on crinoid disparity. 
+This highlights the sensitivity of disparity-through-time analyses to the choice of time sub-sampling method. 
+Fortunately this issue is easy to solve; either disparity-through-time analyses should use, and report results from, multiple time sub-sampling methods (as demonstrated here), or great care should be taken in determining the appropriate time sub-samples to answer the question of interest. 
 
 Time-slicing has several advantages over time binning (using either equally or unequally sized bins) approaches.
 First, it allows us to use as much of the information available to us, in the form of phylogenetic relationships and ancestral taxa, as possible. 
-This increases our ability to investigate key biological questions, such as how do various drivers influence morphological diversity through time, and how do mass extinctions influence disparity, both by increasing the statistical power of analyses and through the availability of data at key time points in the history of clades of interest.
+This increases our ability to investigate key biological questions, such as how do various drivers influence morphological diversity through time, and how do mass extinctions influence disparity \citep{Brusatte12092008,Foote29111996,friedmanexplosive2010}, both by increasing the statistical power of analyses and through the availability of data at key time points in the history of our groups.
 Second, we are able to be more explicit about the mode of evolution in our clades; in time-slicing we can apply punctuated or gradual models of trait change rather than making an assumption of punctuated evolution.
 This may be important, as gradual change is a common pattern of trait evolution in the fossil record \citep{Hunt20112007}.
+Of course the method also has limitations.
+The main one of these is a practical one; it requires a time-calibrated phylogeny.
+Not all palaeontological datasets have phylogenies yet.
+Another limitation is that the method, like most phylogeny based methods, depends on ancestral state reconstructions.
+Care should be taken in interpreting these, as they are highly dependent on the data and models used to for the reconstructions \citep{Slateretal2012,doi:10.1080/10635150801910451}.
 
-As with any method, there are still features we could improve upon. 
-
-
-
-  - Allowing proper reconstruction along the branches (basically slicing before the ordination).
-
-  - Testing the effect of slice/bin on properly simulated data set to test for systematic difference (or not)
-
-  - Testing the effect of slice/bin with different disparity metrics
-
+\section{Conclusions}
+The choice of time sub-sampling method can alter the conclusions we obtain from disparity-through-time studies. 
+Time-slicing methods, with explicit models of evolution, provide an alternative to traditional time binning approaches.
+Note that while we introduce the time-slicing methods here, and describe their advantages, we do not suggest time-slicing is necessarily the ``best'' method for time sub-sampling. 
+As with all methods, the choice of methodology should be appropriate for the question and data at hand.
+However, we do strongly recommend performing disparity-through-time analyses using a series of appropriate time sub-sampling methods, and comparing these, to ensure that results are not merely a consequence of the time sub-sampling method employed. 
 
 \section{Data archiving statement}
 Data for this study are available from \cite{dryad_n2g80,dryad_6hb7j,dryad_84t75,beckancient2014} but for ease of reproducibility can also be found on GitHub (\url{https://github.com/nhcooper123/time-slice/data}). % add proper link to zenodo
