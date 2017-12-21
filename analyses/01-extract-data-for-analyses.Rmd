@@ -11,7 +11,7 @@ output:
 Pipeline for getting data from discrete matrices.
 ===============
 
-This code loads the data and extracts matrices and other files needed to run the analyses in the paper. Note that these analyses can take time, so we save the outputs to a `data/processed` folder and use these in later analyses so that the analyses can be replicated more quickly. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this.
+This code loads the data and extracts matrices and other files needed to run the analyses in the paper. Note that these analyses can take time (i.e. more than 24 hours!), so we save the outputs to a `data/processed` folder and use these in later analyses so that the analyses can be replicated more quickly. Below we lay out the process in detail for one dataset, and then provide the code for the other datasets below this.
 
 ```{r}
 set.seed(123)
