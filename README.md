@@ -39,7 +39,7 @@ This code is not as tidy or functionified as we would like as we were a bit push
 * **09-appendix-trees-figures.Rmd** Builds plots of phylogenies using the R package `strap` to add stratigraphic information (Appendix S2: Figures A1-A4).
 * **10-appendix-figure-dtt.Rmd** Reproduces Appendix S2: Figures A1 and A2.
 * **11-appendix-figure-peaks.Rmd** Reproduces Appendix S2: Figures A3 and A4.
-* **12-appendix-disparity-tables.Rmd** Produces the detailed disparity outputs tables. Currently not in the appendices are they are around 100 pages long!
+* **12-appendix-disparity-tables.Rmd** Produces the detailed disparity outputs tables. Currently not in the appendices as they are around 100 pages long!
 
 ## Other folders
 * `functions/` contains functions required by the code in the `analyses/` folder.
