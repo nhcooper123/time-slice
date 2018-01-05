@@ -12,6 +12,11 @@ To cite this repo:
 
 [![DOI](https://zenodo.org/badge/98415211.svg)]()
 
+![alt text](https://github.com/nhcooper123/time-slice/raw/master/stratigraphiccake.png)
+
+> Many thanks to Dr Jones for the image :)
+
+
 ## Data
 These analyses are based on data from four previous studies. 
 They can be accessed from the links below, but for reproducibility purposes the data can also be found in the `data/` folder in this repo.
