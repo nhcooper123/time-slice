@@ -1,0 +1,197 @@
+\documentclass[12pt,letterpaper]{article}
+
+%Packages
+\usepackage{pdflscape}
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage[version=3]{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{enumerate}
+\usepackage[osf]{mathpazo}
+\usepackage{dcolumn}
+\usepackage{lineno}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\pagenumbering{arabic}
+
+%Pagination style and stuff
+%\linespread{2} 
+
+\raggedright
+\setlength{\parindent}{0.5in}
+\setcounter{secnumdepth}{0} 
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+\renewcommand{\tableofcontents}{}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\textbf{RE: PALA-12-17-4130-OA}\\
+\bigskip
+Dear Dr Smith,\\
+\bigskip
+
+We are very grateful to the four referees for their helpful and constructive comments, blablabal...
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% REVIEWER 1
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+\section{Reviewer 1 (Steve Brusatte)}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{In the section on adding in reconstructed ancestors to the dataset before ordination, I suppose you should mention that this is similar to the approach that we outlined in our Paleobiology paper (Brusatte et al. 2011) and mention any key differences.}}
+
+
+
+\item{\textcolor{blue}{[...]I wonder if the term ``cladisto-space'' is confusing, and is just yet another new term that may muddy the waters rather than clarify. If you want to keep using this term, that’s fine, but a sentence or two of explanation (about how previous authors have used discrete characters in a non-phylogenetic way) would be warranted.}}
+
+%TG: let's just remove cladisto-space: I think (1) it's a nice word and (2) it's actually a good decoy to focus reviewers attention and can be changed easily. + Steve makes a point with adding to many jargon.
+
+\item{\textcolor{blue}{Figure 3 would be easier to interpret if the dataset names were added to the graphic itself (like in Figure 2) rather than constrained to the figure caption.}}
+
+
+
+\item{\textcolor{blue}{I may be misinterpreting Figure 3, but it seems like peak disparity values for the Brusatte et al. dataset are pretty much the same regardless of method used (second plot from top). This doesn’t jibe with the statement in the text (lines 435-437). Please clarify.}}
+
+\end{enumerate}
+
+
+
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% REVIEWER 2
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+\section{Reviewer 2}
+
+\begin{enumerate}
+
+
+
+\item{\textcolor{blue}{First, if I understand lines 278-299 (and the R annotation) correctly, the gradual evolution models are not in fact fundamentally different from the punctuated models. They are both assigning scores along the branch that are the same as either the ancestor or descendant—the difference is only that the selection is based on a probability in the ``gradual'' models, rather than a rule, as in the ``punctuated'' models. The concept of gradual change would be more closely modeled by assigning values along a branch that were in-between those assigned to the ancestor and descendent but based on how far along the branch any given point is. For example, let’s say the value of the ancestor along PCO1 is 0.04 and that of the descendent is 0.03. For a point that is halfway along the branch linking them, the value should be 0.035 (instead of assigning either 0.03 or 0.04 based on a probability). This, of course, makes assumptions about the course of evolution between the ancestor and descendant, but at least would be describing gradual change.}}
+
+%TG: I can implement that pretty easily but I think that mathematically it's not cool (we can not add values post-ordination in the ordinated space). Two options: (1) implementing the suggestion but with heavy warnings; (2) writing down a clever response to this comment. In the dispRity package review, that was highlighted (I bet reviewer 2 is Graeme) and I responded something similar to option (2) so I'd rather go that way for consistency.
+
+
+
+
+
+\item{\textcolor{blue}{Second, I do not see how Figure 3 supports the text (lines 435-447). Overall, these results show the exact opposite of what is stated in the text (lines 435-447): in the figure the time-binned-approach (pink) results show earlier disparity peaks than the time-slicing approaches (green and blue). Are the y-axes reversed from what they should be? Also the Brusatte et al 2014 (second row) shows very similar values, not different values (compare with lines 435-436). And the difference between the ages of the peaks in the Bapst et 2016 study (third row) is at most 6 million years...but the study itself is over 150 million years divided very coarsely in Figure 2.  On that scale, these are basically the "same time". Finally, whether the six different time-slicing methods show ``similar'' patterns (lines 412-413) depends on the question... it is hard to distinguish them in the relative disparity plots, but the timing of peak disparity varies widely (Figure A3) while the two shown in Figure 3 happen to be similar.}}
+
+
+
+\item{\textcolor{blue}{Finally, I have spent some time thinking about by the statement ``all time binning approaches (whether equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model.'' (lines 70-71). I see what the authors are getting at—they are worried that doing this requires an assumption of constant evolution across the time bin. But I would argue that it is not necessary to interpret it this way. Instead it could simply represent an average across the interval sampled without the need to make any assumption about how change occurred within that interval. Plus, even in scenarios where there was enough change that at a course scale, it appeared that disparity was static, some of that volatility might be revealed if the time-scale were altered.}}
+
+
+
+\item{\textcolor{blue}{But there is also a deeper issue here, in that the fossil record is at its heart a time-binned record: rates of sedimentation vary and sediment deposition is sporadic, such that local beds represent different amounts of time, or different ``packages'' of time, separated by gaps, and the fossils within them may be time-averaged to various degrees. [...] Therefore, even if you pick a ``point in time'' and count the number of branches/ranges that cross that point, some of those are being captured because the resolution of the end points only allows us to know that the taxon started and/or ended somewhere in the interval encompassing that point in time.}}
+
+%TG: this is a fair point we should include in the discussion.
+
+
+
+\item{\textcolor{blue}{As an aside, the Hunt et al 2015 citation does not clarify the matter (line 74-75). A case could be made that all time series are binned (if you consider that the samples are likely time-averaged and there are gaps between samples--although this is different from dividing up "everything" into adjacent boxes), and yet there are time series that are best characterized by gradual directional change (e.g., best fit by a biased random walk). In addition, Hunt et al found that directional change was actually more likely to be detected in series of long duration. Furthermore, homogenous rate patterns were more likely to be supported than heterogenous/punctuated change with time series of fewer samples, which includes cases where each ``step'' includes a longer interval of time over which shorter changes could be hidden.}}
+
+%TG: not sure where the reviewer want us to go with that. Is that the same nuancing point as the comment before? In that case we can simply merge them and make a caveat paragraph.
+
+
+\end{enumerate}
+
+\subsection{Reviewer 2 - Minor comments}
+
+\begin{enumerate}
+
+\item{\textcolor{blue}{It is not immediately clear what is meant by ``defined by the average duration of the stratigraphic period'' (line 337, 341) vs ``defined by the average number of stratigraphic periods'' (line 348, 353). After thinking about it for awhile and then checking the R code, this is what appears to be going on. Let’s say we have a case study that spans 10 stratigraphic intervals over 40 million years. Thus for the stratigraphy approach, there are 10 sub-samples which vary in their duration. Let’s say the average duration of those intervals is 5 million years. For the duration approach, the 40 million year span is divided into 5-million-year bins, resulting in 8 sub-samples. For the number approach, the 40 million year span is divided into 10, each of which is 4 million years long. If this is the case, the use of the word ``average'' when describing the number approach is confusing. I am also having trouble reconciling this with the number of points in each panel in Figure 2, unless there is also a minimum sample size applied (for example in the Bapst 2016 study, there are only three disparity values for the time-binned series using the ``number'' approach, maybe because after dividing the time scale up this way, there were not enough taxa in the first and second time bins?). It may be helpful to include a graphic, even if in relegated to one of the appendices.}}
+
+%TG: good idea, we (I) can make a figure designating the three different strategies.
+
+\item{\textcolor{blue}{Line 158. Gower’s distance is not the Euclidean distance (= the square root of the squared distances) over the number of shared characters. For a set of unordered characters, it is the number of mismatched character states over the number of comparable/shared characters. For a set of ordered characters, it is sum of the differences in the values of the characters states for each pairwise comparison, over the number of comparable characters. This is an edit that needs to be made only to the text; because the authors used functions from the Claddis package (see github documentation), they would have calculated Gower’s distance correctly.}}
+
+
+\item{\textcolor{blue}{Consider using ``stage'' instead of ``age'' when referring to the finer resolution time scale.}}
+
+
+\item{\textcolor{blue}{Figure 2. It is very difficult to distinguish the green dots from the blue dots. For someone who is color-blind, it would also be difficult to distinguish the red dots from the green dots.}}
+
+
+\end{enumerate}
+
+
+
+
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% REVIEWER 3
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+%TG: actually not sure how to write these comments in this response document, they are only technical thingies, we can just state in the intro paragraph above that we dealt with all of them. I'll raise them as tickable issues on GitHub (yay!) for now.
+
+
+% \section{Reviewer 3 (Sally Thomas)}
+
+% \begin{enumerate}
+
+
+
+% \item{\textcolor{blue}{Please submit your manuscript in Word format. Do not include the figures in the text file, but it is helpful if you do include a list of the figure captions at the end.}}
+
+
+
+% \item{\textcolor{blue}{Could I suggest adding ‘sub-sampling’ to your key words?}}
+
+
+% \end{enumerate}
+
+
+
