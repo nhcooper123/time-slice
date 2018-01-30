@@ -145,10 +145,11 @@ For each dataset we estimated the ancestral character states at each node using 
 This function uses the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the phylogeny \citep[based on the \texttt{rerootingMethod} function in \texttt{phytools};][]{phytools}.
 Inapplicable and missing characters for any taxon were treated as ambiguous characters (i.e. any possible observed state for the character).
 % NC: I've left this one bit to make it clear but removed the explanation (this was all just copied from your thesis)
-To prevent poor ancestral state reconstructions from biasing our results, especially when a lot of error is associated with the reconstruction, we only included ancestral state reconstructions with a scaled Likelihood $\geq$ $0.95$.
-Ancestral state reconstructions with scaled Likelihoods below this threshold were recoded as missing data (``?'').
-This allowed our results to be less dependent on the quality (or the absence thereof) of the ancestral state reconstruction methods, especially in parts of the datasets where data were sparse.
- 
+To prevent poor ancestral state estimations from biasing our results, especially when a lot of error is associated with the estimations, we only included ancestral state estimations with a scaled Likelihood $\geq$ $0.95$.
+Ancestral state estimations with scaled Likelihoods below this threshold were recoded as missing data (``?'').
+This allowed our results to be less dependent on the quality (or the absence thereof) of the ancestral state estimations methods, especially in parts of the datasets where data were sparse. 
+This approach is similar to \cite{brusatte2011phylogenetic} but uses model based estimations (rather than parsimony) allowing to control for ambiguous nodes (i.e. poorly estimated).
+
 \paragraph{Building cladisto-spaces.} 
 To explore disparity-through-time in our datasets we used a cladisto-space approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
 This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010}, except a cladisto-space is an approximation of the morphospace based on discrete morphological data (i.e. the discrete morphological characters used to build a phylogenetic tree, often referred to as ``cladistic'' data).
@@ -157,11 +158,20 @@ This approach is similar to constructing a morphospace based on continuous morph
 Mathematically, a cladisto-space is an $n$ dimensional object that summarises the cladistic distances between the taxa present in a cladistic matrix.
 Although empirically inter-taxon distances are the same in a morphospace or a cladisto-space \citep{foth2012different,hetherington2015cladistic}, we prefer the term cladisto-space to make it clear that this space is estimated using cladistic data and not morphometric data.
 
+
+% To explore disparity-through-time in our datasets we used a discrete morphospace approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
+% This approach is a approximation of a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010} and is based on discrete morphological data (i.e. the discrete morphological characters used to build a phylogenetic tree, often referred to as ``cladistic'' data).
+% Although empirically inter-taxon distances are the same in a morphospace based on discrete or continuous data \citep{foth2012different,hetherington2015cladistic}, we like to highlight that this space is based on discrete morphological data and phylogeny (it could be referred to as a ``cladisto-space'').
+% Mathematically, a cladisto-space is an $n$ dimensional object that summarises the distances between the taxa present in a discrete morphological matrix.
+
+
+
+
 \paragraph{Constructing distance matrices.}
 To estimate the cladisto-spaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of tips and nodes in the dataset.
 We calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
 This allows us to correct for distances between two taxa that share many characters and could be closer to each other than to taxa with fewer characters in common (i.e. because some pairs of taxa share more characters in common than others, they are more likely to be similar).
-For cladistic matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
+For discrete morphological matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
 Therefore, we used the \texttt{TrimMorphDistMatrix} function from the \texttt{Claddis} \texttt{R} package to remove pairs of taxa with no cladistic characters in common.
 This led to us removing nine taxa from the \cite{bapst2016topology} dataset, and 19 from the \cite{brusatte2014gradual} dataset, but none from the other two datasets (see Supporting Information Appendix S1 for details of which species). 
@@ -204,7 +214,7 @@ To estimate disparity-through-time we first need to split the data into time sub
 Here we use three time sub-sampling methods.
 
 \begin{enumerate}
-  \item Stratigraphic time bins. This is the traditional method, where all the taxa within each stratigraphic period are included in the disparity calculation. This often leads to bins of unequal duration. Here we use stratigraphic ages and epochs.
+  \item Stratigraphic time bins. This is the traditional method, where all the taxa within each stratigraphic period are included in the disparity calculation. This often leads to bins of unequal duration. Here we use stratigraphic stages and epochs.
   \item Equally sized time bins. This is another commonly used method, where the time frame of interest is split into equally sized time bins, then all the taxa within each time bin are included in the disparity calculation. 
   \item Time-slicing. We describe this in more detail below, but in brief, time-slicing uses a phylogeny, and rather than binning the data, it takes slices through a phylogeny and includes all the taxa and nodes in that slice within the disparity calculation. 
 \end{enumerate}  
@@ -366,7 +376,7 @@ Results for all six methods can be found in Supporting Information Appendix S2: 
     Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
     In all cases, time bin disparities are plotted at the midpoint of the bin, and error bars represent the 95\% confidence intervals around the bootstrapped median disparity.
     The four dataset names are on the first plot for each dataset (see Table \ref{table:datasets} for details).
-    Results for stratigraphic ages, and for other time-slicing methods, are in the Supporting Information Appendix S2: Figures A1-A2.}
+    Results for stratigraphic stages, and for other time-slicing methods, are in the Supporting Information Appendix S2: Figures A1-A2.}
     \label{figure:dtt1}
 \end{figure}
 
@@ -400,7 +410,7 @@ Across the three time binning methods, the \cite{beckancient2014} and \cite{brus
     Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
     For time bins there are two points indicating the maximum and minimum ages of the time bin within which peak disparities appeared.
     The four datasets are on separate rows, from top to bottom these are Beck2014, Brusatte2014, Bapst2016 and Wright2017 (see Table \ref{table:datasets} for details).
-    Results for stratigraphic ages, and for other time-slicing methods, are in the Supporting Information Appendix S2: Figures A3-A4.}
+    Results for stratigraphic stages, and for other time-slicing methods, are in the Supporting Information Appendix S2: Figures A3-A4.}
     \label{figure:peak1}
 \end{figure}
 
@@ -420,7 +430,7 @@ In general, for the \cite{beckancient2014} dataset, time binning tended to give 
     {Effects of mass extinction events on disparity.
     Pink cells and blue cells indicate respectively a significant or non significant change in disparity before and after the mass extinction event (Cretaceous-Paleogene 66 MYA; \citealt{beckancient2014}; Ordovician-Silurian 455-430 MYA; \citealt{wright2017bayesian}).
     \textit{e:1}, \textit{e:2}, and \textit{e:3} denote whether the comparison was between the time bin or time-slice immediately after the mass extinction (\textit{e:1}), or the second (\textit{e:2}) or third (\textit{e:3}) bin/slice after the mass extinction to account for any lag effect.
-    The top seven rows use stratigraphic ages and the bottom seven rows use stratigraphic epochs.
+    The top seven rows use stratigraphic stages and the bottom seven rows use stratigraphic epochs.
     Labels on the left hand side indicate whether time bins (``bins'') were used, or which of the six time-slicing methods was used.}
     \label{figure:extinction1}
 \end{figure}
@@ -451,8 +461,8 @@ This may be important, as gradual change is a common pattern of trait evolution 
 Of course the method also has limitations.
 The main one of these is a practical one; it requires a time-calibrated phylogeny.
 Not all palaeontological datasets have phylogenies yet.
-Another limitation is that the method, like most phylogeny based methods, depends on ancestral state reconstructions.
-Care should be taken in interpreting these, as they are highly dependent on the data and models used for the reconstructions \citep{Slateretal2012,doi:10.1080/10635150801910451}.
+Another limitation is that the method, like most phylogeny based methods, depends on ancestral state estimations.
+Care should be taken in interpreting these, as they are highly dependent on the data and models used for the estimations \citep{Slateretal2012,doi:10.1080/10635150801910451}.
 
 \section{Conclusions}
 The choice of time sub-sampling method can alter the conclusions we obtain from disparity-through-time studies. 
