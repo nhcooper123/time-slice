@@ -102,9 +102,21 @@ Mathematically, our morphospaces are $n$ dimensional objects that summarises the
 
 \item{\textcolor{blue}{Figure 3 would be easier to interpret if the dataset names were added to the graphic itself (like in Figure 2) rather than constrained to the figure caption.}}
 
-
+%TG: OK, I've tried but miserably failed to do it. ggplot's logic is just completely different than base-plot's one and I don't understand it... I'm actually wondering if ggplot is something like Word vs. LaTeX: once you're use to one it's really hard to switch to the other.
+%TG: Also for these figures, I think we need to try to plot a line rather than two dots for the bins interval. Its actually not that straight forward to realise what's happening.
 
 \item{\textcolor{blue}{I may be misinterpreting Figure 3, but it seems like peak disparity values for the Brusatte et al. dataset are pretty much the same regardless of method used (second plot from top). This doesn’t jibe with the statement in the text (lines 435-437). Please clarify.}}
+
+We apologies for mismatching the datasets and the patterns described in the text.
+We've now correct and double check this as follows:
+
+\textit{In the Beck \& Lee (2014) and Bapst et al. (2016) datasets, disparity peaks occur much at much older ages when time-slicing rather than time binning approaches are used (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).
+This is also true for stratigraphic time bins in the Wright (2017) dataset, although when using equal time bins the peaks are later than the time-slicing methods, or very similar (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).
+Across the three time binning methods, the Brusatte et al. (2014) dataset have similar disparity peaks whichever method is used, the Wright (2017) dataset only had variation in peaks when using un-equal time bins (stratigraphy) whereas in the Bapst et al. (2016) and Beck \& Lee (2014) datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines @@@
+
+We've also added a note about discrepancies in the time-slicing models in Beck \& Lee (2014): 
+
+\textit{Additionally, there seem to be low discrepancy within the time-slicing methods (gradual vs. proximity) expect in Beck \& Lee (2014) dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines @@@
 
 \end{enumerate}
 
