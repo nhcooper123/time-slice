@@ -140,7 +140,21 @@ We've also added a note about discrepancies in the time-slicing models in Beck \
 
 
 
-\item{\textcolor{blue}{First, if I understand lines 278-299 (and the R annotation) correctly, the gradual evolution models are not in fact fundamentally different from the punctuated models. They are both assigning scores along the branch that are the same as either the ancestor or descendant—the difference is only that the selection is based on a probability in the ``gradual'' models, rather than a rule, as in the ``punctuated'' models. The concept of gradual change would be more closely modeled by assigning values along a branch that were in-between those assigned to the ancestor and descendent but based on how far along the branch any given point is. For example, let’s say the value of the ancestor along PCO1 is 0.04 and that of the descendent is 0.03. For a point that is halfway along the branch linking them, the value should be 0.035 (instead of assigning either 0.03 or 0.04 based on a probability). This, of course, makes assumptions about the course of evolution between the ancestor and descendant, but at least would be describing gradual change.}}
+\item{\textcolor{blue}{First, if I understand lines 278-299 (and the R annotation) correctly, the gradual evolution models are not in fact fundamentally different from the punctuated models. They are both assigning scores along the branch that are the same as either the ancestor or descendant—the difference is only that the selection is based on a probability in the ``gradual'' models, rather than a rule, as in the ``punctuated'' models. The concept of gradual change would be more closely modelled by assigning values along a branch that were in-between those assigned to the ancestor and descendent but based on how far along the branch any given point is. For example, let’s say the value of the ancestor along PCO1 is 0.04 and that of the descendent is 0.03. For a point that is halfway along the branch linking them, the value should be 0.035 (instead of assigning either 0.03 or 0.04 based on a probability). This, of course, makes assumptions about the course of evolution between the ancestor and descendant, but at least would be describing gradual change.}}
+
+The reviewer does indeed understands the \texttt{equal.splits} and \texttt{gradual.splits} models correctly: they selects the values in the matrix from the edge's descendant or ancestor with a probability value for each.
+We believe however that the reviewer's proposition of making these models ``actually'' gradual (e.g. by selecting the mean value between two points) might lead to incorrect interpretation of the results.
+
+The rational for proposing the \texttt{equal.splits} and \texttt{gradual.splits} models rather than a pure gradual model is to not create any extra data points in the ordinated space.
+In fact, doing so pre-ordination can simply change the ordinated space geometry while doing in post-ordination leads to incorrect estimation of the space: (1) the number of elements changed hence changing parameters for future statistical test (e.g. degrees of freedom) and (2) the variance per axis will change as well.
+On the other hand, our methods allows to approach a pure gradual model without modifying the space structure and properties.
+In fact, when applying the \texttt{equal.split} model (or \texttt{gradual.splits}) on a decent number of bootstrap replicates (say 100), the ancestor's PCO1 value (0.04 in the reviewer's example) will be sampled 50\% of the time and the same for the descendant's value (0.03 - with the probability changing as a function of branch length for the \texttt{gradual.splits} model).
+The resulting metric, based on this value would be $0.5\times0.04 + 0.5\times0.03 = 0.035$ thus identical to what the reviewer suggests without modifying the multidimensional space.
+
+We added the following explanation in the text:
+
+\textit{For example, using the ``equal.split'' model between an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
+By estimating this value rather than generating it (i.e. creating a new element midway along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.} lines @@@
 
 %TG: I can implement that pretty easily but I think that mathematically it's not cool (we can not add values post-ordination in the ordinated space). Two options: (1) implementing the suggestion but with heavy warnings; (2) writing down a clever response to this comment. In the dispRity package review, that was highlighted (I bet reviewer 2 is Graeme) and I responded something similar to option (2) so I'd rather go that way for consistency.
 
@@ -222,3 +236,4 @@ We've changed the ``stratigraphic age'' to ``stratigraphic stage'' throughout th
 
 
 
+\end{document}
