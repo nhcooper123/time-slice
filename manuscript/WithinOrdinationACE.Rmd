@@ -1,0 +1,227 @@
+---
+title: "Within ordination ACE"
+author: "Thomas Guillerme"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    fig_width: 12
+    fig_height: 6
+---
+
+Let's consider a square of size one in four dimensions
+
+```{r, fig.width = 6, fig.height = 6}
+## square coordinates
+square <- matrix(ncol = 4, nrow = 4, byrow = TRUE,
+                  data = c(c(0,0,0,0), c(0,1,0,0), c(1,1,0,0), c(1,0,0,0)))
+rownames(square) <- letters[1:4]
+## The 2D square
+par(bty = "n")
+plot(square[,c(1:2)], xlab = "Dimension 1", ylab = "Dimension 2")
+```
+
+We can then ordinate this segment using an MDS
+
+```{r, fig.width = 6, fig.height = 6}
+## Ordination (reducing only one dimension)
+ord_square <- cmdscale(dist(square), k = 3)
+
+## Plotting the two first dimensions
+par(bty = "n")
+plot(ord_square[,c(1:2)], xlab = "Ordination 1", ylab = "Ordination 2")
+```
+
+We can then estimate the values on the edges of the square (the mean between the pairs of summits) either within the ordination (average ordination scores) or directly from the non-ordinated square.
+
+## Adding data within the ordination
+
+We will now add four points that will be on the centre of each edges of the ordinated square
+
+```{r, fig.width = 6, fig.height = 6}
+## Getting the average in 3 dimensions for each edges
+ab <- apply(ord_square[1:2,], 2, mean) 
+bc <- apply(ord_square[2:3,], 2, mean) 
+cd <- apply(ord_square[3:4,], 2, mean) 
+da <- apply(ord_square[c(4,1),], 2, mean) 
+ord_square_edge <- rbind(ord_square, ab, bc, cd, da)
+
+## Plotting the two first dimensions
+par(bty = "n")
+plot(ord_square_edge[,c(1:2)], xlab = "Ordination 1", ylab = "Ordination 2")
+```
+
+## Adding data before the ordination
+
+Alternatively, we can add the data in a post or pre ordination way.
+
+```{r, fig.width = 12, fig.height = 6}
+par(bty = "n", mfrow = c(1,2))
+
+## Adding the average for each square edge
+ab <- apply(square[1:2,], 2, mean) 
+bc <- apply(square[2:3,], 2, mean) 
+cd <- apply(square[3:4,], 2, mean) 
+da <- apply(square[c(4,1),], 2, mean) 
+square_edge <- rbind(square, ab, bc, cd, da)
+
+## The 2D square (with edges center)
+plot(square_edge[,c(1:2)], xlab = "Dimension 1", ylab = "Dimension 2", main = "post ordination addition")
+
+## Ordination (reducing only one dimension)
+ord_square_edge2<- cmdscale(dist(square_edge), k = 3)
+
+## Plotting the two first dimensions
+plot(ord_square_edge2[,c(1:2)], xlab = "Ordination 1", ylab = "Ordination 2", main = "pre ordination addition")
+```
+
+In the case of simple structures, addition of elements pre or post ordination has no effect on the results.
+However, for more complex structures (i.e. phylogenies), this has a bigger impact on the resulting ordination:
+
+
+
+# A phylogenetic example
+
+Here we'll simulate a four taxa ladder tree with equal branch length (to make node estimation post-ordination comparable to pre-ordination - i.e. no effect of branch length).
+We generate a realistic multistate discrete matrix (`dispRity::sim.morpho`) and estimate ancestral states for each node (`Claddis::AncStateEstMatrix`).
+We also calculate the variance per axis (expressed in a probability).
+
+```{r}
+library(Claddis)
+library(dispRity)
+library(ape)
+set.seed(1)
+
+## Simulating a 4 taxa tree
+tree <- read.tree(text = "(((t1,t2),t3),t4);")
+tree$edge.length <- rep(1, 6)
+## Setting up the parameters
+my_rates = c(rgamma, rate = 10, shape = 5)
+## Mk matrix (4*14)
+matrixMk <- sim.morpho(tree, characters = 14, states = c(0.8, 0.2), model = "ER", rates = my_rates, invariant = FALSE) 
+
+## Estimating the ancestral characters
+ancestors <- AncStateEstMatrix(MakeMorphMatrix(matrixMk), tree)
+
+## Ordinating the matrix (without the ancestors)
+ordination <- cmdscale(dist(matrixMk), k = nrow(matrixMk)-2)
+ord_var <- apply(ordination, 2, var)
+cum_var <- ord_var/sum(ord_var)
+```
+
+We can then plot both the tree and the position of each tip in the ordinated space as follows:
+
+```{r, fig.width = 12, fig.height = 6}
+## Plotting the two first axis
+par(bty = "n", mfrow = c(1,2))
+plot(ordination, xlab = paste0("O1 (", round(cum_var[1], 3),")"),
+                 ylab = paste0("O2 (", round(cum_var[2], 3),")"),
+                 xlim = c(-2.2, 2.2), ylim = c(-2.2, 2.2))
+
+## Adding the tips names
+for(tip in 1:Ntip(tree)) {
+    text(ordination[tip, 1], ordination[tip, 2], labels = rownames(ordination)[tip], adj = -1)
+}
+
+## Adding the tree
+plot(tree)
+nodelabels(c("root", "n3", "n1.2"))
+```
+
+Note here the values of the ordination on each axis sums up to 1 since the ordination creates only two dimensions (using the $k = n-2$ rule for generating the number of axis where $k$ are the number of dimensions and $n$ the number of elements in the matrix).
+
+
+### Pre/post ordination nodes
+
+We can then add the estimates of our nodes pre or post ordination.
+
+ * The post ordination nodes coordinates are the average values of its descendants (since branch length is always equal to one).
+ * The pre ordination nodes coordinates are obtained by adding the ancestral states estimates to the input discrete morphological matrix (`matrixMk`) and re-ordinating the resulting matrix.
+
+
+```{r}
+## Adding the nodes to the ordination (as averages values)
+n1.2 <- apply(ordination[1:2,], 2, mean) 
+n3 <- apply(rbind(n1.2, ordination[3,]), 2, mean) 
+root <- apply(rbind(n3, ordination[4,]), 2, mean) 
+post_ordination <- rbind(ordination, n1.2, n3, root)
+## Recalculating variance
+post_ord_var <- apply(post_ordination, 2, var)
+cum_post_ord_var <- post_ord_var/sum(post_ord_var)
+
+
+## Rerunning the ordination with the ancestors
+pre_ordination <- cmdscale(dist(rbind(matrixMk, ancestors)), k = nrow(rbind(matrixMk, ancestors))-2)
+rownames(pre_ordination)[5:7] <- c("n1.2", "n3", "root")
+## Recalculating variance
+pre_ord_var <- apply(pre_ordination, 2, var)
+cum_pre_ord_var <- pre_ord_var/sum(pre_ord_var)
+```
+
+For both, we recalculated the the variance per axis.
+Note that due to the difference in input matrix size, the `post_ordination` matrix has still the same number of dimensions as previously (2) but the `pre_ordination` matrix has now five dimensions (7-2). 
+
+```{r, fig.width = 12, fig.height = 6}
+## Plotting the two spaces
+par(bty = "n", mfrow = c(1,2))
+
+## The ordination within one
+plot(post_ordination[1:4,], xlab = paste0("O1 (", round(cum_post_ord_var[1], 3),")"),
+                        ylab = paste0("O2 (", round(cum_post_ord_var[2], 3),")"),
+                        xlim = c(-2.2, 2.2), ylim = c(-2.2, 2.2),
+                        main = "nodes added post ordination")
+
+## Adding the tips names
+for(tip in 1:(Ntip(tree))) {
+    text(post_ordination[tip, 1], post_ordination[tip, 2],
+        labels = rownames(post_ordination)[tip], adj = -1)
+}
+
+## The ordination without one
+plot(pre_ordination[1:4,], xlab = paste0("O1 (", round(cum_pre_ord_var[1], 3),")"),
+                        ylab = paste0("O2 (", round(cum_pre_ord_var[2], 3),")"),
+                        xlim = c(-2.2, 2.2), ylim = c(-2.2, 2.2),
+                        main = "nodes added pre ordination")
+
+## Adding the tips names
+for(tip in 1:(Ntip(tree))) {
+    text(pre_ordination[tip, 1], pre_ordination[tip, 2],
+        labels = rownames(pre_ordination)[tip], adj = -1)
+}
+```
+
+In this case, regardless of the nodes position and/or estimation, there is a big variation in the tips position in the ordination when adding the nodes post or pre-ordination.
+Note also the change in the axis variance between the post-ordination plot and the previous one (without node reconstructions).
+
+
+
+#### Nodes position
+
+
+```{r, fig.width = 12, fig.height = 6}
+## Plotting the two spaces
+par(bty = "n", mfrow = c(1,2))
+
+## The ordination within one
+plot(post_ordination, xlab = paste0("O1 (", round(cum_post_ord_var[1], 3),")"),
+                        ylab = paste0("O2 (", round(cum_post_ord_var[2], 3),")"),
+                        xlim = c(-2.2, 2.2), ylim = c(-2.2, 2.2),
+                        main = "nodes added post ordination")
+
+## Adding the tips names
+for(tip in 1:(Ntip(tree))) {
+    text(post_ordination[tip, 1], post_ordination[tip, 2],
+        labels = rownames(post_ordination)[tip], adj = -1)
+}
+
+## The ordination without one
+plot(pre_ordination, xlab = paste0("O1 (", round(cum_pre_ord_var[1], 3),")"),
+                        ylab = paste0("O2 (", round(cum_pre_ord_var[2], 3),")"),
+                        xlim = c(-2.2, 2.2), ylim = c(-2.2, 2.2),
+                        main = "nodes added pre ordination")
+
+## Adding the tips names
+for(tip in 1:(Ntip(tree))) {
+    text(pre_ordination[tip, 1], pre_ordination[tip, 2],
+        labels = rownames(pre_ordination)[tip], adj = -1)
+}
+```
