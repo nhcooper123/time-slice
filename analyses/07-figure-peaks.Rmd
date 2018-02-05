@@ -16,11 +16,6 @@ library(viridis)
 source("../functions/multiplot_fun.R")
 ```
 
-```{r}
-# Make mini dataframe for annotations
-ann_text <- data.frame(model = "bins", time1 = 5, bin_type = "Stratigraphy")
-```
-
 # Beck 2014
 
 ```{r}
@@ -59,6 +54,9 @@ data_max2_epoch <- filter(data_max2, stratigraphy == "Epoch")
 ```
 
 ```{r}
+# Make mini dataframe for annotations
+ann_text <- data.frame(model = "bins", time1 = 10, bin_type = "Stratigraphy")
+
 beck_peaks <- 
   ggplot(data_max2_epoch, aes(y = time1, x = model, colour = model)) +
   theme_classic(base_size = 12) +
@@ -132,6 +130,9 @@ data_max2_epoch <- filter(data_max2, stratigraphy == "Epoch")
 ```
 
 ```{r}
+# Make mini dataframe for annotations
+ann_text <- data.frame(model = "bins", time1 = 20, bin_type = "stratigraphy")
+
 brusatte_peaks <- 
   ggplot(data_max2_epoch, aes(y = time1, x = model, colour = model)) +
   theme_classic(base_size = 12) +
@@ -165,7 +166,7 @@ brusatte_peaks_age <-
         panel.border = element_blank(),
         strip.text = element_blank()) +
  geom_text(data = ann_text, aes(x = 1, y = 20, 
-            label = "   Brusatte2014"), col = "black") +
+           label = "   Brusatte2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
 
