@@ -93,7 +93,7 @@ beck_base <-
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank()) +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 beck_s <- 
   beck_base +
@@ -202,7 +202,7 @@ brusatte_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 brusatte_s <- 
   brusatte_base +
@@ -297,7 +297,7 @@ bapst_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 bapst_s <- 
   bapst_base +
@@ -393,7 +393,7 @@ wright_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 wright_s <- 
   wright_base +
@@ -519,7 +519,7 @@ beck_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank()
         ) +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 beck_s <- 
   beck_base +
@@ -629,7 +629,7 @@ brusatte_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 brusatte_s <- 
   brusatte_base +
@@ -725,7 +725,7 @@ bapst_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 bapst_s <- 
   bapst_base +
@@ -822,7 +822,7 @@ wright_base <-
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 wright_s <- 
   wright_base +
