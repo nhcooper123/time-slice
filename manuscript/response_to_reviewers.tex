@@ -101,8 +101,8 @@ Mathematically, our morphospaces are $n$ dimensional objects that summarise the 
 
 \item{\textcolor{blue}{Figure 3 would be easier to interpret if the dataset names were added to the graphic itself (like in Figure 2) rather than constrained to the figure caption.}}
 
-%TG: OK, I've tried but miserably failed to do it. ggplot's logic is just completely different than base-plot's one and I don't understand it... I'm actually wondering if ggplot is something like Word vs. LaTeX: once you're use to one it's really hard to switch to the other.
-% NC: Ha yeah the reason it's not like in Fig 2 is that it was a pain in the ass. I partly did all these in ggplot because I'm trying to get better at it. Will work on this.
+We have done as suggested - we didn't do this the first time round because of issues with ggplot.
+
 %TG: Also for these figures, I think we need to try to plot a line rather than two dots for the bins interval. Its actually not that straight forward to realise what's happening.
 % NC: No! The lines are misleading, technically must be points, as lines suggest there is data throughout rather than at discrete points. Bit of a bugbear of mine...
 
@@ -200,7 +200,9 @@ We have changed ``stratigraphic age'' to ``stratigraphic stage'' throughout the 
 %colours_blind <- c("orange" = "#F65205", "blue" = "#3E9CBA", "darkgrey" = "#1C1C1C")
 %NC: The colours are colour blind friendly already, but I'll switch to using viridis.
 
-Interestingly the palettes in ggplot2 are chosen so that they are distinguishable by people that are colour blind. But it's no problem to change the colours. Hopefully the new colour scheme is easier to discern. We have used the viridis colour palettes which are designed for precisely this purpose (https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html), and are colour-blind friendly too.
+Interestingly the palettes in ggplot2 are chosen so that they are distinguishable by people that are colour blind. But it's no problem to change the colours. Hopefully the new colour scheme is easier to discern. We have used the viridis colour palettes which are designed for precisely this purpose (https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html), and are colour-blind friendly too. 
+
+A bigger issue is that a lot of the points lie on top of each other. We have played around with this a lot and there's no satisfactory solution. For now we have made the error bars more transparent so hopefully it is a bit easier to see which points lie where.
 
 
 \end{enumerate}
