@@ -12,6 +12,7 @@ output:
 library(tidyverse)
 library(gridExtra)
 library(grid)
+library(viridis)
 source("../functions/multiplot_fun.R")
 ```
 
