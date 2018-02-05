@@ -64,11 +64,10 @@
 Dear Dr Smith,\\
 \bigskip
 
-We are very grateful to the four referees for their helpful and constructive comments, blablabal...
-
+We are very grateful to the referees for their helpful and constructive comments. 
+Below we provide their comments in blue text with our responses.
 
 %TG: TODO: fix ages in table 1
-
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -87,43 +86,41 @@ We now explicitly refer to Brusatte et al. 2011 and mention the key difference:
 
 \textit{This approach is similar to Brusatte et al. (2011) but uses model based estimations (rather than parsimony) allowing to control for ambiguous nodes (i.e. poorly estimated).} lines @@@
 
-\item{\textcolor{blue}{I’m not sure about the use of the term ‘cladisto-spaces’. To me this implies that the space itself is ordinated using phylogenetic information (e.g., branch lengths). Now, you are indeed including some phylogenetic information in your morphospaces, in terms of reconstructed ancestors and inferred states for branches. So sure, I think what you have could be called a ‘cladisto-space’. Same with most of the morphospace options produced by Claddis. But the ones that most of us have done in the past, simply using discrete characters to ordinate a morphospace, haven’t generally incorporated phylogeny. I’m talking about the references you cite in lines 141-143 here. These morphospaces been ordinated using discrete characters of the type that are used in phylogenetic analysis. But the characters are not phylogenetically transformed in any way. As far as the ordination analysis knows, they are simply discrete character statements. So I wonder if the term ‘cladisto-space’ is confusing, and is just yet another new term that may muddy the waters rather than clarify. If you want to keep using this term, that’s fine, but a sentence or two of explanation (about how previous authors have used discrete characters in a non-phylogenetic way) would be warranted.}}
+\item{\textcolor{blue}{I'm not sure about the use of the term ‘cladisto-spaces’. To me this implies that the space itself is ordinated using phylogenetic information (e.g., branch lengths). Now, you are indeed including some phylogenetic information in your morphospaces, in terms of reconstructed ancestors and inferred states for branches. So sure, I think what you have could be called a ‘cladisto-space’. Same with most of the morphospace options produced by Claddis. But the ones that most of us have done in the past, simply using discrete characters to ordinate a morphospace, haven't generally incorporated phylogeny. I’m talking about the references you cite in lines 141-143 here. These morphospaces been ordinated using discrete characters of the type that are used in phylogenetic analysis. But the characters are not phylogenetically transformed in any way. As far as the ordination analysis knows, they are simply discrete character statements. So I wonder if the term ‘cladisto-space’ is confusing, and is just yet another new term that may muddy the waters rather than clarify. If you want to keep using this term, that's fine, but a sentence or two of explanation (about how previous authors have used discrete characters in a non-phylogenetic way) would be warranted.}}
 
 We've change the term cladisto-space to morphospace throughout the manuscript.
-Although we prefer the sound and distinction from the ``cladisto-space'' term, we agree with this reviewer concern about adding a``new term that may muddy the waters rather than clarify''.
+Although we prefer the ``cladisto-space'' term, we agree with this concern about adding a ``new term that may muddy the waters rather than clarify''.
 We've emphasised the differences, however, with other uses of the word ``morphospace'' in an explanatory paragraph:
 
 \textit{To explore disparity-through-time in our datasets, we used a morphospace approach (CITATIONS).
-Morphospace can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous) or whether they include phylogenetic data or not.
-Although empirical morphospaces from discrete or continuous data have been shown to have similar properties (CITATIONS), we would like to highlight that our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis;} c.f. \textit{geometric morphometric data) and includes some phylogenetic information (see above).
-Mathematically, our morphospaces are $n$ dimensional objects that summarises the distances between discrete morphological characters of the taxa present and their ancestors.} lines @@@
+Morphospaces can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous), and whether they include phylogenetic data or not. % NC: do you mean cladistic data i.e.e data used to build phylogenies?
+Although empirical morphospaces from discrete or continuous data have been shown to have similar properties (CITATIONS), our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis;} c.f. \textit{geometric morphometric data) and includes some phylogenetic information (see above).
+Mathematically, our morphospaces are $n$ dimensional objects that summarise the distances between discrete morphological characters of the taxa present and their ancestors.} lines @@@
 
-%TG: what do you think?
+%TG: what do you think? % NC: sounds good, made a few minor edits above
 
 \item{\textcolor{blue}{Figure 3 would be easier to interpret if the dataset names were added to the graphic itself (like in Figure 2) rather than constrained to the figure caption.}}
 
 %TG: OK, I've tried but miserably failed to do it. ggplot's logic is just completely different than base-plot's one and I don't understand it... I'm actually wondering if ggplot is something like Word vs. LaTeX: once you're use to one it's really hard to switch to the other.
+% NC: Ha yeah the reason it's not like in Fig 2 is that it was a pain in the ass. I partly did all these in ggplot because I'm trying to get better at it. Will work on this.
 %TG: Also for these figures, I think we need to try to plot a line rather than two dots for the bins interval. Its actually not that straight forward to realise what's happening.
+% NC: No! The lines are misleading, technically must be points, as lines suggest there is data throughout rather than at discrete points. Bit of a bugbear of mine...
 
-\item{\textcolor{blue}{I may be misinterpreting Figure 3, but it seems like peak disparity values for the Brusatte et al. dataset are pretty much the same regardless of method used (second plot from top). This doesn’t jibe with the statement in the text (lines 435-437). Please clarify.}}
+\item{\textcolor{blue}{I may be misinterpreting Figure 3, but it seems like peak disparity values for the Brusatte et al. dataset are pretty much the same regardless of method used (second plot from top). This doesn't jibe with the statement in the text (lines 435-437). Please clarify.}}
 \label{fig3_feckup}
 
-We apologies for mismatching the datasets and the patterns described in the text.
-We've now correct and double check this as follows:
+We apologise for mismatching the datasets and the patterns described in the text.
+We've now corrected this error and double check this as follows:
 
 \textit{In the Beck \& Lee (2014) and Bapst et al. (2016) datasets, disparity peaks occur much at much older ages when time-slicing rather than time binning approaches are used (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).
 This is also true for stratigraphic time bins in the Wright (2017) dataset, although when using equal time bins the peaks are later than the time-slicing methods, or very similar (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).
-Across the three time binning methods, the Brusatte et al. (2014) dataset have similar disparity peaks whichever method is used, the Wright (2017) dataset only had variation in peaks when using un-equal time bins (stratigraphy) whereas in the Bapst et al. (2016) and Beck \& Lee (2014) datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines @@@
+Across the three time binning methods, the Brusatte et al. (2014) dataset has similar disparity peaks whichever method is used, the Wright (2017) dataset only had variation in peaks when using unequal time bins (stratigraphy), whereas in the Bapst et al. (2016) and Beck \& Lee (2014) datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines @@@
 
 We've also added a note about discrepancies in the time-slicing models in Beck \& Lee (2014): 
 
-\textit{Additionally, there seem to be low discrepancy within the time-slicing methods (gradual vs. proximity) expect in Beck \& Lee (2014) dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines @@@
+\textit{Additionally, there seems to be small discrepancies within the time-slicing methods (gradual vs. proximity) except in the Beck \& Lee (2014) dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines @@@
 
 \end{enumerate}
-
-
-
-
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -131,46 +128,40 @@ We've also added a note about discrepancies in the time-slicing models in Beck \
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
-
-
 \section{Reviewer 2}
 
 \begin{enumerate}
 
+\item{\textcolor{blue}{First, if I understand lines 278-299 (and the R annotation) correctly, the gradual evolution models are not in fact fundamentally different from the punctuated models. They are both assigning scores along the branch that are the same as either the ancestor or descendant — the difference is only that the selection is based on a probability in the ``gradual'' models, rather than a rule, as in the ``punctuated'' models. The concept of gradual change would be more closely modelled by assigning values along a branch that were in-between those assigned to the ancestor and descendent but based on how far along the branch any given point is. For example, let's say the value of the ancestor along PCO1 is 0.04 and that of the descendent is 0.03. For a point that is halfway along the branch linking them, the value should be 0.035 (instead of assigning either 0.03 or 0.04 based on a probability). This, of course, makes assumptions about the course of evolution between the ancestor and descendant, but at least would be describing gradual change.}}
 
-
-\item{\textcolor{blue}{First, if I understand lines 278-299 (and the R annotation) correctly, the gradual evolution models are not in fact fundamentally different from the punctuated models. They are both assigning scores along the branch that are the same as either the ancestor or descendant—the difference is only that the selection is based on a probability in the ``gradual'' models, rather than a rule, as in the ``punctuated'' models. The concept of gradual change would be more closely modelled by assigning values along a branch that were in-between those assigned to the ancestor and descendent but based on how far along the branch any given point is. For example, let’s say the value of the ancestor along PCO1 is 0.04 and that of the descendent is 0.03. For a point that is halfway along the branch linking them, the value should be 0.035 (instead of assigning either 0.03 or 0.04 based on a probability). This, of course, makes assumptions about the course of evolution between the ancestor and descendant, but at least would be describing gradual change.}}
-
-The reviewer does indeed understands the \texttt{equal.splits} and \texttt{gradual.splits} models correctly: they selects the values in the matrix from the edge's descendant or ancestor with a probability value for each.
+The reviewer does indeed understand the \texttt{equal.splits} and \texttt{gradual.splits} models correctly: they select the values in the matrix from the edge's descendant or ancestor with a probability value for each.
 We believe however that the reviewer's proposition of making these models ``actually'' gradual (e.g. by selecting the mean value between two points) might lead to incorrect interpretation of the results.
 
 The rational for proposing the \texttt{equal.splits} and \texttt{gradual.splits} models rather than a pure gradual model is to not create any extra data points in the ordinated space.
-In fact, doing so pre-ordination can simply change the ordinated space geometry while doing in post-ordination leads to incorrect estimation of the space: (1) the number of elements changed hence changing parameters for future statistical test (e.g. degrees of freedom) and (2) the variance per axis will change as well.
-On the other hand, our methods allows to approach a pure gradual model without modifying the space structure and properties.
+In fact, doing so pre-ordination can change the ordinated space geometry, while doing so post-ordination leads to the incorrect estimation of the space: (1) the number of elements changes hence changing parameters for future statistical tests (e.g. degrees of freedom) and (2) the variance per axis will change as well.
+Our methods allow us to approach a pure gradual model without modifying the ordinated space's structure and properties.
 In fact, when applying the \texttt{equal.split} model (or \texttt{gradual.splits}) on a decent number of bootstrap replicates (say 100), the ancestor's PCO1 value (0.04 in the reviewer's example) will be sampled 50\% of the time and the same for the descendant's value (0.03 - with the probability changing as a function of branch length for the \texttt{gradual.splits} model).
-The resulting metric, based on this value would be $0.5\times0.04 + 0.5\times0.03 = 0.035$ thus identical to what the reviewer suggests without modifying the multidimensional space.
+The resulting metric, based on this value would be $0.5\times0.04 + 0.5\times0.03 = 0.035$ thus identical to what the reviewer suggests, without modifying the multidimensional space.
 
-We added the following explanation in the text:
+We realise we had not made this clear, thus we have added the following explanation in the text:
 
-\textit{For example, using the ``equal.split'' model between an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
-By estimating this value rather than generating it (i.e. creating a new element midway along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.} lines @@@
+\textit{For example, using the ``equal.splits'' model on an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
+By estimating this value rather than generating it (i.e. creating a new element mid-way along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.} lines @@@
 
 %TG: I can implement that pretty easily but I think that mathematically it's not cool (we can not add values post-ordination in the ordinated space). Two options: (1) implementing the suggestion but with heavy warnings; (2) writing down a clever response to this comment. In the dispRity package review, that was highlighted (I bet reviewer 2 is Graeme) and I responded something similar to option (2) so I'd rather go that way for consistency.
 
-
+% NC: I like this response. I dunno if it is Graeme, they use US spellings...
 
 
 
 \item{\textcolor{blue}{Second, I do not see how Figure 3 supports the text (lines 435-447). Overall, these results show the exact opposite of what is stated in the text (lines 435-447): in the figure the time-binned-approach (pink) results show earlier disparity peaks than the time-slicing approaches (green and blue). Are the y-axes reversed from what they should be? Also the Brusatte et al 2014 (second row) shows very similar values, not different values (compare with lines 435-436). And the difference between the ages of the peaks in the Bapst et 2016 study (third row) is at most 6 million years...but the study itself is over 150 million years divided very coarsely in Figure 2.  On that scale, these are basically the "same time". Finally, whether the six different time-slicing methods show ``similar'' patterns (lines 412-413) depends on the question... it is hard to distinguish them in the relative disparity plots, but the timing of peak disparity varies widely (Figure A3) while the two shown in Figure 3 happen to be similar.}}
 
-We apologise for the confusion in the description of figure 3 and fixed it (see Reviewer 1, comment \ref{fig3_feckup}).
+We apologise for the confusion in the description of Figure 3 and have fixed it (see Reviewer 1, comment \ref{fig3_feckup}). We were rushing to get this submitted by the symposium deadline and this error slipped through the cracks.
 
 
-\item{\textcolor{blue}{Finally, I have spent some time thinking about by the statement ``all time binning approaches (whether equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model.'' (lines 70-71). I see what the authors are getting at—they are worried that doing this requires an assumption of constant evolution across the time bin. But I would argue that it is not necessary to interpret it this way. Instead it could simply represent an average across the interval sampled without the need to make any assumption about how change occurred within that interval. Plus, even in scenarios where there was enough change that at a course scale, it appeared that disparity was static, some of that volatility might be revealed if the time-scale were altered.}}
+\item{\textcolor{blue}{Finally, I have spent some time thinking about by the statement ``all time binning approaches (whether equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model.'' (lines 70-71). I see what the authors are getting at — they are worried that doing this requires an assumption of constant evolution across the time bin. But I would argue that it is not necessary to interpret it this way. Instead it could simply represent an average across the interval sampled without the need to make any assumption about how change occurred within that interval. Plus, even in scenarios where there was enough change that at a course scale, it appeared that disparity was static, some of that volatility might be revealed if the time-scale were altered.}}
 
-%TG: tone done the statement?
+%TG: tone done the statement? % NC: yeah, not sure what else we can do.
 
 \item{\textcolor{blue}{But there is also a deeper issue here, in that the fossil record is at its heart a time-binned record: rates of sedimentation vary and sediment deposition is sporadic, such that local beds represent different amounts of time, or different ``packages'' of time, separated by gaps, and the fossils within them may be time-averaged to various degrees. [...] Therefore, even if you pick a ``point in time'' and count the number of branches/ranges that cross that point, some of those are being captured because the resolution of the end points only allows us to know that the taxon started and/or ended somewhere in the interval encompassing that point in time.}}
 
@@ -181,7 +172,8 @@ We apologise for the confusion in the description of figure 3 and fixed it (see 
 
 \item{\textcolor{blue}{As an aside, the Hunt et al 2015 citation does not clarify the matter (line 74-75). A case could be made that all time series are binned (if you consider that the samples are likely time-averaged and there are gaps between samples--although this is different from dividing up "everything" into adjacent boxes), and yet there are time series that are best characterized by gradual directional change (e.g., best fit by a biased random walk). In addition, Hunt et al found that directional change was actually more likely to be detected in series of long duration. Furthermore, homogenous rate patterns were more likely to be supported than heterogenous/punctuated change with time series of fewer samples, which includes cases where each ``step'' includes a longer interval of time over which shorter changes could be hidden.}}
 
-%TG: not sure where the reviewer want us to go with that. Is that the same nuancing point as the comment before? In that case we can simply merge them and make a caveat paragraph.
+%TG: not sure where the reviewer want us to go with that. Is that the same nuancing point as the comment before? In that case we can simply merge them and make a caveat paragraph. 
+% NC: Yeah I'm not sure either, but maybe needs a paragraph in the discussion? Currently the discussion is short (and written by me in about an hour!) so would be good to add something there.
 
 
 \end{enumerate}
@@ -199,21 +191,19 @@ We apologise for the confusion in the description of figure 3 and fixed it (see 
 
 \item{\textcolor{blue}{Consider using ``stage'' instead of ``age'' when referring to the finer resolution time scale.}}
 
-We've changed the ``stratigraphic age'' to ``stratigraphic stage'' throughout the manuscript.
+We have changed ``stratigraphic age'' to ``stratigraphic stage'' throughout the manuscript.
 
 \item{\textcolor{blue}{Figure 2. It is very difficult to distinguish the green dots from the blue dots. For someone who is color-blind, it would also be difficult to distinguish the red dots from the green dots.}}
 
 %TG: I'll let you change the colours (I still don't want to touch ggplot!) how about the darkgrey/orange/blue palette?
 %Here are the hexadecimals:
 %colours_blind <- c("orange" = "#F65205", "blue" = "#3E9CBA", "darkgrey" = "#1C1C1C")
+%NC: The colours are colour blind friendly already, but I'll switch to using viridis.
 
+Interestingly the palettes in ggplot2 are chosen so that they are distinguishable by people that are colour blind. But it's no problem to change the colours. Hopefully the new colour scheme is easier to discern. We have used the viridis colour palettes which are designed for precisely this purpose (https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html), and are colour-blind friendly too.
 
 
 \end{enumerate}
-
-
-
-
 
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -222,9 +212,9 @@ We've changed the ``stratigraphic age'' to ``stratigraphic stage'' throughout th
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
 %TG: actually not sure how to write these comments in this response document, they are only technical thingies, we can just state in the intro paragraph above that we dealt with all of them. I'll raise them as tickable issues on GitHub (yay!) for now.
+
+% NC: For simplicity I suggest we put them here too, then it's easy for the editor to just tick them off rather than having to check. Also makes sure that we definitely do it all!
 
 
 % \section{Reviewer 3 (Sally Thomas)}
