@@ -320,7 +320,7 @@ Finally plot them all together
 # Using modified multiplot function
 # written by Scott Chamberlain
 
-pdf("../manuscript/figures/fig-peaks-epoch.pdf")  
+pdf("../manuscript/figures/fig-peaks-epoch-revision.pdf")  
   multiplot(beck_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             brusatte_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             bapst_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
@@ -338,7 +338,7 @@ dev.off()
 
 ```{r}
 
-pdf("../manuscript/figures/fig-peaks-age.pdf")  
+pdf("../manuscript/figures/fig-peaks-age-revision.pdf")  
   multiplot(beck_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             brusatte_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             bapst_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
