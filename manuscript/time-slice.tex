@@ -118,7 +118,7 @@ All the code needed to reproduce these analyses (along with detailed instruction
 % overview figure
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/outlinesvg.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure1-outlinesvg.pdf}
     \caption[Outline of the disparity-through-time pipeline]
     {Outline of the disparity-through-time pipeline. 1) We use ancestral character estimation to infer nodal character states; 2) we measure the pairwise Gower distance between the tip character states and nodal character states; 3) we ordinate the distance matrix using principal coordinates analysis (PCoA); 4) we time sub-sample the PCoA matrix using time bins defined by stratigraphic periods, equally sized time bins and time-slices (using six methods to estimate ordination scores for branches); and finally 5) we measure disparity-through-time for each of these methods.}
     \label{fig:overview}
@@ -367,7 +367,7 @@ Results for all six methods can be found in Supporting Information Appendix S2: 
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-dtt-epoch-revision.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure2-fig-dtt-epoch-revision.pdf}
     \caption[Relative disparity-through-time.]
     {Relative disparity-through-time. Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
     Green points represent time binning methods, purple points are time-slices with a punctuated model of evolution (`proximity' method), and blue points are time-slices with a gradual model of evolution (`gradual splits' method).
@@ -402,7 +402,7 @@ Additionally, there seem to be low discrepancy within the time-slicing methods (
 % Plots showing the differences
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-peaks-epoch-revision.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure3-fig-peaks-epoch-revision.pdf}
     \caption[Timing of peak disparity for four example datasets.]
     {Timing of peak disparity.
     Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
@@ -427,7 +427,7 @@ In general, for the \cite{beckancient2014} dataset, time binning tended to give 
 % Big heat map table thing
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/fig-extinction-effect.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure4-fig-extinction-effect.pdf}
     \caption[Extinction example datasets.]
     {Effects of mass extinction events on disparity.
     Pink cells and blue cells indicate respectively a significant or non significant change in disparity before and after the mass extinction event (Cretaceous-Paleogene 66 MYA; \citealt{beckancient2014}; Ordovician-Silurian 455-430 MYA; \citealt{wright2017bayesian}).
@@ -475,11 +475,13 @@ However, we do strongly recommend performing disparity-through-time analyses usi
 
 \section{Data archiving statement}
 Data for this study are available from \cite{dryad_n2g80,dryad_6hb7j,dryad_84t75,beckancient2014} but for ease of reproducibility can also be found on GitHub (\url{https://github.com/nhcooper123/time-slice/data}). % add proper link to zenodo
+Supporting information can be found on Dryad at % Add Dryad link
 
 \section{Supporting information}
 Additional Supporting Information can be found in the online version of this article:\\
 Appendix S1: Extra details of datasets. \\
-Appendix S2: Additional tables and figures.
+Appendix S2: Additional figures. \\
+Appendix S3: Additional tables.
 
 \paragraph{Acknowledgments.}
   NC thanks Mark Sutton and Philip Mannion for the invitation to contribute to the `Evolutionary Modelling' symposium at The Palaeontological Association Annual Meeting 2017.
