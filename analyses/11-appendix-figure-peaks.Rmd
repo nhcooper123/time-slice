@@ -55,6 +55,9 @@ data_max2_epoch <- filter(data_max2, stratigraphy == "Epoch")
 ```
 
 ```{r}
+# Make mini dataframe for annotations
+ann_text <- data.frame(model = "bins", time1 = 10, bin_type = "Stratigraphy")
+
 beck_peaks <- 
   ggplot(data_max2_epoch, aes(y = time1, x = model, colour = model)) +
   theme_classic(base_size = 12) +
@@ -70,7 +73,11 @@ beck_peaks <-
         panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.background = element_blank(),
-        strip.text = element_text(size = 14) )
+        strip.text = element_text(size = 14), 
+       strip.text.x = element_text(size = 12)) +
+  geom_text(data = ann_text, aes(x = 1, y = 10, 
+            label = "Beck2012"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 beck_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -87,7 +94,11 @@ beck_peaks_age <-
         panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.background = element_blank(),
-        strip.text = element_text(size = 14))
+        strip.text = element_text(size = 14),
+       strip.text.x = element_text(size = 12)) +
+  geom_text(data = ann_text, aes(x = 1, y = 10, 
+            label = "Beck2012"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
 
 # Brusatte 2014
@@ -124,6 +135,9 @@ data_max2_epoch <- filter(data_max2, stratigraphy == "Epoch")
 ```
 
 ```{r}
+# Make mini dataframe for annotations
+ann_text <- data.frame(model = "bins", time1 = 10, bin_type = "stratigraphy")
+
 brusatte_peaks <- 
   ggplot(data_max2_epoch, aes(y = time1, x = model, colour = model)) +
   theme_classic(base_size = 12) +
@@ -138,7 +152,10 @@ brusatte_peaks <-
        legend.position = "none", 
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank()) +
+ geom_text(data = ann_text, aes(x = 1, y = 20, 
+            label = "    Brusatte2014"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 brusatte_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -154,7 +171,10 @@ brusatte_peaks_age <-
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank()) +
+ geom_text(data = ann_text, aes(x = 1, y = 20, 
+            label = "    Brusatte2014"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
 
 # Bapst 2016
@@ -205,7 +225,10 @@ bapst_peaks <-
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank())
+        strip.text = element_blank()) +
+ geom_text(data = ann_text, aes(x = 1, y = 72, 
+            label = "Bapst2016"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 bapst_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -221,7 +244,10 @@ bapst_peaks_age <-
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank())
+        strip.text = element_blank()) +
+ geom_text(data = ann_text, aes(x = 1, y = 72, 
+            label = "Bapst2016"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
 
 # Wright 2017
@@ -265,14 +291,17 @@ wright_peaks <-
   geom_point(aes(y = time2, x = model, colour = model)) +
   facet_wrap(~bin_type, ncol = 3) +
   #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- expand_limits(y = 480) +
+ expand_limits(y = c(455, 480)) +
  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank()) +
+ geom_text(data = ann_text, aes(x = 1, y = 460, 
+            label = " Wright2017"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)   
 
 wright_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -281,14 +310,17 @@ wright_peaks_age <-
   geom_point(aes(y = time2, x = model, colour = model)) +
   facet_wrap(~bin_type, ncol = 3) +
   #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- expand_limits(y = 480) +
+ expand_limits(y = c(455, 480)) +
  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank()) +
+ geom_text(data = ann_text, aes(x = 1, y = 460, 
+            label = " Wright2017"), col = "black") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)   
 ```
 
 Finally plot them all together
@@ -297,7 +329,7 @@ Finally plot them all together
 # Using modified multiplot function
 # written by Scott Chamberlain
 
-pdf("../manuscript/figures/fig-peaks-epoch-appendix.pdf")  
+pdf("../manuscript/figures/fig-peaks-epoch-appendix-revision.pdf")  
   multiplot(beck_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             brusatte_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             bapst_peaks + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
@@ -315,7 +347,7 @@ dev.off()
 
 ```{r}
 
-pdf("../manuscript/figures/fig-peaks-age-appendix.pdf")  
+pdf("../manuscript/figures/fig-peaks-age-appendix-revision.pdf")  
   multiplot(beck_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             brusatte_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
             bapst_peaks_age + theme(plot.margin=unit(c(5.5, 5.5, 5.5, 25),"points")), 
