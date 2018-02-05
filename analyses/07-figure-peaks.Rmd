@@ -287,7 +287,7 @@ wright_peaks <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 465, 
+ geom_text(data = ann_text, aes(x = 1, y = 460, 
             label = " Wright2017"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)  
 
