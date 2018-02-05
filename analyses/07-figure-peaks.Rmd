@@ -280,7 +280,7 @@ wright_peaks <-
   geom_point(aes(y = time2, x = model, colour = model)) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- expand_limits(y = 480) +
+ expand_limits(y = c(455, 480)) +
  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
@@ -298,14 +298,14 @@ wright_peaks_age <-
   geom_point(aes(y = time2, x = model, colour = model)) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- expand_limits(y = 480) +
+ expand_limits(y = c(455, 480)) +
  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 465, 
+ geom_text(data = ann_text, aes(x = 1, y = 460, 
             label = " Wright2017"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8) 
 ```
