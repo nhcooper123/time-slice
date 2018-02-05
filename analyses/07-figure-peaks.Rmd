@@ -74,7 +74,7 @@ beck_peaks <-
         panel.border = element_blank(),
         strip.background = element_blank(),
         strip.text.x = element_text(size = 12)) +
-  geom_text(data = ann_text, aes(x = 1, y = 5, 
+  geom_text(data = ann_text, aes(x = 1, y = 10, 
             label = "Beck2012"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
@@ -93,7 +93,7 @@ beck_peaks_age <-
         panel.border = element_blank(),
         strip.background = element_blank(),
         strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
+ geom_text(data = ann_text, aes(x = 1, y = 10, 
             label = "Beck2012"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
@@ -146,8 +146,8 @@ brusatte_peaks <-
         panel.border = element_blank(),
         strip.text = element_blank(),
        strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
-            label = "Brusatte2014"), col = "black") +
+ geom_text(data = ann_text, aes(x = 1, y = 20, 
+            label = "   Brusatte2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 brusatte_peaks_age <- 
@@ -165,8 +165,8 @@ brusatte_peaks_age <-
         panel.border = element_blank(),
         strip.text = element_blank(),
        strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
-            label = "Brusatte2014"), col = "black") +
+ geom_text(data = ann_text, aes(x = 1, y = 20, 
+            label = "   Brusatte2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
 
@@ -218,7 +218,7 @@ bapst_peaks <-
         panel.border = element_blank(),
         strip.text = element_blank(),
        strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
+ geom_text(data = ann_text, aes(x = 1, y = 72, 
             label = "Bapst2016"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
@@ -237,7 +237,7 @@ bapst_peaks_age <-
         panel.border = element_blank(),
         strip.text = element_blank(),
        strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
+ geom_text(data = ann_text, aes(x = 1, y = 72, 
             label = "Bapst2016"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
@@ -290,8 +290,8 @@ wright_peaks <-
         panel.border = element_blank(),
         strip.text = element_blank(),
        strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
-            label = "Wright2017"), col = "black") +
+ geom_text(data = ann_text, aes(x = 1, y = 465, 
+            label = " Wright2017"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)  
 
 wright_peaks_age <- 
@@ -309,8 +309,8 @@ wright_peaks_age <-
         panel.border = element_blank(),
         strip.text = element_blank(),
        strip.text.x = element_text(size = 12)) +
- geom_text(data = ann_text, aes(x = 1, y = 5, 
-            label = "Wright2017"), col = "black") +
+ geom_text(data = ann_text, aes(x = 1, y = 465, 
+            label = " Wright2017"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8) 
 ```
 
