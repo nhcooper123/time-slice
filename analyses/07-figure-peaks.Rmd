@@ -12,6 +12,7 @@ output:
 library(tidyverse)
 library(gridExtra)
 library(grid)
+library(viridis)
 source("../functions/multiplot_fun.R")
 ```
 
@@ -66,7 +67,9 @@ beck_peaks <-
         legend.position = "none",
         panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.background = element_blank()) 
+        strip.background = element_blank()) +
+  annotate("text", x = 1, y = 0.15, label = "Beck2012")
+  
 
 beck_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
