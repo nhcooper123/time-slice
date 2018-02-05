@@ -12,6 +12,7 @@ output:
 library(tidyverse)
 library(gridExtra)
 library(grid)
+library(viridis)
 source("../functions/multiplot_fun.R")
 ```
 
@@ -91,12 +92,13 @@ beck_base <-
                   breaks = c(seq(100, 0, by = -50))) +
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
-        axis.title.x = element_blank())
+        axis.title.x = element_blank()) +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 beck_s <- 
   beck_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   ggtitle("Stratigraphy") +
   theme(plot.title = element_text(size = 14, hjust = 0.5),
         legend.position = "none") +
@@ -105,7 +107,7 @@ beck_s <-
 beck_d <- 
   beck_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   ggtitle("Duration") +
   theme(plot.title = element_text(size = 14, hjust = 0.5),
         legend.position = "none")
@@ -113,7 +115,7 @@ beck_d <-
 beck_n <- 
   beck_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   ggtitle("Number") +
   theme(plot.title = element_text(size = 14, hjust = 0.5),
         legend.key.size = unit(0.2, "in"),
@@ -199,23 +201,24 @@ brusatte_base <-
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        legend.position = "none")
+        legend.position = "none") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 brusatte_s <- 
   brusatte_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   annotate("text", x = 140, y = 0.15, label = "Brusatte2014")
   
 brusatte_d <- 
   brusatte_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3)
 
 brusatte_n <- 
   brusatte_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3)
 
 ```
 
@@ -293,23 +296,24 @@ bapst_base <-
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        legend.position = "none")
+        legend.position = "none") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 bapst_s <- 
   bapst_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   annotate("text", x = 125, y = 0.15, label = "Bapst2016")
   
 bapst_d <- 
   bapst_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3)
 
 bapst_n <- 
   bapst_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3)
 
 ```
 
@@ -388,25 +392,26 @@ wright_base <-
   expand_limits(x = 0, y = c(0,1)) +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        legend.position = "none")
+        legend.position = "none") +
+  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 wright_s <- 
   wright_base +
   geom_point(data = strat2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = strat2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   annotate("text", x = 440, y = 0.15, label = "Wright2017")
   
 wright_d <- 
   wright_base +
   geom_point(data = duration2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8) +
+  geom_errorbar(data = duration2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3) +
   scale_x_reverse(limits = c(470, 370),
                   breaks = c(seq(470, 370, by = -100)))
 
 wright_n <- 
   wright_base +
   geom_point(data = number2, size = 2, alpha = 0.8) +
-  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 1, alpha = 0.8)
+  geom_errorbar(data = number2, aes(ymin = relative.lwr, ymax = relative.upr), width = 2, alpha = 0.3)
 
 ```
 
