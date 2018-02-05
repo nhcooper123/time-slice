@@ -75,9 +75,9 @@ beck_peaks <-
         strip.background = element_blank(),
         strip.text = element_text(size = 14), 
        strip.text.x = element_text(size = 12)) +
-  geom_text(data = ann_text, aes(x = 1, y = 10, 
+  geom_text(data = ann_text, aes(x = 2, y = 10, 
             label = "Beck2012"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 beck_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -96,9 +96,9 @@ beck_peaks_age <-
         strip.background = element_blank(),
         strip.text = element_text(size = 14),
        strip.text.x = element_text(size = 12)) +
-  geom_text(data = ann_text, aes(x = 1, y = 10, 
+  geom_text(data = ann_text, aes(x = 2, y = 10, 
             label = "Beck2012"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 ```
 
 # Brusatte 2014
@@ -153,9 +153,9 @@ brusatte_peaks <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 20, 
+ geom_text(data = ann_text, aes(x = 2, y = 20, 
             label = "    Brusatte2014"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 brusatte_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -172,9 +172,9 @@ brusatte_peaks_age <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 20, 
+ geom_text(data = ann_text, aes(x = 2, y = 20, 
             label = "    Brusatte2014"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 ```
 
 # Bapst 2016
@@ -226,9 +226,9 @@ bapst_peaks <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 72, 
+ geom_text(data = ann_text, aes(x = 2, y = 72, 
             label = "Bapst2016"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 
 bapst_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -245,9 +245,9 @@ bapst_peaks_age <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 72, 
+ geom_text(data = ann_text, aes(x = 2, y = 72, 
             label = "Bapst2016"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
+  scale_colour_viridis(discrete = TRUE, direction = -1)
 ```
 
 # Wright 2017
@@ -299,9 +299,9 @@ wright_peaks <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 460, 
+ geom_text(data = ann_text, aes(x = 2, y = 460, 
             label = " Wright2017"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)   
+  scale_colour_viridis(discrete = TRUE, direction = -1)   
 
 wright_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -318,9 +318,9 @@ wright_peaks_age <-
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 1, y = 460, 
+ geom_text(data = ann_text, aes(x = 2, y = 460, 
             label = " Wright2017"), col = "black") +
-  scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)   
+  scale_colour_viridis(discrete = TRUE, direction = -1)   
 ```
 
 Finally plot them all together
