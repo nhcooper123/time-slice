@@ -106,6 +106,7 @@ Mathematically, our morphospaces are $n$ dimensional objects that summarises the
 %TG: Also for these figures, I think we need to try to plot a line rather than two dots for the bins interval. Its actually not that straight forward to realise what's happening.
 
 \item{\textcolor{blue}{I may be misinterpreting Figure 3, but it seems like peak disparity values for the Brusatte et al. dataset are pretty much the same regardless of method used (second plot from top). This doesn’t jibe with the statement in the text (lines 435-437). Please clarify.}}
+\label{fig3_feckup}
 
 We apologies for mismatching the datasets and the patterns described in the text.
 We've now correct and double check this as follows:
@@ -164,15 +165,17 @@ By estimating this value rather than generating it (i.e. creating a new element 
 
 \item{\textcolor{blue}{Second, I do not see how Figure 3 supports the text (lines 435-447). Overall, these results show the exact opposite of what is stated in the text (lines 435-447): in the figure the time-binned-approach (pink) results show earlier disparity peaks than the time-slicing approaches (green and blue). Are the y-axes reversed from what they should be? Also the Brusatte et al 2014 (second row) shows very similar values, not different values (compare with lines 435-436). And the difference between the ages of the peaks in the Bapst et 2016 study (third row) is at most 6 million years...but the study itself is over 150 million years divided very coarsely in Figure 2.  On that scale, these are basically the "same time". Finally, whether the six different time-slicing methods show ``similar'' patterns (lines 412-413) depends on the question... it is hard to distinguish them in the relative disparity plots, but the timing of peak disparity varies widely (Figure A3) while the two shown in Figure 3 happen to be similar.}}
 
+We apologise for the confusion in the description of figure 3 and fixed it (see Reviewer 1, comment \ref{fig3_feckup}).
 
 
 \item{\textcolor{blue}{Finally, I have spent some time thinking about by the statement ``all time binning approaches (whether equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model.'' (lines 70-71). I see what the authors are getting at—they are worried that doing this requires an assumption of constant evolution across the time bin. But I would argue that it is not necessary to interpret it this way. Instead it could simply represent an average across the interval sampled without the need to make any assumption about how change occurred within that interval. Plus, even in scenarios where there was enough change that at a course scale, it appeared that disparity was static, some of that volatility might be revealed if the time-scale were altered.}}
 
-
+%TG: tone done the statement?
 
 \item{\textcolor{blue}{But there is also a deeper issue here, in that the fossil record is at its heart a time-binned record: rates of sedimentation vary and sediment deposition is sporadic, such that local beds represent different amounts of time, or different ``packages'' of time, separated by gaps, and the fossils within them may be time-averaged to various degrees. [...] Therefore, even if you pick a ``point in time'' and count the number of branches/ranges that cross that point, some of those are being captured because the resolution of the end points only allows us to know that the taxon started and/or ended somewhere in the interval encompassing that point in time.}}
 
 %TG: this is a fair point we should include in the discussion.
+%TG: though that is just a "practical" point for the vertebrate fossil record. Foraminiferas, for example, do not behave this way (or at a way finer scale).
 
 
 
@@ -199,6 +202,11 @@ By estimating this value rather than generating it (i.e. creating a new element 
 We've changed the ``stratigraphic age'' to ``stratigraphic stage'' throughout the manuscript.
 
 \item{\textcolor{blue}{Figure 2. It is very difficult to distinguish the green dots from the blue dots. For someone who is color-blind, it would also be difficult to distinguish the red dots from the green dots.}}
+
+%TG: I'll let you change the colours (I still don't want to touch ggplot!) how about the darkgrey/orange/blue palette?
+%Here are the hexadecimals:
+%colours_blind <- c("orange" = "#F65205", "blue" = "#3E9CBA", "darkgrey" = "#1C1C1C")
+
 
 
 \end{enumerate}
