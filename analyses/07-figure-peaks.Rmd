@@ -16,6 +16,11 @@ library(viridis)
 source("../functions/multiplot_fun.R")
 ```
 
+```{r}
+# Make mini dataframe for annotations
+ann_text <- data.frame(model = "bins", time1 = 5, bin_type = "Stratigraphy")
+```
+
 # Beck 2014
 
 ```{r}
@@ -67,9 +72,10 @@ beck_peaks <-
         legend.position = "none",
         panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.background = element_blank()) +
-  annotate("text", x = 1, y = 0.15, label = "Beck2012")
-  
+        strip.background = element_blank(),
+        strip.text.x = element_text(size = 12)) +
+  geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Beck2012"), col = "black")
 
 beck_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -84,7 +90,10 @@ beck_peaks_age <-
         legend.position = "none",
         panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.background = element_blank())
+        strip.background = element_blank(),
+        strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Beck2012"), col = "black")
 ```
 
 # Brusatte 2014
@@ -133,7 +142,10 @@ brusatte_peaks <-
         legend.position = "none", 
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank(),
+       strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Brusatte2014"), col = "black")) 
 
 brusatte_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -148,7 +160,10 @@ brusatte_peaks_age <-
         legend.position = "none", 
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank(),
+       strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Brusatte2014"), col = "black")) 
 ```
 
 # Bapst 2016
@@ -197,7 +212,10 @@ bapst_peaks <-
         legend.position = "none",
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank())
+        strip.text = element_blank(),
+       strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Bapst2016"), col = "black")
 
 bapst_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -212,7 +230,10 @@ bapst_peaks_age <-
         legend.position = "none",
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank())
+        strip.text = element_blank(),
+       strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Bapst2016"), col = "black")
 ```
 
 # Wright 2017
@@ -261,7 +282,10 @@ wright_peaks <-
         legend.position = "none",
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank(),
+       strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Wright2017"), col = "black")  
 
 wright_peaks_age <- 
   ggplot(data_max2_age, aes(y = time1, x = model, colour = model)) +
@@ -276,7 +300,10 @@ wright_peaks_age <-
         legend.position = "none",
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
-        strip.text = element_blank()) 
+        strip.text = element_blank(),
+       strip.text.x = element_text(size = 12)) +
+ geom_text(data = ann_text, aes(x = 1, y = 5, 
+            label = "Wright2017"), col = "black")  
 ```
 
 Finally plot them all together
