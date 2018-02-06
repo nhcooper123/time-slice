@@ -55,7 +55,7 @@ This code is not as tidy or functionified as we would like as we were a bit push
 To rerun all the code with packages as they existed on CRAN at time of our analyses we recommend using the `checkpoint` package, and running this code prior to the analysis:
 
 ```{r}
-checkpoint("2017-12-18")
+checkpoint("2018-01-06")
 ```
 
 ## Session Info
@@ -70,7 +70,7 @@ For reproducibility purposes, here is the output of `devtools::session_info()` u
 	 language (EN)                        
 	 collate  en_IE.UTF-8                 
 	 tz       Europe/Dublin               
-	 date     2017-12-20                  
+	 date     2018-01-06                  
 
 	Packages --------------------------------------------------------------------------------
 	 package           * version  date       source                              
@@ -179,7 +179,9 @@ For reproducibility purposes, here is the output of `devtools::session_info()` u
 	 tidyverse         * 1.2.1    2017-11-14 CRAN (R 3.4.2)                      
 	 tools               3.4.3    2017-12-07 local                               
 	 utils             * 3.4.3    2017-12-07 local                               
-	 vegan               2.4-5    2017-12-01 cran (@2.4-5)                       
+	 vegan               2.4-5    2017-12-01 cran (@2.4-5) 
+	 viridis           * 0.4.0    2017-03-27 CRAN (R 3.4.0)                      
+     viridisLite       * 0.2.0    2017-03-24 CRAN (R 3.4.0)                       
 	 withr               2.1.1    2017-12-19 CRAN (R 3.4.3)                      
 	 xml2                1.1.1    2017-01-24 CRAN (R 3.4.0)                      
 	 xtable            * 1.8-2    2016-02-05 cran (@1.8-2)                       
