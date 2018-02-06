@@ -55,10 +55,13 @@ fix.wilcox <- function(data){
   data %>%
   select(-c(V1,V2)) %>%
   filter(V3 == "proximity" | V3 == "gradual.split") %>%
-  spread(V4, V6) %>%
+  reshape(idvar = c("V3","V5"), timevar = "V4", direction = "wide") %>%
   arrange(V5) %>%
   rename(model = V3) %>%
-  rename(period = V5)  
+  rename(period = V5) %>%
+  rename(stratigraphy = V6.stratigraphy) %>%
+  rename(duration = V6.duration) %>%
+  rename(number = V6.number) 
 }
   
 wilk2 <- purrr::map(wilk, p.values.function)
@@ -98,10 +101,13 @@ Manipulate the data into the format we need.
 fix.wilcox.appendix <- function(data){
   data %>%
   select(-c(V1,V2)) %>%
-  spread(V4, V6) %>%
+  reshape(idvar = c("V3","V5"), timevar = "V4", direction = "wide") %>%
   arrange(V5) %>%
   rename(model = V3) %>%
-  rename(period = V5)
+  rename(period = V5) %>%
+  rename(stratigraphy = V6.stratigraphy) %>%
+  rename(duration = V6.duration) %>%
+  rename(number = V6.number) 
 }
   
 wilk2 <- purrr::map(wilk, p.values.function)
