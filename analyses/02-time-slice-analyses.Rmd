@@ -115,7 +115,7 @@ Ideally we'd have written functions to do this, and/or a big old loop. But each 
 Brusatte et al 2014 Current Biol
 -----------
 
-```{r}
+```{r, warning = FALSE}
 slug <- "Brusatte2014"
 
 ## Loading the FADLAD
@@ -165,7 +165,7 @@ saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
 Bapst et al 2016 Biol Letters
 -----------
 
-```{r}
+```{r, warning = FALSE}
 slug <- "Bapst2016"
 
 ## Loading the FADLAD
@@ -215,7 +215,7 @@ saveRDS(out2, file = paste0("../outputs/epoch.", slug ,".Rda"))
 
 Wright 2017
 -----------
-```{r}
+```{r, warning = FALSE}
 ## Choose a slug
 slug <- "Wright2017"
 
