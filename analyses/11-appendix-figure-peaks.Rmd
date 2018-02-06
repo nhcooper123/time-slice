@@ -47,8 +47,7 @@ data_max2 <-
   mutate(time2 = unlist(z2)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
   mutate(bin_type = relevel(data_max$bin_type, ref = 'Stratigraphy')) %>%
-  mutate(model = relevel(data_max$model, ref = 'equalbins')) #%>%
-  #filter(model == "equalbins" | model == "proximity" | model == "gradual.split")
+  mutate(model = relevel(data_max$model, ref = 'equalbins'))
   
 data_max2_age <- filter(data_max2, stratigraphy == "Age")
 
@@ -64,10 +63,9 @@ beck_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- # expand_limits(x = 0, y = c(0,1)) +
- theme(axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
        axis.text.x = element_blank(),
         #legend.position = "none",
@@ -85,10 +83,9 @@ beck_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- # expand_limits(x = 0, y = c(0,1)) +
- theme(axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         #legend.position = "none",
@@ -127,8 +124,7 @@ data_max2 <-
   mutate(time2 = unlist(z2)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
   mutate(bin_type = relevel(data_max$bin_type, ref = 'stratigraphy')) %>%
-  mutate(model = relevel(data_max$model, ref = 'equalbins'))#%>%
-  #filter(model == "equalbins" | model == "proximity" | model == "gradual.split") 
+  mutate(model = relevel(data_max$model, ref = 'equalbins'))
 
 data_max2_age <- filter(data_max2, stratigraphy == "Age")
 
@@ -144,17 +140,17 @@ brusatte_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
   expand_limits(y = 0) +
- theme(axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
        axis.text.x = element_blank(), 
        legend.position = "none", 
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 2, y = 20, 
+  geom_text(data = ann_text, aes(x = 2, y = 20, 
             label = "    Brusatte2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1)
 
@@ -163,17 +159,17 @@ brusatte_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
   expand_limits(y = 0) +
- theme(axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none", 
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 2, y = 20, 
+  geom_text(data = ann_text, aes(x = 2, y = 20, 
             label = "    Brusatte2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1)
 ```
@@ -203,8 +199,7 @@ data_max2 <-
   mutate(time2 = unlist(z2)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
   mutate(bin_type = relevel(data_max$bin_type, ref = 'stratigraphy')) %>%
-  mutate(model = relevel(data_max$model, ref = 'equalbins'))#%>%
-  #filter(model == "equalbins" | model == "proximity" | model == "gradual.split") 
+  mutate(model = relevel(data_max$model, ref = 'equalbins'))
 
 data_max2_age <- filter(data_max2, stratigraphy == "Age")
 
@@ -217,17 +212,16 @@ bapst_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
- # scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- # expand_limits(x = 0, y = c(0,1)) +
- theme(axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 2, y = 72, 
+  geom_text(data = ann_text, aes(x = 2, y = 72, 
             label = "Bapst2016"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1)
 
@@ -236,17 +230,16 @@ bapst_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- # expand_limits(x = 0, y = c(0,1)) +
- theme(axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 2, y = 72, 
+  geom_text(data = ann_text, aes(x = 2, y = 72, 
             label = "Bapst2016"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1)
 ```
@@ -276,8 +269,7 @@ data_max2 <-
   mutate(time2 = unlist(z2)) %>%
   filter(bs.median != 0 & !is.na(bs.median)) %>%
   mutate(bin_type = relevel(data_max$bin_type, ref = 'stratigraphy')) %>%
-  mutate(model = relevel(data_max$model, ref = 'equalbins'))#%>%
-  #filter(model == "equalbins" | model == "proximity" | model == "gradual.split") 
+  mutate(model = relevel(data_max$model, ref = 'equalbins'))
 
 data_max2_age <- filter(data_max2, stratigraphy == "Age")
 
@@ -290,17 +282,17 @@ wright_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- expand_limits(y = c(455, 480)) +
- theme(axis.title.y = element_blank(),
+  expand_limits(y = c(455, 480)) +
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 2, y = 460, 
+  geom_text(data = ann_text, aes(x = 2, y = 460, 
             label = " Wright2017"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1)   
 
@@ -309,17 +301,17 @@ wright_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
-  #scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
- expand_limits(y = c(455, 480)) +
- theme(axis.title.y = element_blank(),
+  expand_limits(y = c(455, 480)) +
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         legend.position = "none",
        axis.text.x = element_blank(),
        panel.spacing = unit(0, "lines"),
         panel.border = element_blank(),
         strip.text = element_blank()) +
- geom_text(data = ann_text, aes(x = 2, y = 460, 
+  geom_text(data = ann_text, aes(x = 2, y = 460, 
             label = " Wright2017"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1)   
 ```
