@@ -74,7 +74,7 @@ beck_peaks <-
         strip.background = element_blank(),
         strip.text.x = element_text(size = 12)) +
   geom_text(data = ann_text, aes(x = 1, y = 10, 
-            label = "Beck2012"), col = "black") +
+            label = "Beck2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 
 beck_peaks_age <- 
@@ -93,7 +93,7 @@ beck_peaks_age <-
         strip.background = element_blank(),
         strip.text.x = element_text(size = 12)) +
   geom_text(data = ann_text, aes(x = 1, y = 10, 
-            label = "Beck2012"), col = "black") +
+            label = "Beck2014"), col = "black") +
   scale_colour_viridis(discrete = TRUE, direction = -1, end = 0.8)
 ```
 
