@@ -62,6 +62,7 @@ beck_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
  # expand_limits(x = 0, y = c(0,1)) +
@@ -81,6 +82,7 @@ beck_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
  # expand_limits(x = 0, y = c(0,1)) +
@@ -138,6 +140,7 @@ brusatte_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
   expand_limits(y = 0) +
@@ -156,6 +159,7 @@ brusatte_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
   expand_limits(y = 0) +
@@ -208,6 +212,7 @@ bapst_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
  # expand_limits(x = 0, y = c(0,1)) +
@@ -226,6 +231,7 @@ bapst_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
  # expand_limits(x = 0, y = c(0,1)) +
@@ -278,6 +284,7 @@ wright_peaks <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
  expand_limits(y = c(455, 480)) +
@@ -296,6 +303,7 @@ wright_peaks_age <-
   theme_classic(base_size = 12) +
   geom_point() +
   geom_point(aes(y = time2, x = model, colour = model)) +
+  geom_segment(aes(y = time1, x = model, yend = time2, xend = model, colour = model), size = 1) +
   facet_wrap(~bin_type, ncol = 3) +
   scale_x_discrete(labels = c("bins", "gradual", "proximity")) +
  expand_limits(y = c(455, 480)) +
