@@ -68,6 +68,7 @@ We are very grateful to the referees for their helpful and constructive comments
 Below we provide their comments in blue text with our responses.
 
 %TG: TODO: fix ages in table 1
+% NC: What are these? I converted this to word already.
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -103,7 +104,6 @@ Mathematically, our morphospaces are $n$ dimensional objects that summarise the 
 
 We have done as suggested - we didn't do this the first time round because of issues with ggplot. We also made the same change in the appendix figures, and changed the colours in response to a comment by reviewer 2.
 
-%TG: Also for these figures, I think we need to try to plot a line rather than two dots for the bins interval. Its actually not that straight forward to realise what's happening.
 
 \item{\textcolor{blue}{I may be misinterpreting Figure 3, but it seems like peak disparity values for the Brusatte et al. dataset are pretty much the same regardless of method used (second plot from top). This doesn't jibe with the statement in the text (lines 435-437). Please clarify.}}
 \label{fig3_feckup}
@@ -149,7 +149,7 @@ By estimating this value rather than generating it (i.e. creating a new element 
 
 %TG: I can implement that pretty easily but I think that mathematically it's not cool (we can not add values post-ordination in the ordinated space). Two options: (1) implementing the suggestion but with heavy warnings; (2) writing down a clever response to this comment. In the dispRity package review, that was highlighted (I bet reviewer 2 is Graeme) and I responded something similar to option (2) so I'd rather go that way for consistency.
 
-% NC: I like this response. I dunno if it is Graeme, they use US spellings...
+% NC: I like this response. I dunno if it is Graeme, they use US spellings... Maybe Bapst?
 
 
 
@@ -185,7 +185,7 @@ We apologise for the confusion in the description of Figure 3 and have fixed it 
 
 %TG: good idea, we (I) can make a figure designating the three different strategies.
 
-\item{\textcolor{blue}{Line 158. Gower’s distance is not the Euclidean distance (= the square root of the squared distances) over the number of shared characters. For a set of unordered characters, it is the number of mismatched character states over the number of comparable/shared characters. For a set of ordered characters, it is sum of the differences in the values of the characters states for each pairwise comparison, over the number of comparable characters. This is an edit that needs to be made only to the text; because the authors used functions from the Claddis package (see github documentation), they would have calculated Gower’s distance correctly.}}
+\item{\textcolor{blue}{Line 158. Gower's distance is not the Euclidean distance (= the square root of the squared distances) over the number of shared characters. For a set of unordered characters, it is the number of mismatched character states over the number of comparable/shared characters. For a set of ordered characters, it is sum of the differences in the values of the characters states for each pairwise comparison, over the number of comparable characters. This is an edit that needs to be made only to the text; because the authors used functions from the Claddis package (see github documentation), they would have calculated Gower's distance correctly.}}
 
 
 \item{\textcolor{blue}{Consider using ``stage'' instead of ``age'' when referring to the finer resolution time scale.}}
@@ -223,7 +223,6 @@ A bigger issue, and this may be what the reviewer was referring to, is that a lo
 \item{\textcolor{blue}{Please submit your manuscript in Word format. Do not include the figures in the text file, but it is helpful if you do include a list of the figure captions at the end.}}
 
 Done.
-% NC: Need to put the figure numbers onto the file names before submission.
 
 \item{\textcolor{blue}{Could I suggest adding ‘sub-sampling’ to your key words? We now recommend that as many key words as possible are also included in your title, as well as being well-used in the abstract.}}
 
@@ -232,12 +231,11 @@ Done.
 \item{\textcolor{blue}{Please upload your supporting information files to Dryad as separate files (with the table in an editable format).}}
 
 We have split the appendices into three files S1) additional details of the datasets; S2) additional figures; and S3) additional tables (now in .docx format rather than PDF).
-% NC: To upload but splitting is done
+% NC: Just need to sort S2 when we have the new figure. I've added them as is to Dryad to get the reference link.
 
 \item{\textcolor{blue}{Please clarify what all the supplementary files are (there is a details field available for each file) and ensure that they are in a form that is commonly readable, or provide information on how to access them.}}
 
 Done. 
-% NC: To do when uploading
 
 \item{\textcolor{blue}{Please add the Dryad review link (even though Dryad instructs you not to) to the Data Archiving Statement. This makes it easier for the Editor and Referees, and the link will be updated later as required.}}
 
@@ -248,6 +246,8 @@ Done.
 from: Early Pennsylvanian (Langsettian) fish assemblages from the Joggins
 Formation, Canada, and their implications for palaeoecology and palaeogeography.
 Dryad Digital Repository. https://doi.org/10.5061/dryad.b0551.}}
+
+Done.
 
 \end{enumerate}
 
@@ -261,18 +261,18 @@ We have now archived the code on Zenodo, so provide the citation for this.
 % NC: To do
 
 \item{\textcolor{blue}{Please include all repository details and links in data references (e.g. Bapst et al. 2016a)(see sample Dryad reference above for general format).}}
-% NC: To do
+
+Done.
 
 \item{\textcolor{blue}{Where you have two references with the same citation (e.g. Bapst et al. 2016), please list them in the same order as they are cited in the text, irrespective of the second author name (currently Bapst et al. 2016b and Brusatte et al. 2014b are both cited before their respective a references; in each case the first reference cited should be a and be listed first).}}
 
-Sorry this is a bug in our reference manager software that we thought would be easier to fix at this stage. Now fixed!
-% NC: This should be fixable at the converting to Word stage
+Sorry this is a bug in our reference manager software. Now fixed!
 
 \item{\textcolor{blue}{Guillerme (2016) reference requires some more information – is there a URL for the software that can be added? (Similar for any other software reference, e.g. Lloyd 2015.)}}
 
 We have fixed this.
-% NC: Fix at converting to Word stage, hopefully there will be a paper to cite by then...
-% NC: Actually, I think we have cited the claddis package not the paper - should I change that?
+% NC: Fix at converting to Word stage, hopefully there will be a paper to cite by then... for now I've used the v 0.5 zenodo citation. I've changed the citation of Claddis to Graeme's Biol Linn soc paper.
+
 
 \end{enumerate}
 
@@ -284,9 +284,7 @@ Done.
 \subsection{Tables}
 \textcolor{blue}{Journal style uses a single phrase for table captions, with any additional notes in footnotes. Discussion of the data should be included in the text.}
 
-Done.
-
-% NC: Made new word versions of these
+Done, and converted to docx.
 
 We hope we have dealt with all these comments appropriately. 
 
