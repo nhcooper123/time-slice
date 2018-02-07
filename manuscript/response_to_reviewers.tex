@@ -67,16 +67,11 @@ Dear Dr Smith,\\
 We are very grateful to the referees for their helpful and constructive comments. 
 Below we provide their comments in blue text with our responses.
 
-%TG: TODO: fix ages in table 1
-% NC: What are these? I converted this to word already.
-%TG: In Table 1, ages for Brusatte and Bapst should be respectively 168.5 - 66 and 207.2 - 66  (they are currently set to 0).
-
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % REVIEWER 1
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 \section{Reviewer 1 (Steve Brusatte)}
 
@@ -151,26 +146,27 @@ By estimating this value rather than generating it (i.e. creating a new element 
 
 We apologise for the confusion in the description of Figure 3 and have fixed it (see Reviewer 1, comment \ref{fig3_feckup}). We were rushing to get this submitted by the symposium deadline and this error slipped through the cracks.
 
-
 \item{\textcolor{blue}{Finally, I have spent some time thinking about by the statement ``all time binning approaches (whether equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model.'' (lines 70-71). I see what the authors are getting at — they are worried that doing this requires an assumption of constant evolution across the time bin. But I would argue that it is not necessary to interpret it this way. Instead it could simply represent an average across the interval sampled without the need to make any assumption about how change occurred within that interval. Plus, even in scenarios where there was enough change that at a course scale, it appeared that disparity was static, some of that volatility might be revealed if the time-scale were altered.}}
 
-We've tone down this statement by included the fact that bins can simply represent averages (as suggested by the reviewer).
+We've toned down this statement by including the fact that bins can simply represent averages (as suggested by the reviewer).
 
 \textit{Second, the time binning approaches (whether bins are equally sized or not) favour punctuated equilibrium modes of evolution.
-Whether the disparity represents an average across the interval (with no interpretation on if or how it varied within the time bin) or it is effectively postulated to be constant, when analysing the changes in disparity through time, this method will only allow changes in disparity (in average or constant) to occur only between intervals rather than also allowing for gradual changes within intervals (a pattern that is fairly common in the fossil record, CITATION).} lines @@@
+Whether the disparity represents an average across the interval (with no interpretation of if or how it varied within the time bin), or it is effectively postulated to be constant, when analysing the changes in disparity-through-time, this method will only allow changes in disparity to occur between intervals rather than also allowing for gradual changes within intervals (a pattern that is fairly common in the fossil record, CITATION).} lines @@@
 
-%TG: tone done the statement? % NC: yeah, not sure what else we can do. %TG: Does that kinda work?
+%TG: tone done the statement? % NC: yeah, not sure what else we can do. %TG: Does that kinda work? NC: sounds ok to me, I tidied the english.
 
 \item{\textcolor{blue}{But there is also a deeper issue here, in that the fossil record is at its heart a time-binned record: rates of sedimentation vary and sediment deposition is sporadic, such that local beds represent different amounts of time, or different ``packages'' of time, separated by gaps, and the fossils within them may be time-averaged to various degrees. [...] Therefore, even if you pick a ``point in time'' and count the number of branches/ranges that cross that point, some of those are being captured because the resolution of the end points only allows us to know that the taxon started and/or ended somewhere in the interval encompassing that point in time.}}
 
-We've add the following caveat to the discussion:
+We've added the following caveat to the discussion:
 
-\textit{Finally, the difference between the time-binning and time-slicing methods could also simply be favoured towards time binning due to the nature of the fossil record itself.
-The rates of sedimentation varies in time a space and can be really sporadic, influencing the groups found within and their temporal distribution (e.g. vertebrates, c.f. foraminifera).
-In this case, different beds could represent different ``packages'' of fauna through time separated by gaps thus effectively binning the data rather than slicing.
-For example, slicing through such strata will yield similar results whether where in time does the slice occur.
-It is important to note however, that, as specified above, the time slicing method also includes ancestral estimations data (whether through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.} lines @@@
+\textit{Finally, the difference between the time-binning and time-slicing results could also simply be due to the nature of the fossil record.
+Rates of sedimentation vary in time and space influencing the groups found within the rock record and their temporal distribution. 
+In this case, different beds could represent different ``packages'' of fauna through time separated by gaps, resulting in natural ``bins'' rather than slices of the data.
+Slicing through such strata will yield similar results no matter where in time the slice occurs.
+It is important to note however, that the time slicing method also includes ancestral estimations (either through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.
+Additionally, this effect is likely to be most obvious in vertebrates and less problematic for groups like Foraminifera.} lines @@@
 
+% NC: Had to edit this quite a bit to make the English make sense. Does it still convey your meaning wrt forams?
 
 \item{\textcolor{blue}{As an aside, the Hunt et al 2015 citation does not clarify the matter (line 74-75). A case could be made that all time series are binned (if you consider that the samples are likely time-averaged and there are gaps between samples--although this is different from dividing up "everything" into adjacent boxes), and yet there are time series that are best characterized by gradual directional change (e.g., best fit by a biased random walk). In addition, Hunt et al found that directional change was actually more likely to be detected in series of long duration. Furthermore, homogenous rate patterns were more likely to be supported than heterogenous/punctuated change with time series of fewer samples, which includes cases where each ``step'' includes a longer interval of time over which shorter changes could be hidden.}}
 
@@ -193,8 +189,7 @@ For the number approach, the 40 million year span is divided into 10, each of wh
 If this is the case, the use of the word ``average'' when describing the number approach is confusing. I am also having trouble reconciling this with the number of points in each panel in Figure 2, unless there is also a minimum sample size applied (for example in the Bapst 2016 study, there are only three disparity values for the time-binned series using the ``number'' approach, maybe because after dividing the time scale up this way, there were not enough taxa in the first and second time bins?).
 It may be helpful to include a graphic, even if in relegated to one of the appendices.}}
 
-%TG: good idea, we (I) can make a figure designating the three different strategies.
-We've added a figure describing the different time-sampling strategies and changed the relevant methods section to be clearer.
+We've added a figure describing the different time-sampling strategies and changed the relevant methods section to be clearer. % NC: Haven't changed the methods yet.
 
 \item{\textcolor{blue}{Line 158. Gower's distance is not the Euclidean distance (= the square root of the squared distances) over the number of shared characters. For a set of unordered characters, it is the number of mismatched character states over the number of comparable/shared characters. For a set of ordered characters, it is sum of the differences in the values of the characters states for each pairwise comparison, over the number of comparable characters. This is an edit that needs to be made only to the text; because the authors used functions from the Claddis package (see github documentation), they would have calculated Gower's distance correctly.}}
 
@@ -208,9 +203,7 @@ We have changed ``stratigraphic age'' to ``stratigraphic stage'' throughout the 
 
 \item{\textcolor{blue}{Figure 2. It is very difficult to distinguish the green dots from the blue dots. For someone who is color-blind, it would also be difficult to distinguish the red dots from the green dots.}}
 
-
-Interestingly the palettes in ggplot2 are chosen so that they are distinguishable by people that are colour blind. But it's no problem to change the colours. Hopefully the new colour scheme is easier to discern.
-%TG: Does that not sound a bit too defensive? We can just say we changed them no?
+Hopefully the new colour scheme is easier to discern.
 We have used the viridis colour palettes which are designed for precisely this purpose (https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html), and are colour-blind friendly too. We've done this for all figures in the text and in the appendices.
 
 A bigger issue, and this may be what the reviewer was referring to, is that a lot of the points lie on top of each other. We have played around with this a lot (we tried jittering and dodging point positions, and various types of colour palettes and transparencies etc.) and there's no satisfactory solution. For now we have made the error bars more transparent so hopefully it is a bit easier to see which points lie where.
@@ -224,8 +217,6 @@ A bigger issue, and this may be what the reviewer was referring to, is that a lo
 % REVIEWER 3
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~
-
-%NC: It says in the instructions to respond to these too!
 
 \section{Reviewer 3 (Sally Thomas)}
 \subsection{Technical comments}
@@ -243,7 +234,6 @@ Done.
 \item{\textcolor{blue}{Please upload your supporting information files to Dryad as separate files (with the table in an editable format).}}
 
 We have split the appendices into three files S1) additional details of the datasets; S2) additional figures; and S3) additional tables (now in .docx format rather than PDF).
-% NC: Just need to sort S2 when we have the new figure. I've added them as is to Dryad to get the reference link.
 
 \item{\textcolor{blue}{Please clarify what all the supplementary files are (there is a details field available for each file) and ensure that they are in a form that is commonly readable, or provide information on how to access them.}}
 
