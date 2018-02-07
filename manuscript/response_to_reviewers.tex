@@ -160,13 +160,25 @@ We apologise for the confusion in the description of Figure 3 and have fixed it 
 
 \item{\textcolor{blue}{Finally, I have spent some time thinking about by the statement ``all time binning approaches (whether equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model.'' (lines 70-71). I see what the authors are getting at — they are worried that doing this requires an assumption of constant evolution across the time bin. But I would argue that it is not necessary to interpret it this way. Instead it could simply represent an average across the interval sampled without the need to make any assumption about how change occurred within that interval. Plus, even in scenarios where there was enough change that at a course scale, it appeared that disparity was static, some of that volatility might be revealed if the time-scale were altered.}}
 
-%TG: tone done the statement? % NC: yeah, not sure what else we can do.
+We've tone down this statement by included the fact that bins can simply represent averages (as suggested by the reviewer).
+
+\textit{Second, the time binning approaches (whether bins are equally sized or not) favour punctuated equilibrium modes of evolution.
+Whether the disparity represents an average across the interval (with no interpretation on if or how it varied within the time bin) or it is effectively postulated to be constant, when analysing the changes in disparity through time, this method will only allow changes in disparity (in average or constant) to occur only between intervals rather than also allowing for gradual changes within intervals (a pattern that is fairly common in the fossil record, CITATION).} lines @@@
+
+%TG: tone done the statement? % NC: yeah, not sure what else we can do. %TG: Does that kinda work?
 
 \item{\textcolor{blue}{But there is also a deeper issue here, in that the fossil record is at its heart a time-binned record: rates of sedimentation vary and sediment deposition is sporadic, such that local beds represent different amounts of time, or different ``packages'' of time, separated by gaps, and the fossils within them may be time-averaged to various degrees. [...] Therefore, even if you pick a ``point in time'' and count the number of branches/ranges that cross that point, some of those are being captured because the resolution of the end points only allows us to know that the taxon started and/or ended somewhere in the interval encompassing that point in time.}}
 
 %TG: this is a fair point we should include in the discussion.
 %TG: though that is just a "practical" point for the vertebrate fossil record. Foraminiferas, for example, do not behave this way (or at a way finer scale).
 
+We've add the following caveat to the discussion:
+
+\textit{Finally, the difference between the time-binning and time-slicing methods could also simply be favoured towards time binning due to the nature of the fossil record itself.
+The rates of sedimentation varies in time a space and can be really sporadic, influencing the groups found within and their temporal distribution (e.g. vertebrates, c.f. foraminifera).
+In this case, different beds could represent different ``packages'' of fauna through time separated by gaps thus effectively binning the data rather than slicing.
+For example, slicing through such strata will yield similar results whether where in time does the slice occur.
+It is important to note however, that, as specified above, the time slicing method also includes ancestral estimations data (whether through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.} lines @@@
 
 
 \item{\textcolor{blue}{As an aside, the Hunt et al 2015 citation does not clarify the matter (line 74-75). A case could be made that all time series are binned (if you consider that the samples are likely time-averaged and there are gaps between samples--although this is different from dividing up "everything" into adjacent boxes), and yet there are time series that are best characterized by gradual directional change (e.g., best fit by a biased random walk). In addition, Hunt et al found that directional change was actually more likely to be detected in series of long duration. Furthermore, homogenous rate patterns were more likely to be supported than heterogenous/punctuated change with time series of fewer samples, which includes cases where each ``step'' includes a longer interval of time over which shorter changes could be hidden.}}
@@ -181,7 +193,14 @@ We apologise for the confusion in the description of Figure 3 and have fixed it 
 
 \begin{enumerate}
 
-\item{\textcolor{blue}{It is not immediately clear what is meant by ``defined by the average duration of the stratigraphic period'' (line 337, 341) vs ``defined by the average number of stratigraphic periods'' (line 348, 353). After thinking about it for awhile and then checking the R code, this is what appears to be going on. Let's say we have a case study that spans 10 stratigraphic intervals over 40 million years. Thus for the stratigraphy approach, there are 10 sub-samples which vary in their duration. Let’s say the average duration of those intervals is 5 million years. For the duration approach, the 40 million year span is divided into 5-million-year bins, resulting in 8 sub-samples. For the number approach, the 40 million year span is divided into 10, each of which is 4 million years long. If this is the case, the use of the word ``average'' when describing the number approach is confusing. I am also having trouble reconciling this with the number of points in each panel in Figure 2, unless there is also a minimum sample size applied (for example in the Bapst 2016 study, there are only three disparity values for the time-binned series using the ``number'' approach, maybe because after dividing the time scale up this way, there were not enough taxa in the first and second time bins?). It may be helpful to include a graphic, even if in relegated to one of the appendices.}}
+\item{\textcolor{blue}{It is not immediately clear what is meant by ``defined by the average duration of the stratigraphic period'' (line 337, 341) vs ``defined by the average number of stratigraphic periods'' (line 348, 353). After thinking about it for awhile and then checking the R code, this is what appears to be going on.
+Let's say we have a case study that spans 10 stratigraphic intervals over 40 million years.
+Thus for the stratigraphy approach, there are 10 sub-samples which vary in their duration.
+Let’s say the average duration of those intervals is 5 million years.
+For the duration approach, the 40 million year span is divided into 5-million-year bins, resulting in 8 sub-samples.
+For the number approach, the 40 million year span is divided into 10, each of which is 4 million years long.
+If this is the case, the use of the word ``average'' when describing the number approach is confusing. I am also having trouble reconciling this with the number of points in each panel in Figure 2, unless there is also a minimum sample size applied (for example in the Bapst 2016 study, there are only three disparity values for the time-binned series using the ``number'' approach, maybe because after dividing the time scale up this way, there were not enough taxa in the first and second time bins?).
+It may be helpful to include a graphic, even if in relegated to one of the appendices.}}
 
 %TG: good idea, we (I) can make a figure designating the three different strategies.
 

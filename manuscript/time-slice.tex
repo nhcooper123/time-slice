@@ -93,7 +93,8 @@ First, time bins defined by stratigraphy are not of equal size, biasing higher d
 This can be dealt with using rarefaction methods, i.e. repeating the analysis while resampling the taxa to have the same number of taxa in each bin (e.g. using bootstrapping with limited resampling).
 This can, however, lead to large confidence intervals when there are stratigraphic periods with few species.
 Other studies split large time bins so they are of roughly equal size, but this is often an \textit{ad hoc} procedure that can introduce more bias depending on where bins are split.
-Second, all time binning approaches (whether bins are equally sized or not) assume that characters of taxa evolve following a punctuated equilibrium model, because disparity is only estimated once for each interval resulting in all changes in disparity occurring \textit{between} intervals, rather than also allowing for gradual changes \textit{within} intervals \citep[a pattern that is fairly common in the fossil record;][]{Hunt21042015}.
+Second, the time binning approaches (whether bins are equally sized or not) favour punctuated equilibrium modes of evolution.
+Whether the disparity represents an average across the interval (with no interpretation on if or how it varied within the time bin) or it is \textit{effectively} postulated to be constant, when analysing the changes in disparity through time, this method will only allow changes in disparity (in average or constant) to occur only \textit{between} intervals rather than also allowing for gradual changes \textit{within} intervals \citep[a pattern that is fairly common in the fossil record;][]{Hunt21042015}.
 Third, when investigating changes in disparity due to events at a specific time point (e.g. a mass extinction), time bins may have not have high enough resolution to resolve changes at the event, for example if time bins are every 20 million years it may be hard to capture the effects of an event five million years into the bin.
 Finally, time bin analyses are often limited by the number of taxa in each bin.
 If there are insufficient taxa in a time bin, disparity cannot be calculated, so further analyses, e.g. correlations of disparity with hypothesised drivers of morphological evolution, are not possible.
@@ -298,7 +299,7 @@ To compare the time binning and time-slicing approaches we applied the methods a
     %TG: actually in the code the data is bootstrapped 100 times only. Should I change to 1000? To be fair, I think 1000 is too much (in terms of calculation and results) and 100 to few. A compromise could be 500.
     %NC: 100 is fine, I was just guessing!
     We then calculated the median disparity value for each time bin along with the 50\% and 95\% confidence intervals.
-    \item Time-slices (unequal).
+    \item Time-slices (non-equidistant).
     We calculated disparity using our time-slicing approach with slices occurring at the midpoint of each stratigraphic period (age or epoch), and using all six time-slicing methods (acctran, deltran, random, proximity, equal splits and gradual splits).
     To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement as described above for the stratigraphic time bins.
     \end{enumerate}
@@ -306,18 +307,18 @@ To compare the time binning and time-slicing approaches we applied the methods a
   \item Duration: time sub-samples defined by the duration of stratigraphic periods. 
   \begin{enumerate}[(i)]
     \item Time bins (equal). 
-    We calculated disparity for the taxa in each time bin where time bin size was defined by the average \textit{duration} of the stratigraphic period (age or epoch), and bootstrapped the disparity values as described above.
-    \item Time-slices (unequal).
-    We calculated disparity using our time-slicing approach where the interval between slices, was defined by the average \textit{duration} of the stratigraphic period (age or epoch).
+    We calculated disparity for the taxa in each time bin where time bin size was defined by the mean \textit{duration} of the stratigraphic period (age or epoch), and bootstrapped the disparity values as described above.
+    \item Time-slices (equidistant).
+    We calculated disparity using our time-slicing approach where the interval between slices, was defined by the mean \textit{duration} of the stratigraphic period (age or epoch).
     We used the six time-slicing methods and bootstrapped as described above.
   \end{enumerate}
 
   \item Number: time sub-samples defined by the number of stratigraphic periods. 
   \begin{enumerate}[(i)]
     \item Time bins (equal). 
-    We calculated disparity for the taxa in each time bin where the number of time bins was defined by the average \textit{number} of stratigraphic periods (ages or epochs) in the time frame of interest, and bootstrapped the disparity values as described above.
-    \item Time-slices (unequal).
-    We calculated disparity using our time-slicing approach where the number of slices, was defined by the average \textit{number} of stratigraphic periods (ages or epochs) in the time frame of interest.
+    We calculated disparity for the taxa in each time bin where the number of time bins was defined by the \textit{number} of stratigraphic periods (ages or epochs) in the time frame of interest, and bootstrapped the disparity values as described above.
+    \item Time-slices (equidistant).
+    We calculated disparity using our time-slicing approach where the number of slices, was defined by the \textit{number} of stratigraphic periods (ages or epochs) in the time frame of interest.
     We used the six time-slicing methods and bootstrapped as described above.
   \end{enumerate}
 
@@ -457,11 +458,17 @@ First, it allows us to use as much of the information available to us, in the fo
 This increases our ability to investigate key biological questions, such as how do various drivers influence morphological diversity through time, and how do mass extinctions influence disparity \citep{Brusatte12092008,Foote29111996,friedmanexplosive2010}, both by increasing the statistical power of analyses and through the availability of data at key time points in the history of our groups.
 Second, we are able to be more explicit about the mode of evolution in our clades; in time-slicing we can apply punctuated or gradual models of trait change rather than making an assumption of punctuated evolution.
 This may be important, as gradual change is a common pattern of trait evolution in the fossil record \citep{Hunt20112007}.
+
 Of course the method also has limitations.
-The main one of these is a practical one; it requires a time-calibrated phylogeny.
-Not all palaeontological datasets have phylogenies yet.
-Another limitation is that the method, like most phylogeny based methods, depends on ancestral state estimations.
+The main one of these is a practical one; it requires a time-calibrated phylogeny which are not available for all palaeontological datasets.
+Furthermore, like most phylogeny based methods, time-slicing depends on ancestral state estimations.
 Care should be taken in interpreting these, as they are highly dependent on the data and models used for the estimations \citep{Slateretal2012,doi:10.1080/10635150801910451}.
+Finally, the difference between the time-binning and time-slicing methods could also simply be favoured towards time binning due to the nature of the fossil record itself.
+The rates of sedimentation varies in time a space and can be really sporadic, influencing the groups found within and their temporal distribution (e.g. vertebrates, c.f. foraminifera).
+In this case, different beds could represent different ``packages'' of fauna through time separated by gaps thus effectively binning the data rather than slicing.
+For example, slicing through such strata will yield similar results whether where in time does the slice occur.
+It is important to note however, that, as specified above, the time slicing method also includes ancestral estimations data (whether through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.
+
 
 \section{Conclusions}
 The choice of time sub-sampling method can alter the conclusions we obtain from disparity-through-time studies. 
