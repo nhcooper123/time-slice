@@ -292,7 +292,21 @@ By estimating this value rather than generating it (i.e. creating a new element 
  
 \subsection{Comparing time sub-sampling methods}
 
-To compare the time binning and time-slicing approaches we applied the methods as follows. 
+To compare the time binning and time-slicing approaches we applied the methods as follows (see Figure \ref{figure:bins}).
+
+\begin{figure}[!htbp]
+    \centering
+    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure2-binning.pdf}
+    \caption[Outline of the three time sub-sampling methods]
+    {Outline of the three time sub-sampling methods. 
+    Stratigraphy: time sub-samples are defined by stratigraphic periods.
+    Here there are five stratigraphic periods in the 20 MY (million years) time frame of interest, i.e. five bins/slices with variable sizes/intervals.
+    Duration: time sub-samples are defined based on the mean duration of stratigraphic periods in the time frame of interest. 
+    Here, the mean duration of stratigraphic periods is 5 MY, so there are four bins/slices of 5 MY duration (or four slices with 5 MY intervals between them) in the 20 MY time frame of interest. 
+    Number: time sub-samples are defined based on the number of stratigraphic periods in the time frame of interest. 
+    Here, there are five stratigraphic periods, so there are five bins/slices of 4 MY duration (or five slices with 4 MY intervals between them) in the 20 MY time frame of interest.}
+    \label{fig:bins}
+\end{figure}
 
 \begin{enumerate}
   \item Stratigraphy: time sub-samples defined by stratigraphic periods. 
@@ -300,8 +314,6 @@ To compare the time binning and time-slicing approaches we applied the methods a
     \item Time bins (unequal). 
     We calculated disparity for the taxa in each stratigraphic period (age or epoch). 
     To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement for each time bin by randomly resampling with replacement a new sub-sample of taxa from the observed taxa in the bin 100 times.
-    %TG: actually in the code the data is bootstrapped 100 times only. Should I change to 1000? To be fair, I think 1000 is too much (in terms of calculation and results) and 100 to few. A compromise could be 500.
-    %NC: 100 is fine, I was just guessing!
     We then calculated the median disparity value for each time bin along with the 50\% and 95\% confidence intervals.
     \item Time-slices (non-equidistant).
     We calculated disparity using our time-slicing approach with slices occurring at the midpoint of each stratigraphic period (age or epoch), and using all six time-slicing methods (acctran, deltran, random, proximity, equal splits and gradual splits).
@@ -325,9 +337,6 @@ To compare the time binning and time-slicing approaches we applied the methods a
     We calculated disparity using our time-slicing approach where the number of slices, was defined by the \textit{number} of stratigraphic periods (ages or epochs) in the time frame of interest.
     We used the six time-slicing methods and bootstrapped as described above.
   \end{enumerate}
-
-%TG: well done! Nice description of the method! I figured out it was pretty obvious in our (my) head but it's actually more painful to write down.
-% NC: I know! It took me ages to get it logically described!
 
 \end{enumerate}
 
