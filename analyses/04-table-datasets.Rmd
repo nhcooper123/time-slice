@@ -56,7 +56,7 @@ mcharacters <- unlist(lapply(matrices, ncol))
 age_ranges <- lapply(trees, function(tree) rev(range(tree.age(tree)$age)))
 age_ranges <- unlist(lapply(age_ranges, function(age) paste(age, collapse = " - ")))
 ## Note that I've had to correct these for Bapst2016 (207.2) and Brusatte2014 (168.5) due to 
-## the rerooting that occurred when remvoing taxa
+## the rerooting that occurred when removing taxa
 
 ## Mass extinction
 mass <- c("66 (K-Pg)", "NA", "NA", "443 (O-S)")
@@ -72,7 +72,7 @@ colnames(table_out) <- dataset
 rownames(table_out) <- rownames
 
 ## Table caption
-table_caption <- "Details of the datasets used in this study. Note that although Brusatte2014 and Bapst2016 cross the Cretaceous Palaeogene (K-Pg) mass extinction there are not enough taxa post K-Pg to investigate the effects of the mass extinction on disparity. Age ranges are root time to most recent tip taxon."
+table_caption <- "Details of the datasets used in this study. Age ranges are root time to most recent tip taxon."
 
 sink(file = "../manuscript/tables/raw_datasets.tex")
 xtable(table_out, caption = table_caption)
