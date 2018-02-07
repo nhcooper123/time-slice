@@ -145,27 +145,16 @@ These datasets are freely available with their accompanying papers (Table \ref{t
 For each dataset we estimated the ancestral character states at each node using the \texttt{AncStatesEstMatrix} function from the \texttt{Claddis} \texttt{R} package \citep{Claddis,R}.
 This function uses the re-rooting method \citep{Yang01121995,Garland2000} to get Maximum Likelihood estimates of the ancestral states for each character at every node in the phylogeny \citep[based on the \texttt{rerootingMethod} function in \texttt{phytools};][]{phytools}.
 Inapplicable and missing characters for any taxon were treated as ambiguous characters (i.e. any possible observed state for the character).
-% NC: I've left this one bit to make it clear but removed the explanation (this was all just copied from your thesis)
 To prevent poor ancestral state estimations from biasing our results, especially when a lot of error is associated with the estimations, we only included ancestral state estimations with a scaled Likelihood $\geq$ $0.95$.
 Ancestral state estimations with scaled Likelihoods below this threshold were recoded as missing data (``?'').
 This allowed our results to be less dependent on the quality (or the absence thereof) of the ancestral state estimations methods, especially in parts of the datasets where data were sparse. 
 This approach is similar to \cite{brusatte2011phylogenetic} but uses model based estimations (rather than parsimony) allowing to control for ambiguous nodes (i.e. poorly estimated).
 
 \paragraph{Building morphospaces.} 
-% To explore disparity-through-time in our datasets we used a morphospace approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
-% This approach is similar to constructing a morphospace based on continuous morphological data \citep[e.g.][]{friedmanexplosive2010}, except a morphospace is an approximation of the morphospace based on discrete morphological data (i.e. the discrete morphological characters used to build a phylogenetic tree, often referred to as ``cladistic'' data).
-% %TG: about that, I'm actually less and less convinced we should call it caldisto-space: first, semantically, cladistic data means data used to make clades (phylos) so it could be nucleotides as well. Second, during the PhD, we used morphospace to distinguish it from the morpho-space but at that time I was naively thinking the the morpho-space is the morphometric-space (which it often is!) but, again, semantically, the morpho-space can also be simply the morphology-space... However, I like the sound of morphospace and most people will understand it the way we do. I'm just thinking about pedantic-palaeo-reviewers...
-% % NC: Good point. Let's leave it for now as I think this bit is nicely explained, but easy enough to edit if people don't like it.
-% Mathematically, a morphospace is an $n$ dimensional object that summarises the cladistic distances between the taxa present in a cladistic matrix.
-% Although empirically inter-taxon distances are the same in a morphospace or a morphospace \citep{foth2012different,hetherington2015cladistic}, we prefer the term morphospace to make it clear that this space is estimated using cladistic data and not morphometric data.
-
-
-
 To explore disparity-through-time in our datasets, we used a morphospace approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
 Morphospace can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous) or whether they include phylogenetic data or not.
 Although empirical morphospaces from discrete or continuous data have been shown to have similar properties \citep{foth2012different,hetherington2015cladistic}, we would like to highlight that our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis; \textit{c.f.} geometric morphometric data) and includes some phylogenetic information (see above).
 Mathematically, our morphospaces are $n$ dimensional objects that summarises the distances between discrete morphological characters of the taxa present and their ancestors.
-
 
 \paragraph{Constructing distance matrices.}
 To estimate the morphospaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of tips and nodes in the dataset.
@@ -227,9 +216,6 @@ Here we use three time sub-sampling methods.
 \label{time_slicing}
 The ``time-slicing'' approach considers subsets of taxa in the morphospace at specific equidistant points in time, as opposed to considering subsets of taxa between two points in time.
 This results in even-sampling of the morphospace across time and allows us to use different underlying models of character evolution (punctuated or gradual). 
-
-%TG: Is it worth saying that Halliday and Goswami came up with a similar idea \citep{halliday2016eutherian} but that we came up with it first \cite{Guillerme2015} and we're the first to implement it \cite{dispRity.v02}?
-%NC: Yeah was going to ask about this - I've added a mention to the intro where I think it fits better, should we also cite the brusatte paper you said refers to it too?
 
 In practice, time-slicing considers the disparity of any element present in the phylogeny (branches, nodes and tips) at any point in time.
 When the phylogenetic elements are nodes or tips, the ordination scores for the nodes (estimated using ancestral state reconstruction as described above) or tips are directly used for calculating disparity.
@@ -341,8 +327,6 @@ To compare the time binning and time-slicing approaches we applied the methods a
 \end{enumerate}
 
 We also recorded the number of taxa (or taxa and nodes for time-slicing methods) in each sub-sample as a proxy for taxonomic diversity. 
-%(Supporting Information Appendix S2: Tables A1-A4). 
-% Tables are so huge I'm going to leave them out for now...
 
 \subsection{Testing for differences in the time sub-sampling methods}
 \label{testing}
@@ -448,11 +432,6 @@ In general, for the \cite{beckancient2014} dataset, time binning tended to give 
     \label{figure:extinction1}
 \end{figure}
 
-%Fig. or Figs
-%Fig width 80mm single column
-%110mm - 2/3 width
-%166mm full page
-
 \section{Discussion}
 Disparity-through-time analyses are influenced by the choice of time sub-sampling method used to divide the taxa. 
 While differences in the relative disparities calculated among time sub-sampling methods may not be of much biological importance, these changes can have important implications for the conclusions of downstream analyses. 
@@ -512,13 +491,5 @@ Appendix S3: Additional tables.
 
 \newpage
 \section{Figure legends}
-
-% Dataset details table
-%\begin{landscape}
-%\input{tables/table_datasets.tex} 
-%\end{landscape}
-
-% Wilcoxon results table
-%\input{tables/table_wilcox.tex}  
 
 \end{document}
