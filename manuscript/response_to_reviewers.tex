@@ -69,6 +69,7 @@ Below we provide their comments in blue text with our responses.
 
 %TG: TODO: fix ages in table 1
 % NC: What are these? I converted this to word already.
+%TG: In Table 1, ages for Brusatte and Bapst should be respectively 168.5 - 66 and 207.2 - 66  (they are currently set to 0).
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -97,8 +98,6 @@ We've emphasised the differences, however, with other uses of the word ``morphos
 Morphospaces can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous), and whether they include phylogenetic data or not. % NC: do you mean cladistic data i.e. data used to build phylogenies?
 Although empirical morphospaces from discrete or continuous data have been shown to have similar properties (CITATIONS), our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis;} c.f. \textit{geometric morphometric data) and includes some phylogenetic information (see above).
 Mathematically, our morphospaces are $n$ dimensional objects that summarise the distances between discrete morphological characters of the taxa present and their ancestors.} lines @@@
-
-%TG: what do you think? % NC: sounds good, made a few minor edits above
 
 \item{\textcolor{blue}{Figure 3 would be easier to interpret if the dataset names were added to the graphic itself (like in Figure 2) rather than constrained to the figure caption.}}
 
@@ -147,11 +146,6 @@ We realise we had not made this clear, thus we have added the following explanat
 \textit{For example, using the ``equal.splits'' model on an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
 By estimating this value rather than generating it (i.e. creating a new element mid-way along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.} lines @@@
 
-%TG: I can implement that pretty easily but I think that mathematically it's not cool (we can not add values post-ordination in the ordinated space). Two options: (1) implementing the suggestion but with heavy warnings; (2) writing down a clever response to this comment. In the dispRity package review, that was highlighted (I bet reviewer 2 is Graeme) and I responded something similar to option (2) so I'd rather go that way for consistency.
-
-% NC: I like this response. I dunno if it is Graeme, they use US spellings... Maybe Bapst?
-
-
 
 \item{\textcolor{blue}{Second, I do not see how Figure 3 supports the text (lines 435-447). Overall, these results show the exact opposite of what is stated in the text (lines 435-447): in the figure the time-binned-approach (pink) results show earlier disparity peaks than the time-slicing approaches (green and blue). Are the y-axes reversed from what they should be? Also the Brusatte et al 2014 (second row) shows very similar values, not different values (compare with lines 435-436). And the difference between the ages of the peaks in the Bapst et 2016 study (third row) is at most 6 million years...but the study itself is over 150 million years divided very coarsely in Figure 2.  On that scale, these are basically the "same time". Finally, whether the six different time-slicing methods show ``similar'' patterns (lines 412-413) depends on the question... it is hard to distinguish them in the relative disparity plots, but the timing of peak disparity varies widely (Figure A3) while the two shown in Figure 3 happen to be similar.}}
 
@@ -168,9 +162,6 @@ Whether the disparity represents an average across the interval (with no interpr
 %TG: tone done the statement? % NC: yeah, not sure what else we can do. %TG: Does that kinda work?
 
 \item{\textcolor{blue}{But there is also a deeper issue here, in that the fossil record is at its heart a time-binned record: rates of sedimentation vary and sediment deposition is sporadic, such that local beds represent different amounts of time, or different ``packages'' of time, separated by gaps, and the fossils within them may be time-averaged to various degrees. [...] Therefore, even if you pick a ``point in time'' and count the number of branches/ranges that cross that point, some of those are being captured because the resolution of the end points only allows us to know that the taxon started and/or ended somewhere in the interval encompassing that point in time.}}
-
-%TG: this is a fair point we should include in the discussion.
-%TG: though that is just a "practical" point for the vertebrate fossil record. Foraminiferas, for example, do not behave this way (or at a way finer scale).
 
 We've add the following caveat to the discussion:
 
@@ -203,9 +194,13 @@ If this is the case, the use of the word ``average'' when describing the number 
 It may be helpful to include a graphic, even if in relegated to one of the appendices.}}
 
 %TG: good idea, we (I) can make a figure designating the three different strategies.
+We've added a figure describing the different time-sampling strategies and changed the relevant methods section to be clearer.
 
 \item{\textcolor{blue}{Line 158. Gower's distance is not the Euclidean distance (= the square root of the squared distances) over the number of shared characters. For a set of unordered characters, it is the number of mismatched character states over the number of comparable/shared characters. For a set of ordered characters, it is sum of the differences in the values of the characters states for each pairwise comparison, over the number of comparable characters. This is an edit that needs to be made only to the text; because the authors used functions from the Claddis package (see github documentation), they would have calculated Gower's distance correctly.}}
 
+We thank the reviewer for spotting this mistake and fixed the relevant section as follows:
+
+\textit{We calculated the $k$$\times$$k$ distances using the Gower distance (CITATION), i.e. the number of characters mismatched characters over the number of shared characters.}
 
 \item{\textcolor{blue}{Consider using ``stage'' instead of ``age'' when referring to the finer resolution time scale.}}
 
@@ -213,12 +208,10 @@ We have changed ``stratigraphic age'' to ``stratigraphic stage'' throughout the 
 
 \item{\textcolor{blue}{Figure 2. It is very difficult to distinguish the green dots from the blue dots. For someone who is color-blind, it would also be difficult to distinguish the red dots from the green dots.}}
 
-%TG: I'll let you change the colours (I still don't want to touch ggplot!) how about the darkgrey/orange/blue palette?
-%Here are the hexadecimals:
-%colours_blind <- c("orange" = "#F65205", "blue" = "#3E9CBA", "darkgrey" = "#1C1C1C")
-%NC: The colours are colour blind friendly already, but I'll switch to using viridis.
 
-Interestingly the palettes in ggplot2 are chosen so that they are distinguishable by people that are colour blind. But it's no problem to change the colours. Hopefully the new colour scheme is easier to discern. We have used the viridis colour palettes which are designed for precisely this purpose (https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html), and are colour-blind friendly too. We've done this for all figures in the text and in the appendices.
+Interestingly the palettes in ggplot2 are chosen so that they are distinguishable by people that are colour blind. But it's no problem to change the colours. Hopefully the new colour scheme is easier to discern.
+%TG: Does that not sound a bit too defensive? We can just say we changed them no?
+We have used the viridis colour palettes which are designed for precisely this purpose (https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html), and are colour-blind friendly too. We've done this for all figures in the text and in the appendices.
 
 A bigger issue, and this may be what the reviewer was referring to, is that a lot of the points lie on top of each other. We have played around with this a lot (we tried jittering and dodging point positions, and various types of colour palettes and transparencies etc.) and there's no satisfactory solution. For now we have made the error bars more transparent so hopefully it is a bit easier to see which points lie where.
 

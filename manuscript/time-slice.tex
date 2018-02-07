@@ -169,7 +169,7 @@ Mathematically, our morphospaces are $n$ dimensional objects that summarises the
 
 \paragraph{Constructing distance matrices.}
 To estimate the morphospaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of tips and nodes in the dataset.
-We calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the Euclidean distance between two taxa divided by the number of shared characters. 
+We calculated the $k$$\times$$k$ distances using the Gower distance \citep{Gower71}, i.e. the number of characters mismatched characters over the number of shared characters.
 This allows us to correct for distances between two taxa that share many characters and could be closer to each other than to taxa with fewer characters in common (i.e. because some pairs of taxa share more characters in common than others, they are more likely to be similar).
 For discrete morphological matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
@@ -179,9 +179,13 @@ This led to us removing nine taxa from the \cite{bapst2016topology} dataset, and
 \paragraph{Ordination.}
 After constructing our distance matrices we transformed them using classical multidimensional scaling \citep[MDS;][]{torgerson1965multidimensional,GOWER01121966,cailliez1983analytical}.
 This method (also referred to as PCO; e.g. \citealt{Brusatte2015}; or PCoA; e.g. \citealt{paradisape:2004}; but distinguished in \citealt{legendre2012numerical}) is an eigen decomposition of the distance matrix.
+
 Because we used Gower distances instead of raw Euclidean distances, negative eigenvalues can be calculated.
+
 To avoid this problem, we first transformed the distance matrices by applying the Cailliez correction \citep{cailliez1983analytical} which adds a constant $c^*$ to the values in a distance matrix (apart from the diagonal) so that all the Gower distances become Euclidean ($d_{Gower}+c^*=d_{Euclidean}$; \citealt{cailliez1983analytical}). 
+
 We were then able to extract $n$ eigenvectors for each matrix (representing the $n$ dimensions of the morphospace) where $n$ is equal to $k-2$, i.e. the number of taxa in the matrix ($k$) minus the last two eigenvectors that are always null after applying the Cailliez correction.
+
 Contrary to previous studies \citep[e.g][]{brusatte50,cisneros2010,prentice2011,anderson2012using,Hughes20082013,bentonmodels2014}, we use all $n$ dimensions of our morphospaces and not a sub-sample representing the majority of the variance in the distance matrix (e.g. selecting only $m$ dimensions that represent up to 90\% of the variance in the distance matrix; \citealt{Brusatte12092008,toljagictriassic-jurassic2013}).
 
 Note that our morphospaces represent an ordination of all possible morphologies coded in each study through time.
