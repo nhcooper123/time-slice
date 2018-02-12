@@ -8,9 +8,9 @@ To cite the paper:
 methods in disparity-through-time analyses. [Palaeontology - hopefully!].
 
 To cite this repo: 
-> Natalie Cooper \& Thomas Guillerme. 2018. GitHub: nhcooper123/time-slice: Release for publication. DOI to be added.
+> Natalie Cooper \& Thomas Guillerme. 2018. GitHub: nhcooper123/time-slice: Release for publication. DOI: 10.5281/zenodo.1172000.
 
-[![DOI](https://zenodo.org/badge/98415211.svg)]()
+[![DOI](https://zenodo.org/badge/102496441.svg)](https://zenodo.org/badge/latestdoi/102496441)
 
 ![alt text](https://github.com/nhcooper123/time-slice/raw/master/stratigraphiccake.png)
 
