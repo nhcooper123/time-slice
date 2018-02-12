@@ -65,7 +65,7 @@ Dear Dr Smith,\\
 \bigskip
 
 We are very grateful to the referees for their helpful and constructive comments. 
-Below we provide their comments in blue text with our responses.
+Below we provide their comments in blue text with our responses below.
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -81,8 +81,7 @@ Below we provide their comments in blue text with our responses.
 
 We now explicitly refer to Brusatte et al. 2011 and mention the key difference:
 
-\textit{This approach is similar to Brusatte et al. (2011) but uses model based estimations (rather than parsimony) allowing to control for ambiguous nodes (i.e. poorly estimated).} lines 141-144.
-%TG: checked and matched with manuscript.
+\textit{This approach is similar to Brusatte et al. (2011) but uses model based estimations (rather than parsimony) allowing us to control for ambiguous (i.e. poorly estimated) nodes.} lines 132-134.
 
 \item{\textcolor{blue}{I'm not sure about the use of the term ‘cladisto-spaces’. To me this implies that the space itself is ordinated using phylogenetic information (e.g., branch lengths). Now, you are indeed including some phylogenetic information in your morphospaces, in terms of reconstructed ancestors and inferred states for branches. So sure, I think what you have could be called a ‘cladisto-space’. Same with most of the morphospace options produced by Claddis. But the ones that most of us have done in the past, simply using discrete characters to ordinate a morphospace, haven't generally incorporated phylogeny. I’m talking about the references you cite in lines 141-143 here. These morphospaces been ordinated using discrete characters of the type that are used in phylogenetic analysis. But the characters are not phylogenetically transformed in any way. As far as the ordination analysis knows, they are simply discrete character statements. So I wonder if the term ‘cladisto-space’ is confusing, and is just yet another new term that may muddy the waters rather than clarify. If you want to keep using this term, that's fine, but a sentence or two of explanation (about how previous authors have used discrete characters in a non-phylogenetic way) would be warranted.}}
 
@@ -92,9 +91,8 @@ We've emphasised the differences, however, with other uses of the word ``morphos
 
 \textit{To explore disparity-through-time in our datasets, we used a morphospace approach (CITATIONS).
 Morphospaces can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous), and whether they include phylogenetic data or not. 
-Although empirical morphospaces from discrete or continuous data have been shown to have similar properties (CITATIONS), our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis;} c.f. \textit{geometric morphometric data) and includes some phylogenetic information (see above).
-Mathematically, our morphospaces are $n$ dimensional objects that summarise the distances between discrete morphological characters of the taxa present and their ancestors.} lines 145-158
-%TG: checked and matched with manuscript.
+Although empirical morphospaces from discrete or continuous data have been shown to have similar properties (CITATIONS), our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis;} c.f. \textit{geometric morphometric data) and include some phylogenetic information (see above).
+Mathematically, our morphospaces are $n$ dimensional objects that summarise the distances between discrete morphological characters of the taxa present and their ancestors.} lines 138-147.
 
 \item{\textcolor{blue}{Figure 3 would be easier to interpret if the dataset names were added to the graphic itself (like in Figure 2) rather than constrained to the figure caption.}}
 
@@ -109,13 +107,11 @@ We've now corrected this error and double check this as follows:
 
 \textit{In the Beck \& Lee (2014) and Bapst et al. (2016) datasets, disparity peaks occur much at much older ages when time-slicing rather than time binning approaches are used (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).
 This is also true for stratigraphic time bins in the Wright (2017) dataset, although when using equal time bins the peaks are later than the time-slicing methods, or very similar (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).
-Across the three time binning methods, the Brusatte et al. (2014) dataset has similar disparity peaks whichever method is used, the Wright (2017) dataset only had variation in peaks when using unequal time bins (stratigraphy), whereas in the Bapst et al. (2016) and Beck \& Lee (2014) datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines 448-461
-%TG: checked and matched with manuscript.
+Across the three time binning methods, the Brusatte et al. (2014) dataset has similar disparity peaks whichever method is used, the Wright (2017) dataset only had variation in peaks when using unequal time bins (stratigraphy), whereas in the Bapst et al. (2016) and Beck \& Lee (2014) datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. 4; Supporting Information Appendix S2: Figs A3-A4).} lines 406-417.
 
 We've also added a note about discrepancies in the time-slicing models in Beck \& Lee (2014): 
 
-\textit{Additionally, there seems to be small discrepancies within the time-slicing methods (gradual.split vs. proximity) except in the Beck \& Lee (2014) dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines 461-465
-%TG: checked and matched with manuscript.
+\textit{Additionally, there seems to be small discrepancies within the time-slicing methods (gradual.split vs. proximity) except in the Beck \& Lee (2014) dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. 3; Supporting Information Appendix S2: Figs A3-A4).} lines 417-421.
 
 \end{enumerate}
 
@@ -143,8 +139,7 @@ The resulting metric would then be based on the following PCO1 value: $0.5\times
 We realise we had not made this clear, thus we have added the following explanation in the text:
 
 \textit{For example, using the ``equal.splits'' model on an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
-By estimating this value rather than generating it (i.e. creating a new element mid-way along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.} lines 318-325
-%TG: checked and matched with manuscript.
+By estimating this value rather than generating it (i.e. creating a new element mid-way along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.} lines 290-296.
 
 \item{\textcolor{blue}{Second, I do not see how Figure 3 supports the text (lines 435-447). Overall, these results show the exact opposite of what is stated in the text (lines 435-447): in the figure the time-binned-approach (pink) results show earlier disparity peaks than the time-slicing approaches (green and blue). Are the y-axes reversed from what they should be? Also the Brusatte et al 2014 (second row) shows very similar values, not different values (compare with lines 435-436). And the difference between the ages of the peaks in the Bapst et 2016 study (third row) is at most 6 million years...but the study itself is over 150 million years divided very coarsely in Figure 2.  On that scale, these are basically the "same time". Finally, whether the six different time-slicing methods show ``similar'' patterns (lines 412-413) depends on the question... it is hard to distinguish them in the relative disparity plots, but the timing of peak disparity varies widely (Figure A3) while the two shown in Figure 3 happen to be similar.}}
 
@@ -167,22 +162,16 @@ Rates of sedimentation vary in time and space influencing the groups found withi
 In this case, different beds could represent different ``packages'' of fauna through time separated by gaps, resulting in natural ``bins'' rather than slices of the data.
 Slicing through such strata will yield similar results no matter where in time the slice occurs.
 It is important to note however, that the time slicing method also includes ancestral estimations (either through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.
-Additionally, this effect is likely to be most obvious in vertebrates or groups where the fossil is ``patchy'' but less problematic for groups with a more continuous one like Foraminifera.} lines 523-536
-%TG: checked and matched with manuscript.
+Additionally, this effect is likely to be most obvious in groups where the fossil record is ``patchy'' e.g. vertebrates, but less problematic for groups with a more continuous record like Foraminifera.} lines 473-484.
 
 \item{\textcolor{blue}{As an aside, the Hunt et al 2015 citation does not clarify the matter (line 74-75). A case could be made that all time series are binned (if you consider that the samples are likely time-averaged and there are gaps between samples--although this is different from dividing up "everything" into adjacent boxes), and yet there are time series that are best characterized by gradual directional change (e.g., best fit by a biased random walk). In addition, Hunt et al found that directional change was actually more likely to be detected in series of long duration. Furthermore, homogenous rate patterns were more likely to be supported than heterogenous/punctuated change with time series of fewer samples, which includes cases where each ``step'' includes a longer interval of time over which shorter changes could be hidden.}}
-
-%TG: not sure where the reviewer want us to go with that. Is that the same nuancing point as the comment before? In that case we can simply merge them and make a caveat paragraph. 
-% NC: Yeah I'm not sure either, but maybe needs a paragraph in the discussion? Currently the discussion is short (and written by me in about an hour!) so would be good to add something there.
 
 We've added the following caveat to the discussion:
 
 \textit{Finally, Hunt et al 2015 found that time series are best characterized by gradual directional changes (biased random walks).
-In fact, homogeneous directional changes are more likely to be supported than heterogeneous ones (e.g. punctuated changes) in longer duration series with few samples per series.
-In our implementation of time-slicing, the models are not selected based on any fit value (e.g. AIC) but merely on researcher's assumptions.
-We thus suggest that both types of models (punctuated and gradual) are tested during analysis unless there could be strong independent support for one or the other.} lines 536-544
-%TG: checked and matched with manuscript. NC -> could you check for Thomasisms?
-
+In fact, homogeneous directional changes are more likely to be supported than heterogeneous ones (e.g. punctuated changes) in longer duration series with few samples in each series.
+In our implementation of time-slicing, the models are not selected based on any model fit criterion (e.g. AIC) but merely on researcher assumptions.
+We thus suggest that both types of models (punctuated and gradual) are tested during analysis, unless there is strong independent support for one or the other.} lines 484-491.
 
 \end{enumerate}
 
@@ -199,14 +188,13 @@ For the number approach, the 40 million year span is divided into 10, each of wh
 If this is the case, the use of the word ``average'' when describing the number approach is confusing. I am also having trouble reconciling this with the number of points in each panel in Figure 2, unless there is also a minimum sample size applied (for example in the Bapst 2016 study, there are only three disparity values for the time-binned series using the ``number'' approach, maybe because after dividing the time scale up this way, there were not enough taxa in the first and second time bins?).
 It may be helpful to include a graphic, even if in relegated to one of the appendices.}}
 
-We've added a figure describing the different time-sampling strategies and changed the relevant methods section to be clearer. % NC: Haven't changed the methods yet.
+We've added a figure describing the different time-sampling strategies which we hope makes this section clearer. 
 
 \item{\textcolor{blue}{Line 158. Gower's distance is not the Euclidean distance (= the square root of the squared distances) over the number of shared characters. For a set of unordered characters, it is the number of mismatched character states over the number of comparable/shared characters. For a set of ordered characters, it is sum of the differences in the values of the characters states for each pairwise comparison, over the number of comparable characters. This is an edit that needs to be made only to the text; because the authors used functions from the Claddis package (see github documentation), they would have calculated Gower's distance correctly.}}
 
 We thank the reviewer for spotting this mistake and fixed the relevant section as follows:
 
-\textit{We calculated the $n$$\times$$n$ distances using the Gower distance (CITATION), i.e. the number of characters mismatched characters over the number of shared characters.} lines 160-162.
-%TG: checked and matched with manuscript.
+\textit{We calculated the $n$$\times$$n$ distances using the Gower distance (CITATION), i.e. the number of mismatched characters over the number of shared characters.} lines 151-152.
 
 \item{\textcolor{blue}{Consider using ``stage'' instead of ``age'' when referring to the finer resolution time scale.}}
 
@@ -253,7 +241,6 @@ Done.
 \item{\textcolor{blue}{Please add the Dryad review link (even though Dryad instructs you not to) to the Data Archiving Statement. This makes it easier for the Editor and Referees, and the link will be updated later as required.}}
 
 Done.
-% NC: To do when uploaded
 
 \item{\textcolor{blue}{Where you refer to the data in the text please cite a reference in the form: CARPENTER, D. K., FALCON-LANG, H. J., BENTON, M. J. and GREY, M. 2015. Data
 from: Early Pennsylvanian (Langsettian) fish assemblages from the Joggins
@@ -270,8 +257,9 @@ Done.
 
 \item{\textcolor{blue}{Please replace the GitHub URL in the Materials \& Methods section with a citation of the data repository reference (as it is quoted on GitHub; Cooper \& Guillerme 2018).}}
 
-We have now archived the code on Zenodo, so provide the citation for this.
-% NC: To do
+We have now archived the code on Zenodo, so provide the citation for this:
+
+Guillerme T., \& Cooper N. 2018. GitHub: nhcooper123/time-slice: Release for publication. Zenodo. http://doi.org/10.5281/zenodo.1172000.
 
 \item{\textcolor{blue}{Please include all repository details and links in data references (e.g. Bapst et al. 2016a)(see sample Dryad reference above for general format).}}
 
@@ -283,8 +271,7 @@ Sorry this is a bug in our reference manager software. Now fixed!
 
 \item{\textcolor{blue}{Guillerme (2016) reference requires some more information – is there a URL for the software that can be added? (Similar for any other software reference, e.g. Lloyd 2015.)}}
 
-We have fixed this.
-% NC: Fix at converting to Word stage, hopefully there will be a paper to cite by then... for now I've used the v 0.5 zenodo citation. I've changed the citation of Claddis to Graeme's Biol Linn soc paper.
+We have fixed this. The paper accompanying the dispRity package is currently in review so hopefully we will have a better citation to provide at the proof stage. For now we have added the Zenodo doi and reference. We have changed the Lloyd 2015 reference to the reference for the the paper that introduces the package.
 
 
 \end{enumerate}
