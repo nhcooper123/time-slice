@@ -8,7 +8,7 @@ To cite the paper:
 methods in disparity-through-time analyses. [Palaeontology - hopefully!].
 
 To cite this repo: 
-> Natalie Cooper \& Thomas Guillerme. 2018. GitHub: nhcooper123/time-slice: Release for publication. DOI: 10.5281/zenodo.1172000.
+> Thomas Guillerme \& Natalie Cooper. 2018. GitHub: nhcooper123/time-slice: Release for publication. Zenodo. http://doi.org/10.5281/zenodo.1172000.
 
 [![DOI](https://zenodo.org/badge/102496441.svg)](https://zenodo.org/badge/latestdoi/102496441)
 
@@ -37,11 +37,11 @@ This code is not as tidy or functionified as we would like as we were a bit push
 * **02-time-slice-analyses.Rmd** This script performs disparity-through-time analyses on the processed data according to several scenarios and methods described in the paper.
 * **03-statistical-analyses.Rmd** This script uses the outputs from **02-time-slice-analyses.Rmd** to determine how the different time sub-sampling methods influence biological conclusions about the datasets. It tests for systematic differences in disparity-through-time (paired Wilcoxon tests), changes in disparity peaks, and changes in conclusions about the effects of mass extinctions on disparity.
 * **04-table-datasets.Rmd** Reproduces Table 1 (except the references).
-* **05-figure-dtt.Rmd** Reproduces Figure 2.
+* **05-figure-dtt.Rmd** Reproduces Figure 3.
 * **06-table-wilcox.Rmd** Reproduces Table 2, and Table A1. 
-* **07-figure-peaks.Rmd** Reproduces Figure 3.
-* **08-figure-extinction.Rmd** Reproduces Figure 4.
-* **09-appendix-trees-figures.Rmd** Builds plots of phylogenies using the R package `strap` to add stratigraphic information (Appendix S2: Figures A1-A4).
+* **07-figure-peaks.Rmd** Reproduces Figure 4.
+* **08-figure-extinction.Rmd** Reproduces Figure 5.
+* **09-appendix-trees-figures.Rmd** Builds plots of phylogenies using the R package `strap` to add stratigraphic information (Appendix S1: Figures A1-A4).
 * **10-appendix-figure-dtt.Rmd** Reproduces Appendix S2: Figures A1 and A2.
 * **11-appendix-figure-peaks.Rmd** Reproduces Appendix S2: Figures A3 and A4.
 * **12-appendix-disparity-tables.Rmd** Produces the detailed disparity outputs tables. Currently not in the appendices as they are around 100 pages long!
