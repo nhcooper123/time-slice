@@ -4,7 +4,7 @@
 \usepackage{setspace}						
 \usepackage{authblk}	
 \usepackage{graphicx} 	
-\usepackage[nomarkers, nolists, figuresonly]{endfloat} 
+%\usepackage[nomarkers, nolists, figuresonly]{endfloat} 
 \usepackage{pdflscape}	
 \usepackage{mathtools}	
 \usepackage[osf]{mathpazo} 
@@ -85,7 +85,7 @@ Unfortunately, the way we perform these analyses may have profound effects on ou
 Disparity-through-time analyses have two main analysis components: calculating disparity, and creating time sub-subsets of the data. 
 Here we focus on the latter.
 The nature of disparity (i.e. it is a diversity metric), means it cannot be calculated using a single individual, so some way of sub-sampling taxa is required.
-Changes in disparity-through-time are generally investigated by calculating the disparity of taxa present during specific time intervals or time bins \citep[e.g][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
+Changes in disparity-through-time are generally investigated by calculating the disparity of taxa present during specific time intervals or time bins \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,hopkinsdecoupling2013,bentonmodels2014,bensonfaunal2014}.
 These time bins are usually defined based on stratigraphy \citep[e.g.][]{cisneros2010,prentice2011,Hughes20082013,bentonmodels2014} but can also be arbitrarily chosen time bins of equal (or approximately equal) duration \citep{Butler2012,hopkinsdecoupling2013,bensonfaunal2014}.
 However, this approach has several limitations.
 
@@ -119,7 +119,7 @@ All the code needed to reproduce these analyses (along with detailed instruction
 % overview figure
 \begin{figure}[!htbp]
     \centering
-    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure1-outlinesvg.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure1-outlinesvg.pdf}
     \caption[Outline of the disparity-through-time pipeline]
     {Outline of the disparity-through-time pipeline. 1) We use ancestral character estimation to infer nodal character states; 2) we measure the pairwise Gower distance between the tip character states and nodal character states; 3) we ordinate the distance matrix using principal coordinates analysis (PCoA/PCO); 4) we time sub-sample the PCoA matrix using time bins defined by stratigraphic periods, equally sized time bins and time-slices (using six methods to estimate ordination scores for branches); and finally 5) we measure disparity-through-time for each of these methods.}
     \label{fig:overview}
@@ -133,10 +133,10 @@ Each dataset consists of first and last occurrence dates for all taxa, a matrix 
 These datasets are freely available with their accompanying papers (Table \ref{table:datasets}), but for reproducibility purposes we also provide the data we used on GitHub (\url{https://github.com/nhcooper123/time-slice/data}).
 
 % Dataset details table
-%\begin{landscape}
-%\input{tables/table_datasets.tex} 
+\begin{landscape}
+\input{tables/table_datasets.tex} 
   % Label in input or referencing doesn't work
-%\end{landscape}
+\end{landscape}
 
 \subsection{Preparing the data for disparity-through-time analysis}
 
@@ -148,17 +148,17 @@ Inapplicable and missing characters for any taxon were treated as ambiguous char
 To prevent poor ancestral state estimations from biasing our results, especially when a lot of error is associated with the estimations, we only included ancestral state estimations with a scaled Likelihood $\geq$ $0.95$.
 Ancestral state estimations with scaled Likelihoods below this threshold were recoded as missing data (``?'').
 This allowed our results to be less dependent on the quality (or the absence thereof) of the ancestral state estimations methods, especially in parts of the datasets where data were sparse. 
-This approach is similar to \cite{brusatte2011phylogenetic} but uses model based estimations (rather than parsimony) allowing to control for ambiguous nodes (i.e. poorly estimated).
+This approach is similar to \cite{brusatte2011phylogenetic} but uses model based estimations (rather than parsimony) allowing us to control for ambiguous (i.e. poorly estimated) nodes.
 
 \paragraph{Building morphospaces.} 
 To explore disparity-through-time in our datasets, we used a morphospace approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
 Morphospaces can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous), and whether they include phylogenetic data or not.
-Although empirical morphospaces from discrete or continuous data have been shown to have similar properties \citep{foth2012different,hetherington2015cladistic}, our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis; \textit{c.f.} geometric morphometric data) and includes some phylogenetic information (see above).
+Although empirical morphospaces from discrete or continuous data have been shown to have similar properties \citep{foth2012different,hetherington2015cladistic}, our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis; \textit{c.f.} geometric morphometric data) and include some phylogenetic information (see above).
 Mathematically, our morphospaces are $n$ dimensional objects that summarise the distances between discrete morphological characters of the taxa present and their ancestors.
 
 \paragraph{Constructing distance matrices.}
 To estimate the morphospaces for each of our datasets we first constructed pairwise distance matrices of length $n$, where $n$ is the total number of tips and nodes in the dataset.
-We calculated the $n$$\times$$n$ distances using the Gower distance \citep{Gower71}, i.e. the number of characters mismatched characters over the number of shared characters.
+We calculated the $n$$\times$$n$ distances using the Gower distance \citep{Gower71}, i.e. the number of mismatched characters over the number of shared characters.
 This allows us to correct for distances between two taxa that share many characters and could be closer to each other than to taxa with fewer characters in common (i.e. because some pairs of taxa share more characters in common than others, they are more likely to be similar).
 For discrete morphological matrices, using this corrected distance is preferable to the raw Euclidean distance because of its ability to deal with discrete or/and ordinated characters as well as with missing data \citep{anderson2012using}.
 However, the Gower distance cannot calculate distances when taxa have no overlapping data.
@@ -273,11 +273,11 @@ By estimating this value rather than generating it (i.e. creating a new element 
  
 \subsection{Comparing time sub-sampling methods}
 
-To compare the time binning and time-slicing approaches we applied the methods as follows (see Figure \ref{figure:bins}).
+To compare the time binning and time-slicing approaches we applied the methods as follows (see Fig. \ref{figure:bins}).
 
 \begin{figure}[!htbp]
     \centering
-    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure2-binning.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure2-binning.pdf}
     \caption[Outline of the three time sub-sampling methods]
     {Outline of the three time sub-sampling methods. 
     Stratigraphy: time sub-samples are defined by stratigraphic periods.
@@ -290,7 +290,7 @@ To compare the time binning and time-slicing approaches we applied the methods a
 \end{figure}
 
 \begin{enumerate}
-  \item Stratigraphy: time sub-samples defined by stratigraphic periods. 
+  \item Stratigraphy: time sub-samples defined by stratigraphic periods (Fig. \ref{fig:bins}). 
   \begin{enumerate}[(i)]
     \item Time bins (unequal). 
     We calculated disparity for the taxa in each stratigraphic period (stage or epoch). 
@@ -301,7 +301,7 @@ To compare the time binning and time-slicing approaches we applied the methods a
     To reduce the influence of outliers on our disparity estimates, we bootstrapped each disparity measurement as described above for the stratigraphic time bins.
     \end{enumerate}
 
-  \item Duration: time sub-samples defined by the duration of stratigraphic periods. 
+  \item Duration: time sub-samples defined by the duration of stratigraphic periods (Fig. \ref{fig:bins}). 
   \begin{enumerate}[(i)]
     \item Time bins (equal). 
     We calculated disparity for the taxa in each time bin where time bin size was defined by the mean \textit{duration} of the stratigraphic period (stage or epoch), and bootstrapped the disparity values as described above.
@@ -310,7 +310,7 @@ To compare the time binning and time-slicing approaches we applied the methods a
     We used the six time-slicing methods and bootstrapped as described above.
   \end{enumerate}
 
-  \item Number: time sub-samples defined by the number of stratigraphic periods. 
+  \item Number: time sub-samples defined by the number of stratigraphic periods (Fig. \ref{fig:bins}). 
   \begin{enumerate}[(i)]
     \item Time bins (equal). 
     We calculated disparity for the taxa in each time bin where the number of time bins was defined by the \textit{number} of stratigraphic periods (ages or epochs) in the time frame of interest, and bootstrapped the disparity values as described above.
@@ -360,14 +360,14 @@ Results for all six methods can be found in Supporting Information Appendix S2: 
 
 \begin{figure}[!htbp]
     \centering
-    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure2-fig-dtt-epoch-revision.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure3-fig-dtt-epoch-revision.pdf}
     \caption[Relative disparity-through-time.]
     {Relative disparity-through-time. Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
     Green points represent time binning methods, purple points are time-slices with a punctuated model of evolution (`proximity' method), and blue points are time-slices with a gradual model of evolution (`gradual splits' method).
     Relative disparities (median bootstrapped disparity divided by the maximum median bootstrapped disparity for a dataset and analysis method) are presented so they can be compared across datasets/methods. 
     Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
-    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
-    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the mean duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the mean number of stratigraphic epochs in the time frame of the dataset. 
     In all cases, time bin disparities are plotted at the midpoint of the bin, and error bars represent the 95\% confidence intervals around the bootstrapped median disparity.
     The four dataset names are on the first plot for each dataset (see Table \ref{table:datasets} for details).
     Results for stratigraphic stages, and for other time-slicing methods, are in the Supporting Information Appendix S2: Figures A1-A2.}
@@ -380,29 +380,29 @@ Results for all six methods can be found in Supporting Information Appendix S2: 
 There is no overall significant systematic difference among the disparities calculated using time bins and those calculated using the time-slicing methods (Table \ref{table:wilcox}, Supporting Information Appendix S2: Table A1).
 Instead, the differences depend on the dataset and method in question.
 For example, the \cite{brusatte2014gradual}, \cite{bapst2016topology} and \cite{wright2017bayesian} datasets, show significant differences when using bins versus time-slices defined by stratigraphy, but the \cite{beckancient2014} dataset appears robust to these different approaches.
-Likewise, the \cite{beckancient2014}, \cite{brusatte2014gradual} and \cite{bapst2016topology} datasets have different disparities when the number of bins or slices is the average number of stratigraphic periods, but this is not seen in the \cite{wright2017bayesian} dataset.
+Likewise, the \cite{beckancient2014}, \cite{brusatte2014gradual} and \cite{bapst2016topology} datasets have different disparities when the number of bins or slices is the mean number of stratigraphic periods, but this is not seen in the \cite{wright2017bayesian} dataset.
 Note that for epochs, we find fewer significant differences simply because the smaller numbers of bins and slices being compared means we have low power to detect a significant difference.
 
 % Wilcoxon results table
-%\input{tables/table_wilcox.tex}  
+\input{tables/table_wilcox.tex}  
 
 \paragraph{Disparity peaks.}
 In the \cite{beckancient2014} and \cite{bapst2016topology} datasets, disparity peaks occur much at much older ages when time-slicing rather than time binning approaches are used (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
 This is also true for stratigraphic time bins in the \cite{wright2017bayesian} dataset, although when using equal time bins the peaks are later than the time-slicing methods, or very similar (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
 Across the three time binning methods, the \cite{brusatte2014gradual} dataset has similar disparity peaks whichever method is used, the \cite{wright2017bayesian} dataset only had variation in peaks when using unequal time bins (stratigraphy), whereas in the \cite{bapst2016topology} and \cite{beckancient2014} datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
-Additionally, there seems to be small discrepancies within the time-slicing methods (gradual.split \textit{vs.} proximity) except in the \cite{beckancient2014} dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4)
+Additionally, there seem to be small discrepancies within the time-slicing methods (gradual.split \textit{vs.} proximity) except in the \cite{beckancient2014} dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4)
 
 % Plots showing the differences
 \begin{figure}[!htbp]
     \centering
-    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure3-fig-peaks-epoch-revision.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure4-fig-peaks-epoch-revision.pdf}
     \caption[Timing of peak disparity for four example datasets.]
     {Timing of peak disparity.
     Median bootstrapped disparities were calculated using time binning and time-slicing approaches. 
     Green points represent time binning methods, blue points are time-slices with a punctuated model of evolution (`proximity' method), and purple points are time-slices with a gradual model of evolution (`gradual splits' method). 
     Stratigraphy uses unequal time bins or non-equidistant time-slices, where the width of the bin, or the interval between slices, is equivalent to stratigraphic epochs. 
-    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the average duration of stratigraphic epochs in the time frame of the dataset. 
-    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the average number of stratigraphic epochs in the time frame of the dataset. 
+    Duration uses equal time bins or equidistant time-slices, where the width of the bin, or the interval between slices, is the mean duration of stratigraphic epochs in the time frame of the dataset. 
+    Number uses equal time bins or equidistant time-slices, where the number of bins, or the number of slices, is the mean number of stratigraphic epochs in the time frame of the dataset. 
     For time bins the points indicate the maximum and minimum ages of the time bin within which peak disparities appeared.
     The four dataset names are on the first plot for each dataset (see Table \ref{table:datasets} for details).
     Results for stratigraphic stages, and for other time-slicing methods, are in the Supporting Information Appendix S2: Figures A3-A4.}
@@ -417,7 +417,7 @@ In general, for the \cite{beckancient2014} dataset, time binning tended to give 
 % Big heat map table thing
 \begin{figure}[!htbp]
     \centering
-    %\includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure4-fig-extinction-effect.pdf}
+    \includegraphics[width=1\linewidth, height=1\textheight, keepaspectratio]{figures/Figure5-fig-extinction-effect.pdf}
     \caption[Extinction example datasets.]
     {Effects of mass extinction events on disparity.
     Pink cells and blue cells indicate respectively a significant or non significant change in disparity before and after the mass extinction event (Cretaceous-Paleogene 66 MYA; \citealt{beckancient2014}; Ordovician-Silurian 455-430 MYA; \citealt{wright2017bayesian}).
@@ -436,7 +436,7 @@ Given the high congruence (76\% and 95\%) of these results, one could argue that
 However, if we had chosen to investigate crinoid disparity only using time bins and splitting these so the number of time bins was equal to the number of epochs (number), we would have concluded that the O-S extinction had no effect on crinoid disparity. 
 Likewise, the timing of peak disparity differs among methods. 
 This is particularly evident when comparing stratigraphic time bins to time slicing methods, where for most of our datasets we see a much later time to peak disparity. 
-This could have major implications for our understanding of how morphological diversity changes through time, for example in response to climate effects.
+This could have major implications for our understanding of how morphological diversity changes through time, for example in response to climate.
 These results highlight the sensitivity of disparity-through-time analyses to the choice of time sub-sampling method. 
 Fortunately this issue is easy to solve; either disparity-through-time analyses should use, and report results from, multiple time sub-sampling methods (as demonstrated here), or great care should be taken in determining the appropriate time sub-samples to answer the question of interest. 
 
@@ -447,7 +447,7 @@ Second, we are able to be more explicit about the mode of evolution in our clade
 This may be important, as gradual change is a common pattern of trait evolution in the fossil record \citep{Hunt20112007}.
 
 Of course the method also has limitations.
-The main one of these is a practical one; it requires a time-calibrated phylogeny which are not available for all palaeontological datasets.
+The main one of these is a practical one; it requires a time-calibrated phylogeny and these are not available for all palaeontological datasets.
 Furthermore, like most phylogeny based methods, time-slicing depends on ancestral state estimations.
 Care should be taken in interpreting these, as they are highly dependent on the data and models used for the estimations \citep{Slateretal2012,doi:10.1080/10635150801910451}.
 The difference between the time-binning and time-slicing results could also simply be due to the nature of the fossil record.
@@ -455,12 +455,11 @@ Rates of sedimentation vary in time and space influencing the groups found withi
 In this case, different beds could represent different ``packages'' of fauna through time separated by gaps, resulting in natural ``bins'' rather than slices of the data.
 Slicing through such strata will yield similar results no matter where in time the slice occurs.
 It is important to note however, that the time slicing method also includes ancestral estimations (either through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.
-Additionally, this effect is likely to be most obvious in vertebrates or groups where the fossil is ``patchy'' but less problematic for groups with a more continuous one like Foraminifera.
+Additionally, this effect is likely to be most obvious in groups where the fossil record is ``patchy'', e.g. vertebrates, but less problematic for groups with a more continuous record like Foraminifera.
 Finally, \cite{Hunt21042015} found that time series are best characterized by gradual directional changes (biased random walks).
-In fact, homogeneous directional changes are more likely to be supported than heterogeneous ones (e.g. punctuated changes) in longer duration series with few samples per series.
-In our implementation of time-slicing, the models are not selected based on any fit value (e.g. AIC) but merely on researcher's assumptions.
-We thus suggest that both types of models (punctuated and gradual) are tested during analysis unless there could be strong independent support for one or the other.
-
+In fact, homogeneous directional changes are more likely to be supported than heterogeneous ones (e.g. punctuated changes) in longer duration series with few samples in each series.
+In our implementation of time-slicing, the models are not selected based on any model fit criterion (e.g. AIC) but merely on researcher assumptions.
+We thus suggest that both types of models (punctuated and gradual) are tested during analysis, unless there is strong independent support for one or the other.
 
 \section{Conclusions}
 The choice of time sub-sampling method can alter the conclusions we obtain from disparity-through-time studies. 
@@ -471,10 +470,10 @@ However, we do strongly recommend performing disparity-through-time analyses usi
 
 \section{Data archiving statement}
 Data for this study are available from \cite{dryad_n2g80,dryad_6hb7j,dryad_84t75,beckancient2014} but for ease of reproducibility can also be found on GitHub (\url{https://github.com/nhcooper123/time-slice/data}). % add proper link to zenodo
-Supporting information can be found on Dryad at https://doi.org/10.5061/dryad.vp4q518 \cite{data-time-slice}.
+Supporting information can be found on Dryad at https://doi.org/10.5061/dryad.vp4q518 \citep{data-time-slice}.
 
 \section{Supporting information}
-Additional Supporting information can be found on Dryad at: https://doi.org/10.5061/dryad.vp4q518 \cite{data-time-slice}.\\
+Additional Supporting information can be found on Dryad at: https://doi.org/10.5061/dryad.vp4q518 \citep{data-time-slice}.\\
 Appendix S1: Extra details of datasets. \\
 Appendix S2: Additional figures. \\
 Appendix S3: Additional tables.
@@ -488,8 +487,5 @@ Appendix S3: Additional tables.
 
 \bibliographystyle{palaeo} 
 \bibliography{time-refs} 
-
-\newpage
-\section{Figure legends}
 
 \end{document}
