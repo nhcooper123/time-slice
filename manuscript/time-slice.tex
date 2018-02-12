@@ -152,9 +152,9 @@ This approach is similar to \cite{brusatte2011phylogenetic} but uses model based
 
 \paragraph{Building morphospaces.} 
 To explore disparity-through-time in our datasets, we used a morphospace approach \citep[e.g.][]{Foote01071994,Foote29111996,Wesley-Hunt2005,Brusatte12092008,friedmanexplosive2010,toljagictriassic-jurassic2013,Hughes20082013}.
-Morphospace can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous) or whether they include phylogenetic data or not.
-Although empirical morphospaces from discrete or continuous data have been shown to have similar properties \citep{foth2012different,hetherington2015cladistic}, we would like to highlight that our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis; \textit{c.f.} geometric morphometric data) and includes some phylogenetic information (see above).
-Mathematically, our morphospaces are $n$ dimensional objects that summarises the distances between discrete morphological characters of the taxa present and their ancestors.
+Morphospaces can be obtained from any multidimensional morphological data set but can differ in the data used (e.g. discrete or continuous), and whether they include phylogenetic data or not.
+Although empirical morphospaces from discrete or continuous data have been shown to have similar properties \citep{foth2012different,hetherington2015cladistic}, our morphospaces are based on discrete morphological data (originally collected for phylogenetic analysis; \textit{c.f.} geometric morphometric data) and includes some phylogenetic information (see above).
+Mathematically, our morphospaces are $n$ dimensional objects that summarise the distances between discrete morphological characters of the taxa present and their ancestors.
 
 \paragraph{Constructing distance matrices.}
 To estimate the morphospaces for each of our datasets we first constructed pairwise distance matrices of length $k$, where $k$ is the total number of tips and nodes in the dataset.
@@ -273,8 +273,8 @@ It is important to note that the time-slicing method is not an ancestral states 
 This method does not estimate values along a branch applying a model (\textit{c.f.} methods described for ancestral character estimation in the ``Preparing the data for disparity-through-time analysis'' section above) but rather chooses between the two available pieces of information (the ordination score of the descendant or the ancestor) using the methods described above.
 This allows the method to be used in post-ordination analysis where the data used in each time-slice is data already present in the morphospace.
 In other words, this method does not require a re-ordination of the morphospace every time a slice goes through a branch, thus allowing the properties of the morphospace (e.g. distance between species, variance of each axis, etc.) to remain constant.
-For example, using the ``equal.split'' model between an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
-By estimating this value rather than generating it (i.e. creating a new element midway along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.
+For example, using the ``equal.splits'' model on an ancestor and a descendant with PCO1 values of respectively $0.04$ and $0.03$, after a sufficient number of bootstrap replicates (e.g. 100) the value along the branch will be close to $0.5\times0.04 + 0.5\times0.03 = 0.035$.
+By estimating this value rather than generating it (i.e. creating a new element mid-way along the branch that would be the average of the descendant and ancestor - $0.035$) we obtain the same results without modifying the morphospace properties.
  
 \subsection{Comparing time sub-sampling methods}
 
@@ -392,10 +392,10 @@ Note that for epochs, we find fewer significant differences simply because the s
 %\input{tables/table_wilcox.tex}  
 
 \paragraph{Disparity peaks.}
-In the \cite{beckancient2014} and \cite{bapst2016topology} datasets, disparity peaks occur much at much older ages when time-slicing rather than time binning approaches are used (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
+In the \cite{beckancient2014} and \cite{bapst2016topology}) datasets, disparity peaks occur much at much older ages when time-slicing rather than time binning approaches are used (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
 This is also true for stratigraphic time bins in the \cite{wright2017bayesian} dataset, although when using equal time bins the peaks are later than the time-slicing methods, or very similar (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
-Across the three time binning methods, the \cite{brusatte2014gradual} dataset have similar disparity peaks whichever method is used, the \cite{wright2017bayesian} dataset only had variation in peaks when using un-equal time bins (stratigraphy) whereas in the \cite{bapst2016topology} and \cite{beckancient2014} datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
-Additionally, there seem to be low discrepancy within the time-slicing methods (gradual \textit{vs.} proximity) expect in \cite{beckancient2014} dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
+Across the three time binning methods, the \cite{brusatte2014gradual} dataset has similar disparity peaks whichever method is used, the \cite{wright2017bayesian} dataset only had variation in peaks when using unequal time bins (stratigraphy), whereas in the \cite{bapst2016topology} and \cite{beckancient2014} datasets, stratigraphic (unequal) versus equally sized time bins make a large difference to where the disparity peak occurs (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4).
+Additionally, there seems to be small discrepancies within the time-slicing methods (gradual \textit{vs.} proximity) except in the \cite{beckancient2014} dataset where the gradual split model recovered disparity peaks at younger ages than the proximity model (Fig. \ref{figure:peak1}; Supporting Information Appendix S2: Figs A3-A4)
 
 % Plots showing the differences
 \begin{figure}[!htbp]
@@ -455,11 +455,15 @@ Of course the method also has limitations.
 The main one of these is a practical one; it requires a time-calibrated phylogeny which are not available for all palaeontological datasets.
 Furthermore, like most phylogeny based methods, time-slicing depends on ancestral state estimations.
 Care should be taken in interpreting these, as they are highly dependent on the data and models used for the estimations \citep{Slateretal2012,doi:10.1080/10635150801910451}.
-Finally, the difference between the time-binning and time-slicing methods could also simply be favoured towards time binning due to the nature of the fossil record itself.
+The difference between the time-binning and time-slicing methods could also simply be favoured towards time binning due to the nature of the fossil record itself.
 The rates of sedimentation varies in time a space and can be really sporadic, influencing the groups found within and their temporal distribution (e.g. vertebrates, c.f. foraminifera).
 In this case, different beds could represent different ``packages'' of fauna through time separated by gaps thus effectively binning the data rather than slicing.
 For example, slicing through such strata will yield similar results whether where in time does the slice occur.
 It is important to note however, that, as specified above, the time slicing method also includes ancestral estimations data (whether through the nodes or the branches) that are by definition not available in the fossil record and thus are not influenced by its nature.
+Finally, \cite{Hunt21042015} found that time series are best characterized by gradual directional changes (biased random walks).
+In fact, homogeneous directional changes are more likely to be supported than heterogeneous ones (e.g. punctuated changes) in longer duration series with few samples per series.
+In our implementation of time-slicing, the models are not selected based on any fit value (e.g. AIC) but merely on researcher's assumptions.
+We thus suggest that both types of models (punctuated and gradual) are tested during analysis unless there could be strong independent support for one or the other.
 
 
 \section{Conclusions}
@@ -482,7 +486,7 @@ Appendix S3: Additional tables.
 \paragraph{Acknowledgments.}
   NC thanks Mark Sutton and Philip Mannion for the invitation to contribute to the `Evolutionary Modelling' symposium at The Palaeontological Association Annual Meeting 2017.
   TG acknowledges support from the Australian Discovery Project Grant number DP170103227 awarded to Vera Weisbecker.
-  We thank Dave Bapst, Graeme Lloyd, April Wright and Davey Wright for assistance in gathering data for the analyses and/or discussions about the approach; and Steve Brusatte and one anonymous reviewer for helpful comments on the manuscript.
+  We thank Dave Bapst, Graeme Lloyd, April Wright and David Wright for assistance in gathering data for the analyses and/or discussions about the approach; and Steve Brusatte, Sally Thomas and one anonymous reviewer for helpful comments on the manuscript.
 
 \section{References}
 
