@@ -1,11 +1,11 @@
 # Time for a rethink: time sub-sampling methods in disparity-through-time analyses.
 Author(s): [Thomas Guillerme](https://github/TGuillerme) and [Natalie Cooper](mailto:natalie.cooper.@nhm.ac.uk)  
 
-This repository contains all the code and data used in the manuscript [Link to final published pdf will be here]().
+This repository contains all the code and data used in [the manuscript](https://onlinelibrary.wiley.com/doi/full/10.1111/pala.12364).
 
 To cite the paper: 
 > Thomas Guillerme \& Natalie Cooper. 2018. Time for a rethink: time sub-sampling
-methods in disparity-through-time analyses. Palaeontology. In press.
+methods in disparity-through-time analyses. Palaeontology. doi:10.1111/pala.12364
 
 To cite this repo: 
 > Thomas Guillerme \& Natalie Cooper. 2018. GitHub: nhcooper123/time-slice: Release for publication. Zenodo. http://doi.org/10.5281/zenodo.1172000.
