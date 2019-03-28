@@ -5,7 +5,7 @@ This repository contains all the code and data used in [the manuscript](https://
 
 To cite the paper: 
 > Thomas Guillerme \& Natalie Cooper. 2018. Time for a rethink: time sub-sampling
-methods in disparity-through-time analyses. Palaeontology. doi:10.1111/pala.12364
+methods in disparity-through-time analyses. Palaeontology, 61, 481-493. doi:10.1111/pala.12364
 
 To cite this repo: 
 > Thomas Guillerme \& Natalie Cooper. 2018. GitHub: nhcooper123/time-slice: Release for publication. Zenodo. http://doi.org/10.5281/zenodo.1172000.
